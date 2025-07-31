@@ -17,7 +17,11 @@ public class UnitSpawnButton : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TMP_Text _nameText = null;
     [SerializeField] private TMP_Text _costText = null;
-    [SerializeField] private TMP_Text _countText = null;   
+    [SerializeField] private TMP_Text _countText = null;
+
+    [Header("Cost Colors")]
+    [SerializeField] private Color _affordableColor = Color.blue; // enough resources
+    [SerializeField] private Color _expensiveColor = Color.red;  // insufficient
 
     /* ------------------------------------------------------------------ */
     /*  Runtime References                                                */
@@ -161,14 +165,17 @@ public class UnitSpawnButton : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates button interactable based on current resource amounts.
+    /// Updates button interactable and cost text color
+    /// based on current resource amounts.
     /// </summary>
     private void UpdateInteractableState()
     {
         if (_button == null || _resourceManager == null)
             return;
 
-        _button.interactable = _resourceManager.CanAffordCosts(_costs);
+        bool canAfford = _resourceManager.CanAffordCosts(_costs);
+        _button.interactable = canAfford;
+        UpdateCostTextColor(canAfford);
     }
 
     /// <summary>
@@ -203,5 +210,15 @@ public class UnitSpawnButton : MonoBehaviour
                 sb.Append(" / ");
         }
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Sets cost text color based on affordability.
+    /// </summary>
+    /// <param name="canAfford">True if player can pay the costs.</param>
+    private void UpdateCostTextColor(bool canAfford)
+    {
+        if (_costText != null)
+            _costText.color = canAfford ? _affordableColor : _expensiveColor;
     }
 }

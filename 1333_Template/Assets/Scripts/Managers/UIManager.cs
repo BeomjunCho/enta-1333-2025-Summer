@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
     [Header("Wave Popup")]
     [SerializeField] private GameObject _wavePopupGO; 
     [SerializeField] private TMP_Text _wavePopupText;   
-    [SerializeField] private float _popupDuration = 2f; 
+    [SerializeField] private float _popupDuration = 5f; 
     private Coroutine _wavePopupRoutine;
 
     [Header("Wave Spawner")]
@@ -172,19 +172,20 @@ public class UIManager : MonoBehaviour
         return _screenMap.TryGetValue(type, out var screen) && screen.activeSelf;
     }
 
-    public void ShowWavePopup(int waveNumber)
+    public void ShowWavePopup(int waveNumber, SpawnDirection direction)
     {
         if (_wavePopupRoutine != null)
             StopCoroutine(_wavePopupRoutine);
-        _wavePopupRoutine = StartCoroutine(WavePopupRoutine(waveNumber));
+        _wavePopupRoutine = StartCoroutine(WavePopupRoutine(waveNumber, direction));
     }
 
-    private IEnumerator WavePopupRoutine(int waveNumber)
+    private IEnumerator WavePopupRoutine(int waveNumber, SpawnDirection direction)
     {
         if (_wavePopupGO == null || _wavePopupText == null)
             yield break;
 
-        _wavePopupText.text = $"Wave {waveNumber} is coming!";
+        string dirText = direction.ToString().ToLower();
+        _wavePopupText.text = $"Wave {waveNumber} is coming from {dirText}!";
         _wavePopupGO.SetActive(true);
         yield return new WaitForSeconds(_popupDuration);
         _wavePopupGO.SetActive(false);

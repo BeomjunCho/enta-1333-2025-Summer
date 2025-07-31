@@ -10986,6 +10986,7 @@ MonoBehaviour:
   _bpUI: {fileID: 2118729950273087945}
   _ghostValidMaterial: {fileID: 2100000, guid: b1c8d879d33bc38419b79b11b770f8d5, type: 2}
   _ghostInvalidMaterial: {fileID: 2100000, guid: dfbaf705a80b21a4d9115e26f42a8f89, type: 2}
+  _uiHelper: {fileID: 0}
 --- !u!1 &5864758795093285719
 GameObject:
   m_ObjectHideFlags: 0
@@ -12060,7 +12061,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7706340612856959145
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14420,7 +14421,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 100}
+  m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3902253915130477441
 CanvasRenderer:
@@ -14477,8 +14478,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -14515,7 +14516,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: -46.341064, z: 0, w: -52.733154}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -16303,6 +16304,7 @@ MonoBehaviour:
   _wave5: 15
   _unitSpawnDelay: 0.1
   _autoWaveInterval: 300
+  _spawnDirection: 7
 --- !u!1 &8728148349530554952
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// Directions from which waves can approach.
+/// </summary>
+public enum SpawnDirection
+{
+    North,
+    South,
+    East,
+    West,
+    Northeast,
+    Northwest,
+    Southeast,
+    Southwest
+}
+
+/// <summary>
 /// Spawns configured enemy waves (ArmyType) via ArmyManager and commands
 /// them to march toward the grid center (player castle).
 /// Supports manual triggers (number keys / API) and automated waves at a
@@ -37,6 +52,10 @@ public class EnemyWaveSpawner : MonoBehaviour
     [Header("Auto Waves")]
     [Tooltip("Seconds between waves when auto-running. First wave spawns immediately.")]
     [SerializeField] private float _autoWaveInterval = 10f;
+
+    [Header("Spawn Direction")]
+    [Tooltip("Direction from which this wave will appear.")]
+    [SerializeField] private SpawnDirection _spawnDirection = SpawnDirection.Southwest;
 
     /* ================================================================== */
     /*  Wave State + Events                                               */
@@ -246,7 +265,8 @@ public class EnemyWaveSpawner : MonoBehaviour
     /// </summary>
     private IEnumerator SpawnWaveRoutine(ArmyType waveType)
     {
-        _uiManager?.ShowWavePopup(_currentWaveIdx + 1);
+        int waveNum = _currentWaveIdx + 1;
+        _uiManager?.ShowWavePopup(waveNum, _spawnDirection);
 
         var spawned = new List<UnitBase>();
 
