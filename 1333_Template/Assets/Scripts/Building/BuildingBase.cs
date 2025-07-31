@@ -61,6 +61,14 @@ public abstract class BuildingBase : MonoBehaviour, ISelectable, IDamageable
         InitializeHealth();
     }
 
+    protected virtual void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            ToggleHealthBar();
+        }
+    }
+
     /// <summary>
     /// Register the building to the unit manager on enable.
     /// </summary>
@@ -101,6 +109,18 @@ public abstract class BuildingBase : MonoBehaviour, ISelectable, IDamageable
     {
         MaxHealth = buildingData.Health;
         CurrentHealth = MaxHealth;
+    }
+
+    /// <summary>
+    /// Toggles the visibility of the health bar UI.
+    /// </summary>
+    public void ToggleHealthBar()
+    {
+        if (_hpBar == null)
+            return;
+
+        bool isActive = _hpBar.gameObject.activeSelf;
+        _hpBar.gameObject.SetActive(!isActive);
     }
 
     // ======= Grid & Placement =======

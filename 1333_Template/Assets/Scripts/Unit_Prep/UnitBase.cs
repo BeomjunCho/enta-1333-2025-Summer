@@ -101,12 +101,14 @@ public abstract class UnitBase : MonoBehaviour, ISelectable, IDamageable
     }
 
     /// <summary>
-    /// Debug input for killing the unit with H key (dev/testing only).
+    /// Toggle Health bar by pressing H key.
     /// </summary>
     protected virtual void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H) && _state != UnitState.Dead)
-            Die();
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            ToggleHealthBar();
+        }
     }
 
     // ---------- Spatial Hash Hooks ----------
@@ -215,6 +217,19 @@ public abstract class UnitBase : MonoBehaviour, ISelectable, IDamageable
         _hpBar?.SetRatio(_currentHp / (float)_unitType.MaxHp);
         if (_currentHp <= 0f) Die();
     }
+
+    /// <summary>
+    /// Toggles the visibility of the health bar UI.
+    /// </summary>
+    public void ToggleHealthBar()
+    {
+        if (_hpBar == null)
+            return;
+
+        bool isActive = _hpBar.gameObject.activeSelf;
+        _hpBar.gameObject.SetActive(!isActive);
+    }
+
 
     /// <summary>
     /// Called when the unit becomes selected by the player.

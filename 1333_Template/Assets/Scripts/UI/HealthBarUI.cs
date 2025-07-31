@@ -17,13 +17,13 @@ public class HealthBarUI : MonoBehaviour
 
     private void LateUpdate()
     {
-        // billboard – keep the bar facing the camera
+        // billboard ?keep the bar facing the camera
         transform.rotation = Quaternion.LookRotation(
             transform.position - _cam.transform.position, Vector3.up);
     }
 
     /// <summary>
-    /// 0 – 1 value, called by the owner object when HP changes.
+    /// 0 to 1 value, called by the owner object when HP changes.
     /// </summary>
     public void SetRatio(float r)
     {

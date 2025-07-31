@@ -21,8 +21,9 @@ public class BuildingGate : BuildingBase
     private static readonly int OpenTrigger = Animator.StringToHash("Open");
     private static readonly int CloseTrigger = Animator.StringToHash("Close");
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (Input.GetKeyDown(KeyCode.V)) OpenGate();
         if (Input.GetKeyDown(KeyCode.B)) CloseGate();
     }

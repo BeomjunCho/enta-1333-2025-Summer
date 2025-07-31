@@ -42,6 +42,7 @@ public class Banner : MonoBehaviour, ISelectable
     public void Initialize(GridManager gridManager)
     {
         _gridManager = gridManager;
+        if(_mainCamera == null) _mainCamera = Camera.main;
 
         // First-time occupy after DI
         if (_occupiedNode == null && _gridManager != null)

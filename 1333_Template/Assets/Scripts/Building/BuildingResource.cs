@@ -32,8 +32,9 @@ public class BuildingResource : BuildingBase
             _selectionRenderers = GetComponentsInChildren<Renderer>();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (_resourceManager == null || _resourceType == null)
             return;
 

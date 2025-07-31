@@ -3,7 +3,7 @@ using UnityEngine;
 
 /// <summary>
 /// Worker AI that only harvests a resource when it's standing next to it.
-/// No movement commands, no “vision” scan—just a spatial lookup every scanInterval,
+/// No movement commands, no vision scan just a spatial lookup every scanInterval,
 /// and a separate gatherCooldown after each hit.
 /// </summary>
 [RequireComponent(typeof(UnitBase), typeof(UnitMovement))]
@@ -90,7 +90,7 @@ public class WorkerResourceGather : MonoBehaviour
         if (dir.sqrMagnitude > 0.001f)
             transform.rotation = Quaternion.LookRotation(dir);
 
-        // Play your “harvest” animation via the Attacking state
+        // Play your work animation via the Attacking state
         _core.InternalChangeState(UnitState.Attacking);
 
         // Sync to your animation’s hit frame
