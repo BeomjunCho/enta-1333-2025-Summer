@@ -225,6 +225,43 @@ public class UnitMovement : MonoBehaviour
         _unit.InternalChangeState(UnitState.Idle);
     }
 
+
+    /// <summary>
+    /// Cancels any in-progress movement, frees reservations,
+    /// reclaims the tile the unit currently occupies, and returns to Idle.
+    /// Call this the moment combat starts while the unit is on the move.
+    /// </summary>
+    public void CancelMovement()
+    {
+        if (_grid == null) return;                         
+
+        /* 1. Release reserved destination (if any) */
+        if (_reservedDest != null)
+        {
+            _grid.UnreserveNode(_reservedDest);            
+            _reservedDest = null;
+        }
+
+        /* 2. Clear current path data */
+        _path?.Clear();                                   
+        _path = null;
+        _nextIdx = 0;
+
+        /* 3. Occupy the grid node under the unit’s feet */
+        GridNode node = _grid.GetNodeFromWorldPosition(transform.position);
+        if (node != null)
+        {
+            float size = _grid.GridSettings.NodeSize;
+            int tx = Mathf.RoundToInt(node.worldPosition.x / size);
+            int ty = Mathf.RoundToInt(node.worldPosition.z / size);
+            _grid.SetWalkable(tx, ty, false);             
+            _currentNode = node;
+        }
+
+        /* 4. Switch state back to Idle */
+        _unit.InternalChangeState(UnitState.Idle);
+    }
+
     // ======= Grid Clean-up =======
     /// <summary>
     /// Frees any cells currently occupied or reserved by this unit.

@@ -208,10 +208,12 @@ public class UnitCombat : MonoBehaviour
     }
 
     /// <summary>
-    /// Starts a repositioning coroutine if not already in progress.
+    /// Interrupts movement and begins the reposition-then-attack routine.
     /// </summary>
     private void OnAttackStarted()
     {
+        _movement.CancelMovement();    // stop current path immediately
+
         if (!_isRepositioning)
             StartCoroutine(RepositionThenAttack());
     }
