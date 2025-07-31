@@ -2,13 +2,16 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using System.Collections;
+
 public enum UIScreenType
 {
     None,
     MainMenu,
     Settings,
     Pause,
-    HowToPlay
+    HowToPlay,
+    Win,
+    Lose
 }
 
 /// <summary>
@@ -22,17 +25,30 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _settingsScreen;
     [SerializeField] private GameObject _pauseScreen;
     [SerializeField] private GameObject _howToPlayScreen;
+    [SerializeField] private GameObject _winScreen; 
+    [SerializeField] private GameObject _loseScreen;
 
     [Header("UI-Sensitive Game Objects")]
     [SerializeField] private GameObject _buildingPlacementManagerGO;
     [SerializeField] private GameObject _selectionManagerGO;
     [SerializeField] private GameObject _resourcePanelUI;
 
+    [Header("Wave HUD (Gameplay Only)")]
+    [Tooltip("Wave HUD root GameObject (contains texts)")]
+    [SerializeField] private GameObject _waveHUDGO;
+    [Tooltip("Displays current wave & remaining waves")]
+    [SerializeField] private TMP_Text _waveInfoText;
+    [Tooltip("Displays countdown to next wave")]
+    [SerializeField] private TMP_Text _countdownText;
+
     [Header("Wave Popup")]
-    [SerializeField] private GameObject _wavePopupGO;   // root object (Image + TMP)
-    [SerializeField] private TMP_Text _wavePopupText;   // TMP component for message
-    [SerializeField] private float _popupDuration = 2f; // seconds shown
+    [SerializeField] private GameObject _wavePopupGO; 
+    [SerializeField] private TMP_Text _wavePopupText;   
+    [SerializeField] private float _popupDuration = 2f; 
     private Coroutine _wavePopupRoutine;
+
+    [Header("Wave Spawner")]
+    [SerializeField] private EnemyWaveSpawner _enemyWaveSpawner;
 
     private Dictionary<UIScreenType, GameObject> _screenMap;
     // navigation history stack
@@ -49,9 +65,32 @@ public class UIManager : MonoBehaviour
             { UIScreenType.Settings, _settingsScreen },
             { UIScreenType.Pause, _pauseScreen },
             { UIScreenType.HowToPlay, _howToPlayScreen },
+            { UIScreenType.Win, _winScreen },
+            { UIScreenType.Lose, _loseScreen }
         };
 
         HideAll(); // Start with everything hidden
+    }
+
+    private void OnEnable()
+    {
+        if (_enemyWaveSpawner != null)
+        {
+            _enemyWaveSpawner.OnWaveChanged += UpdateWaveInfo;
+            _enemyWaveSpawner.OnCountdownUpdated += UpdateCountdown;
+
+            UpdateWaveInfo();
+            UpdateCountdown(_enemyWaveSpawner.TimeToNextWave);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (_enemyWaveSpawner != null)
+        {
+            _enemyWaveSpawner.OnWaveChanged -= UpdateWaveInfo;
+            _enemyWaveSpawner.OnCountdownUpdated -= UpdateCountdown;
+        }
     }
 
     /// <summary>
@@ -103,6 +142,15 @@ public class UIManager : MonoBehaviour
 
         if (_resourcePanelUI != null)
             _resourcePanelUI.SetActive(enable);
+
+        if (_waveHUDGO != null)
+        {
+            _waveHUDGO.SetActive(enable);
+            if (_waveHUDGO.activeSelf)
+            {
+                Debug.Log("Wave HUD Show UP");
+            }
+        }
     }
 
     /// <summary>
@@ -141,4 +189,36 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(_popupDuration);
         _wavePopupGO.SetActive(false);
     }
+
+    private void UpdateWaveInfo()
+    {
+        if (_waveInfoText == null || _enemyWaveSpawner == null) return;
+
+        if (_enemyWaveSpawner.CurrentWave <= 0)
+        {
+            _waveInfoText.text = "No wave yet";
+        }
+        else
+        {
+            _waveInfoText.text =
+                $"Wave {_enemyWaveSpawner.CurrentWave} underway - {_enemyWaveSpawner.RemainingWaves} to go";
+        }
+    }
+
+    private void UpdateCountdown(float t)
+    {
+        if (_countdownText == null) return;
+
+        if (t <= 0.01f)
+            _countdownText.text = "Next wave ready";
+        else
+            _countdownText.text = $"Next wave in {t:F1}s";
+    }
+
+    public void ResetHUD()
+    {
+        _waveInfoText.text = "No wave yet";
+    }
 }
+
+

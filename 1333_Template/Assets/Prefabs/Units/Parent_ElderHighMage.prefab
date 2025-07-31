@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7684351871108752714}
   - component: {fileID: 6468664601241276107}
   m_Layer: 0
-  m_Name: Parent_Mounted_HighMage
+  m_Name: Parent_ElderHighMage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

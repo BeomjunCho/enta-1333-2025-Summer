@@ -29,6 +29,7 @@ public class ResourceManager : MonoBehaviour
     [Tooltip("Read-only list of resources and their counts for debugging.")]
     [SerializeField] private List<string> _debugResourceList = new List<string>();
 
+#endif
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha0))
@@ -48,7 +49,6 @@ public class ResourceManager : MonoBehaviour
 
         Debug.Log("ResourceManager: Debug added 999 to all resources");
     }
-#endif
 
     /// <summary>
     /// Initializes the manager by creating entries for every ResourceDataSO

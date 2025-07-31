@@ -1,5 +1,6 @@
 // UnitType.cs
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Holds all the stats and references for a single unit type.
@@ -46,6 +47,10 @@ public class UnitTypeSO : ScriptableObject
     [Header("Mount Settings")]
     [Tooltip("Whether this unit rides a mount (horse).")]
     [SerializeField] private bool _isMounted = false;
+
+    [Header("Spawn Costs")]
+    [Tooltip("Resources required to spawn ONE unit of this type.")]
+    [SerializeField] private List<ResourceCost> _spawnCosts = new();
 
     /// <summary>
     /// The display name of this unit type.
@@ -110,6 +115,11 @@ public class UnitTypeSO : ScriptableObject
     /// Whether this unit rides a mount (horse).
     /// </summary>
     public bool IsMounted => _isMounted;
+
+    /// <summary>
+    /// Resources required to spawn one unit of this type.
+    /// </summary>
+    public List<ResourceCost> spawnCosts => _spawnCosts;
 
     /// <summary>
     /// Returns the Material corresponding to the given team.

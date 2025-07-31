@@ -28,3 +28,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 39e4c6d4cccc71a409be745df949a036, type: 2}
   - {fileID: 2100000, guid: 8af1c123c31c46544965fc4e0490bf05, type: 2}
   _isMounted: 0
+  _spawnCosts:
+  - ResourceType: 2
+    Amount: 15
+  - ResourceType: 5
+    Amount: 10

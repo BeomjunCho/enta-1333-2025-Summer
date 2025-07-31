@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6642219015712542004}
   - component: {fileID: 4069451009664733498}
   m_Layer: 0
-  m_Name: Parent_Mounted_knight
+  m_Name: Parent_RoyalKnight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

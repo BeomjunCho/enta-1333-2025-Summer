@@ -137,6 +137,16 @@ public class SpatialHash
     }
 
     /// <summary>
+    /// Removes every entry from the hash without changing settings.
+    /// </summary>
+    public void Clear()
+    {
+        foreach (var list in _buckets.Values)
+            list.Clear();
+        _buckets.Clear();
+    }
+
+    /// <summary>
     /// Returns all units in buckets within a square area centered on pos, covering at least the given range.
     /// This is a rough filter; individual distance checks must be done separately.
     /// </summary>

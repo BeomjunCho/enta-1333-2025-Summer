@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -32,6 +34,9 @@ public class UnitManager : MonoBehaviour
 
     // ---------- Spatial Hash for Resources ----------
     private ResourceSpatialHash _resourceSpatial;
+
+    /// <summary>Raised after a unit is removed from the registry.</summary>
+    public event Action<UnitBase> OnUnitUnregistered;
 
     // DEBUG SETTINGS
     [Header("Debug")]
@@ -102,12 +107,20 @@ public class UnitManager : MonoBehaviour
     {
         if (unit != null)
             _allUnits.Add(unit); // HashSet.Add ignores duplicates.
+        _spatial.Add(unit);
     }
 
     /// <summary>Call this when a unit dies and is destroyed.</summary>
     public void UnregisterUnit(UnitBase unit)
     {
-        _allUnits.Remove(unit);
+#if UNITY_EDITOR && DEBUG_LOG_UNREGISTER
+    Debug.Log($"Unregister {unit}");
+#endif
+        if (_allUnits.Remove(unit))
+        {
+            _spatial.Remove(unit);
+            OnUnitUnregistered?.Invoke(unit);
+        }
     }
 
     /// <summary>
@@ -261,5 +274,15 @@ public class UnitManager : MonoBehaviour
             }
         }
         return best;
+    }
+
+    public void ResetUnits()
+    {
+        foreach (var u in _allUnits.ToArray())
+            if (u != null) Destroy(u.gameObject);
+
+        _allUnits.Clear();
+        _spatial.Clear();
+        _resourceSpatial.Clear();
     }
 }

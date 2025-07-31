@@ -13,10 +13,10 @@ public enum ArmyType
     Spearman,
     Archer,
     CrossbowMan,
-    MountedKnight,
+    RoyalKnight,
     Mage,
     HighMage,
-    MountedHighMage,
+    ElderHighMage,
     Commander,
     Worker,
     Wave1,
@@ -310,6 +310,55 @@ public class ArmyManager : MonoBehaviour
                 return node;
         }
         return null;
+    }
+
+    /// <summary>
+    /// Calculates the total aggregated resource costs for the given ArmyType by summing
+    /// each UnitTypeSO.spawnCosts multiplied by its count in the ArmyCompositionSO.
+    /// </summary>
+    /// <param name="type">Army composition identifier.</param>
+    /// <returns>New list of ResourceCost aggregated by resource type.</returns>
+    public List<ResourceCost> GetArmyTotalCosts(ArmyType type)
+    {
+        // Lookup
+        if (_compositionLookup == null || !_compositionLookup.TryGetValue(type, out var composition) || composition == null)
+            return new List<ResourceCost>();
+
+        // Aggregate using dictionary
+        Dictionary<ResourceList, int> totals = new Dictionary<ResourceList, int>();
+
+        foreach (var entry in composition.unitEntries)
+        {
+            if (entry.unitTypePrefab == null || entry.unitTypePrefab.unitType.spawnCosts == null)
+                continue;
+
+            // Multiply each unit's spawn cost by count
+            int count = entry.count;
+            foreach (var c in entry.unitTypePrefab.unitType.spawnCosts)
+            {
+                ResourceList key = c.ResourceType;
+                int add = c.Amount * count;
+
+                if (totals.TryGetValue(key, out int current))
+                    totals[key] = current + add;
+                else
+                    totals.Add(key, add);
+            }
+        }
+
+        // Convert back to list
+        List<ResourceCost> list = new List<ResourceCost>();
+        foreach (var kv in totals)
+        {
+            ResourceCost rc = new ResourceCost
+            {
+                ResourceType = kv.Key,
+                Amount = kv.Value
+            };
+            list.Add(rc);
+        }
+
+        return list;
     }
 
     /// <summary>

@@ -57,6 +57,16 @@ public class ResourceSpatialHash
     }
 
     /// <summary>
+    /// Removes every entry from the hash without changing settings.
+    /// </summary>
+    public void Clear()
+    {
+        foreach (var list in _buckets.Values)
+            list.Clear();
+        _buckets.Clear();
+    }
+
+    /// <summary>
     /// Enumerate all resources in buckets that cover at least the given range around pos.
     /// Distance check must be done by the caller.
     /// </summary>

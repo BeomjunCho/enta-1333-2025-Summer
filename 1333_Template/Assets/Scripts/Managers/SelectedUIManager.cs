@@ -2,8 +2,8 @@
 using UnityEngine;
 
 /// <summary>
-/// Central manager that toggles the correct “selected” UI panel
-/// depending on what the player clicked (unit, barrack, resource building, …).
+/// Central manager that toggles the correct “selected?UI panel
+/// depending on what the player clicked (unit, barrack, resource building, ?.
 /// </summary>
 public class SelectedUIManager : MonoBehaviour
 {
@@ -28,6 +28,12 @@ public class SelectedUIManager : MonoBehaviour
     [Header("DI Reference")]
     [SerializeField] private UnitManager _unitManager = null;
 
+    [Header("DI Reference")]
+    [SerializeField] private ResourceManager _resourceManager = null;
+
+    [Header("DI Reference")]
+    [SerializeField] private ArmyManager _armyManager = null;
+
     /// <summary>
     /// Displays the appropriate panel for the selectable that was clicked.
     /// </summary>
@@ -42,7 +48,7 @@ public class SelectedUIManager : MonoBehaviour
                 break;
 
             case BuildingBarrack barrack:
-                _barrackUI.GetBarrackInstance(barrack);
+                _barrackUI.Initialize(barrack, _resourceManager, _armyManager);
                 _barrackUI.Show();
                 break;
 

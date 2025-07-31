@@ -9,7 +9,7 @@ using UnityEditor;
 /// <summary>
 /// Central controller for menu flow, fade transitions,
 /// asynchronous scene loading, pause handling, and runtime manager
-/// initialization. Designed for a single “InGame?scene.
+/// initialization.
 /// </summary>
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BuildingPlacementManager _buildingPlacementManager;
     [SerializeField] private ResourceManager _resourceManager;
     [SerializeField] private UIManager _uiManager;
+    [SerializeField] private VictoryChecker _victoryChecker;
+    [SerializeField] private LoseChecker _loseChecker;
 
     [Header("Enemy Waves")]
     [SerializeField] private EnemyWaveSpawner _enemyWaveSpawner;
@@ -129,9 +131,12 @@ public class GameManager : MonoBehaviour
 
         /* 4. Initialize runtime managers */
         yield return InitializeManagersAsync();
+        
+        _uiManager.ShowScreen(UIScreenType.None);
 
         /* 5. Fade back to gameplay */
         yield return ScreenFader.Instance.Fade(1f, 0f, 0.5f);
+
     }
 
     /// <summary>
@@ -177,28 +182,31 @@ public class GameManager : MonoBehaviour
         yield return ScreenFader.Instance.Fade(0f, 1f, 0.5f);
         ResetAllManagers();
 
-        // 2. Stop gameplay music (fade-out handled inside AudioManager)
+        // 2. Stop gameplay music
         AudioManager.Instance.StopMusic();
 
         _isPaused = false;
         Time.timeScale = 1f;
-        _uiManager.ShowScreen(UIScreenType.None);
 
-        // 3. Load MainMenu scene in background
+        // Disable gameplay UI immediately (so WaveHUD is never active during load)
+        _uiManager.ShowScreen(UIScreenType.MainMenu, false);
+
+        // 3. Load MainMenu scene
         AsyncOperation op = SceneManager.LoadSceneAsync("MainMenu");
         op.allowSceneActivation = false;
         while (op.progress < 0.9f)
             yield return null;
         op.allowSceneActivation = true;
-        yield return null; // wait one frame for activation
+        yield return null;
 
-        // 4. Fade back in
-        yield return ScreenFader.Instance.Fade(1f, 0f, 0.5f);
-
-        // 5. Show main menu UI and play menu music
-        _uiManager.ShowScreen(UIScreenType.MainMenu);
+        // 4. (Optional) Re-show main menu (safe even if already shown)
+        _uiManager.ShowScreen(UIScreenType.MainMenu, false);
         AudioManager.Instance.PlayMusic(FMODEvents.Instance.MenuMusic);
+
+        // 5. Fade in
+        yield return ScreenFader.Instance.Fade(1f, 0f, 0.5f);
     }
+
 
     /// <summary>
     /// Resets all runtime managers so InitializeManagersAsync() can run fresh.
@@ -211,9 +219,21 @@ public class GameManager : MonoBehaviour
         _buildingPlacementManager.ResetPlacement();
         _resourceManager.ResetResources();
 
+        _unitManager.ResetUnits();
+
         if (_enemyWaveSpawner != null)
             _enemyWaveSpawner.ResetWaves();
-        else
-            Debug.LogWarning("GameManager: EnemyWaveSpawner not assigned for reset.");
+
+        if (_uiManager != null)
+            _uiManager.ResetHUD();
+
+        if (_victoryChecker != null)
+            _victoryChecker.ResetVictory();
+
+        if (_loseChecker != null)            
+            _loseChecker.ResetLose();
+
+        if (_unitSelectionManager)
+            _unitSelectionManager.DeselectAll();
     }
 }

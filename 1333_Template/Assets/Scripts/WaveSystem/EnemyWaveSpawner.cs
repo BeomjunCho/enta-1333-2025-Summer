@@ -1,4 +1,5 @@
 ﻿// EnemyWaveSpawner.cs
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine;
 /// them to march toward the grid center (player castle).
 /// Supports manual triggers (number keys / API) and automated waves at a
 /// fixed interval starting with wave #1 when requested by GameManager.
+/// Exposes wave state and countdown events for HUD.
 /// </summary>
 public class EnemyWaveSpawner : MonoBehaviour
 {
@@ -36,12 +38,35 @@ public class EnemyWaveSpawner : MonoBehaviour
     [Tooltip("Seconds between waves when auto-running. First wave spawns immediately.")]
     [SerializeField] private float _autoWaveInterval = 10f;
 
+    /* ================================================================== */
+    /*  Wave State + Events                                               */
+    /* ================================================================== */
+
+    /// <summary>True while currently on the final configured wave.</summary>
+    public bool IsOnFinalWave => _currentWaveIdx == _waves.Count - 1;
+
+    /// <summary>Current wave number (1-based). Returns 0 if none spawned yet.</summary>
+    public int CurrentWave => _currentWaveIdx + 1;
+
+    /// <summary>How many waves remain after the current one.</summary>
+    public int RemainingWaves => Mathf.Max(0, _waves.Count - CurrentWave);
+
+    /// <summary>Seconds remaining until the next wave (auto mode only).</summary>
+    public float TimeToNextWave { get; private set; }
+
+    /// <summary>Raised whenever a new wave starts (manual or auto).</summary>
+    public event Action OnWaveChanged;
+
+    /// <summary>Raised every frame during countdown to next auto wave.</summary>
+    public event Action<float> OnCountdownUpdated;
+
     /* ------------------------------------------------------------------ */
     /*  Runtime                                                            */
     /* ------------------------------------------------------------------ */
     private readonly List<ArmyType> _waves = new();
     private int _currentWaveIdx = -1;
     private Coroutine _autoRoutine;
+    private Coroutine _countdownRoutine;
     private bool _autoRunning;
 
     /* ================================================================== */
@@ -98,10 +123,17 @@ public class EnemyWaveSpawner : MonoBehaviour
     public void StopAutoWaves()
     {
         _autoRunning = false;
+
         if (_autoRoutine != null)
         {
             StopCoroutine(_autoRoutine);
             _autoRoutine = null;
+        }
+
+        if (_countdownRoutine != null)
+        {
+            StopCoroutine(_countdownRoutine);
+            _countdownRoutine = null;
         }
     }
 
@@ -114,6 +146,7 @@ public class EnemyWaveSpawner : MonoBehaviour
         if (_currentWaveIdx >= _waves.Count)
             return false;
 
+        TriggerWaveStarted();
         StartCoroutine(SpawnWaveRoutine(_waves[_currentWaveIdx]));
         return true;
     }
@@ -128,8 +161,21 @@ public class EnemyWaveSpawner : MonoBehaviour
             return false;
 
         _currentWaveIdx = index;
+        TriggerWaveStarted();
         StartCoroutine(SpawnWaveRoutine(_waves[_currentWaveIdx]));
         return true;
+    }
+
+    /// <summary>
+    /// Resets wave spawner state so that waves can start fresh.
+    /// Stops auto loop and any in-progress spawn/coundown coroutines, and resets the wave index.
+    /// </summary>
+    public void ResetWaves()
+    {
+        StopAutoWaves();      // also stops countdown
+        StopAllCoroutines();  // stop any manual spawn routines
+        _currentWaveIdx = -1; // next wave is #1
+        TimeToNextWave = 0f;
     }
 
     /* ================================================================== */
@@ -137,28 +183,61 @@ public class EnemyWaveSpawner : MonoBehaviour
     /* ================================================================== */
 
     /// <summary>
-    /// Auto loop: sequentially spawns each wave and waits _autoWaveInterval
-    /// seconds of scaled game time between waves.
+    /// Auto loop: spawns first wave immediately then counts down for remaining waves.
     /// </summary>
     private IEnumerator AutoWaveLoop()
     {
-        WaitForSeconds wait = new WaitForSeconds(_autoWaveInterval);
-        yield return wait;
-        while (_autoRunning)
+        // Initial countdown before the first wave
+        if (_countdownRoutine != null)
+            StopCoroutine(_countdownRoutine);
+        _countdownRoutine = StartCoroutine(CountdownRoutine(_autoWaveInterval));
+
+        float timer = 0f;
+        while (_autoRunning && timer < _autoWaveInterval)
         {
-            _currentWaveIdx++;
-            if (_currentWaveIdx >= _waves.Count)
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        if (!_autoRunning) yield break;
+
+        // Now spawn the first wave after delay
+        StartNextWave();
+
+        // Loop for remaining waves
+        while (_autoRunning && _currentWaveIdx < _waves.Count - 1)
+        {
+            if (_countdownRoutine != null)
+                StopCoroutine(_countdownRoutine);
+            _countdownRoutine = StartCoroutine(CountdownRoutine(_autoWaveInterval));
+
+            float wait = 0f;
+            while (_autoRunning && wait < _autoWaveInterval)
             {
-                _autoRunning = false;
-                yield break;
+                wait += Time.deltaTime;
+                yield return null;
             }
+            if (!_autoRunning) yield break;
 
-            // Spawn this wave and wait for it to finish spawning
-            yield return StartCoroutine(SpawnWaveRoutine(_waves[_currentWaveIdx]));
+            StartNextWave();
+        }
 
-            // Interval before next wave
-            if (_autoRunning && _currentWaveIdx < _waves.Count - 1)
-                yield return wait;
+        _autoRunning = false;
+    }
+
+    /// <summary>
+    /// Countdown routine updates TimeToNextWave and fires event each frame.
+    /// </summary>
+    private IEnumerator CountdownRoutine(float duration)
+    {
+        TimeToNextWave = duration;
+        OnCountdownUpdated?.Invoke(TimeToNextWave);
+
+        while (TimeToNextWave > 0f && _autoRunning)
+        {
+            TimeToNextWave -= Time.deltaTime;
+            if (TimeToNextWave < 0f) TimeToNextWave = 0f;
+            OnCountdownUpdated?.Invoke(TimeToNextWave);
+            yield return null;
         }
     }
 
@@ -203,18 +282,22 @@ public class EnemyWaveSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Resets wave spawner state so that waves can start fresh.
-    /// Stops auto loop and any in-progress spawn coroutines, and resets the wave index.
+    /// Invokes wave changed event and resets countdown HUD (immediate).
     /// </summary>
-    public void ResetWaves()
+    private void TriggerWaveStarted()
     {
-        // 1) Stop auto wave loop (also clears _autoRoutine)
-        StopAutoWaves();
+        OnWaveChanged?.Invoke();
 
-        // 2) Stop any manual or auto spawn coroutines
-        StopAllCoroutines();
-
-        // 3) Reset index so next wave is #1
-        _currentWaveIdx = -1;
+        // If auto mode and not final wave, broadcast initial countdown value
+        if (_autoRunning && !IsOnFinalWave)
+        {
+            TimeToNextWave = _autoWaveInterval;
+            OnCountdownUpdated?.Invoke(TimeToNextWave);
+        }
+        else
+        {
+            TimeToNextWave = 0f;
+            OnCountdownUpdated?.Invoke(TimeToNextWave);
+        }
     }
 }

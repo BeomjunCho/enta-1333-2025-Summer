@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 446e95d817997a0498f65a6ba91414fb, type: 3}
-  m_Name: Mounted_HighMage
+  m_Name: ElderHighMage
   m_EditorClassIdentifier: 
-  _typeName: Mounted_HighMage
+  _typeName: ElderHighMage
   _width: 1
   _height: 1
   _maxHp: 30
@@ -28,3 +28,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 39e4c6d4cccc71a409be745df949a036, type: 2}
   - {fileID: 2100000, guid: 8af1c123c31c46544965fc4e0490bf05, type: 2}
   _isMounted: 1
+  _spawnCosts:
+  - ResourceType: 2
+    Amount: 20
+  - ResourceType: 5
+    Amount: 15
+  - ResourceType: 6
+    Amount: 1

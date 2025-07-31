@@ -83,6 +83,8 @@ public class SelectionManager : MonoBehaviour
                 Rect selRect = _unitSelectionBox.GetScreenRect(_unitSelectionBox.DragStart, _unitSelectionBox.DragEnd);
                 foreach (var unit in _unitManager.AllUnits)
                 {
+                    if (unit == null)                     
+                        continue;
                     // skip any non-player team units
                     if (unit.UnitTeam != Team.Player)
                         continue;
@@ -184,6 +186,8 @@ public class SelectionManager : MonoBehaviour
             if (sel is UnitBase unit)
             {
                 if(unit.CurrentState == UnitState.Attacking) continue;
+                if (unit == null)                      
+                    continue;
                 units.Add(unit);
             }
 
@@ -239,4 +243,13 @@ public class SelectionManager : MonoBehaviour
     {
         _selected.Remove(dead);
     }
+
+    /// <summary>
+    /// Deselect every currently selected unit and clear the list.
+    /// </summary>
+    public void DeselectAll()
+    {
+        _selected.Clear();
+    }
+
 }

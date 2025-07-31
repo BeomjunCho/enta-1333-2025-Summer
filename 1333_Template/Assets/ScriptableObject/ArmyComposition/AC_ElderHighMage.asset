@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd9377bf4873d7b4e8f694bc36f01f3b, type: 3}
-  m_Name: AC_MountedHighMage
+  m_Name: AC_ElderHighMage
   m_EditorClassIdentifier: 
-  armyName: Worker Army Composition
+  armyName: ElderHighMage Army Composition
   unitEntries:
   - unitTypePrefab:
       unitType: {fileID: 11400000, guid: 1e37e25f0766d81488d5747f15337336, type: 2}
