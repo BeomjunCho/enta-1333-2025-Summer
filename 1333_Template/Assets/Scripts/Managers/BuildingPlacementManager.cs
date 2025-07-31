@@ -20,6 +20,8 @@ public class BuildingPlacementManager : MonoBehaviour
     [Tooltip("Semi-transparent red material for invalid placement")]
     [SerializeField] private Material _ghostInvalidMaterial;
 
+    [SerializeField] private BuildingPlacementUIHelper _uiHelper;
+
     // ======= Internal State =======
     // Reference to the main camera
     private Camera _mainCamera;
@@ -85,7 +87,14 @@ public class BuildingPlacementManager : MonoBehaviour
     {
         // No active preview: nothing to update
         if (_previewInstance == null)
+        {
+            _uiHelper.Hide();
             return;
+        }
+        // Show building ui helper and follow mouse
+        _uiHelper.Show();
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        _uiHelper.UpdatePosition(mousePos);
 
         // Rotate preview on middle mouse button
         if (Mouse.current.middleButton.wasPressedThisFrame)

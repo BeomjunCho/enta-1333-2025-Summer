@@ -2,6 +2,7 @@
 using UnityEngine.InputSystem;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Handles selection of units and buildings (ISelectable).
@@ -59,6 +60,8 @@ public class SelectionManager : MonoBehaviour
     /// </summary>
     private void HandleMouse()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
         if (Banner.IsAnyDragging)
             return;
         if (Input.GetMouseButtonDown(0))

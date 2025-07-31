@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != "InGame") return;
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Escape))
             TogglePause();
     }
 
