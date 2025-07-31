@@ -61,11 +61,18 @@ public abstract class BuildingBase : MonoBehaviour, ISelectable, IDamageable
         InitializeHealth();
     }
 
+    /// <summary>
+    /// Show/Hide Health bar by pressing G/H key.
+    /// </summary>
     protected virtual void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            ShowHealthBar();
+        }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            ToggleHealthBar();
+            HideHealthBar();
         }
     }
 
@@ -112,15 +119,24 @@ public abstract class BuildingBase : MonoBehaviour, ISelectable, IDamageable
     }
 
     /// <summary>
-    /// Toggles the visibility of the health bar UI.
+    /// Show the visibility of the health bar UI.
     /// </summary>
-    public void ToggleHealthBar()
+    public void ShowHealthBar()
     {
         if (_hpBar == null)
             return;
 
-        bool isActive = _hpBar.gameObject.activeSelf;
-        _hpBar.gameObject.SetActive(!isActive);
+        _hpBar.gameObject.SetActive(true);
+    }
+    /// <summary>
+    /// Hide the visibility of the health bar UI.
+    /// </summary>
+    public void HideHealthBar()
+    {
+        if (_hpBar == null)
+            return;
+
+        _hpBar.gameObject.SetActive(false);
     }
 
     // ======= Grid & Placement =======
