@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
-	<object class="AudioFile" id="{b7709653-def0-437a-8819-926e2253002e}">
+	<object class="AudioFile" id="{f2e9b4b6-4b0e-4c69-8150-13cdf0bc070b}">
 		<property name="assetPath">
-			<value>Music/MainMenuMusic.wav</value>
+			<value>Music/BattleMusic.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
@@ -14,7 +14,7 @@
 			<value>2</value>
 		</property>
 		<property name="length">
-			<value>114.28571428571429</value>
+			<value>81.951201814058962</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{7faf3d8d-3352-4262-9ba0-a6d6f5b8c455}</destination>

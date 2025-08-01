@@ -405,6 +405,66 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <MusicTheme>k__BackingField.Path
+      value: event:/Music/PlayMusic
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <BattleMusic>k__BackingField.Path
+      value: event:/Music/PlayMusic
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <InGameMusic>k__BackingField.Path
+      value: event:/Music/PlayinGameMusic
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <MusicTheme>k__BackingField.Guid.Data1
+      value: 1041230760
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <MusicTheme>k__BackingField.Guid.Data2
+      value: 1312780781
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <MusicTheme>k__BackingField.Guid.Data3
+      value: 33715889
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <MusicTheme>k__BackingField.Guid.Data4
+      value: -431358444
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <BattleMusic>k__BackingField.Guid.Data1
+      value: 1041230760
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <BattleMusic>k__BackingField.Guid.Data2
+      value: 1312780781
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <BattleMusic>k__BackingField.Guid.Data3
+      value: 33715889
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <BattleMusic>k__BackingField.Guid.Data4
+      value: -431358444
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <InGameMusic>k__BackingField.Guid.Data1
+      value: 31799798
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <InGameMusic>k__BackingField.Guid.Data2
+      value: 1126485934
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <InGameMusic>k__BackingField.Guid.Data3
+      value: 1660028077
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <InGameMusic>k__BackingField.Guid.Data4
+      value: -1357009825
+      objectReference: {fileID: 0}
     - target: {fileID: 6068951318819296708, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -421,9 +481,13 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6257412633183838674, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _maxChannels
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: _autoWaveInterval
-      value: 10
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

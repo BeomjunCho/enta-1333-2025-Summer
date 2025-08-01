@@ -21,7 +21,6 @@ public class AudioManager : Singleton<AudioManager>
 
     [Header("Dependencies")]
     [SerializeField] private SfxPlayerPool _sfxPool;   // assign from Inspector
-
     /* ------------------------------------------------------------------ */
     /*  Internal                                                          */
     /* ------------------------------------------------------------------ */
@@ -32,6 +31,9 @@ public class AudioManager : Singleton<AudioManager>
     private EventInstance _ambience;
 
     private float _prevMaster, _prevMusic, _prevAmb, _prevSfx;
+
+    private const string _musicStateParam = "MusicState";
+    private MusicState _currentMusicState = MusicState.MainMenu;
 
     /* ============================ Awake ============================== */
     private void Awake()
@@ -89,6 +91,30 @@ public class AudioManager : Singleton<AudioManager>
         StopInstance(_music, fadeOut);
         _music = RuntimeManager.CreateInstance(musicRef);
         _music.start();
+    }
+
+    /// <summary>
+    /// Change the FMOD labeled parameter "MusicState".
+    /// </summary>
+    /// <param name="newState">Target state.</param>
+    /// <param name="immediate">
+    /// If true, forces update even if state is unchanged
+    /// (useful for initial sync).
+    /// </param>
+    public void SetMusicState(MusicState newState, bool immediate = false)
+    {
+        if (!_music.isValid()) return;
+        if (!immediate && newState == _currentMusicState) return;
+
+        _currentMusicState = newState;
+
+#if FMOD_2_02_OR_NEWER
+    // Uses FMOD 2.02+ helper for label names
+    _music.setParameterByNameWithLabel(_musicStateParam, newState.ToString());
+#else
+        // Fallback: relies on label-index order (0,1,2¡¦)
+        _music.setParameterByName(_musicStateParam, (float)newState);
+#endif
     }
 
     public void StopMusic(float fade = 0.5f) => StopInstance(_music, fade);

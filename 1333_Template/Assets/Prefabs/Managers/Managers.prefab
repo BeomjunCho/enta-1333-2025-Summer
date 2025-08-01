@@ -15997,7 +15997,7 @@ MonoBehaviour:
       Data2: 1301003124
       Data3: 877791143
       Data4: 25442057
-    Path: event:/PlayMenuMusic
+    Path: event:/Music/PlayMenuMusic
 --- !u!1 &8155222511624850219
 GameObject:
   m_ObjectHideFlags: 0

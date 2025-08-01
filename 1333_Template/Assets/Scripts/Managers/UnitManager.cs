@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Manages all units and buildings in the scene.
@@ -49,6 +50,9 @@ public class UnitManager : MonoBehaviour
     // Timer to track logging intervals.
     private float _logTimer = 0f;
 
+    [SerializeField] private Team _playerTeam = Team.Player;
+    private const string _inGameScene = "InGame";
+
     // MonoBehaviour Awake is called when the script instance is being loaded.
     private void Awake()
     {
@@ -72,6 +76,23 @@ public class UnitManager : MonoBehaviour
 
         // Print the current registry contents to the console.
         PrintRegistryDebug();
+    }
+
+    /// <summary>
+    /// Checks current scene + hostile-unit presence and sets FMOD MusicState.
+    /// </summary>
+    private void RefreshMusicState()
+    {
+        // Skip if it is not InGame scene
+        if (SceneManager.GetActiveScene().name != _inGameScene) return;
+
+        // Check enemies in list
+        bool enemyAlive = _allUnits.Any(u =>
+            u != null && u.IsAlive && u.UnitTeam != _playerTeam);
+
+        // Parameter change
+        AudioManager.Instance.SetMusicState(
+            enemyAlive ? MusicState.Battle : MusicState.InGame);
     }
 
     /// <summary>
@@ -108,6 +129,8 @@ public class UnitManager : MonoBehaviour
         if (unit != null)
             _allUnits.Add(unit); // HashSet.Add ignores duplicates.
         _spatial.Add(unit);
+
+        RefreshMusicState();
     }
 
     /// <summary>Call this when a unit dies and is destroyed.</summary>
@@ -120,6 +143,7 @@ public class UnitManager : MonoBehaviour
         {
             _spatial.Remove(unit);
             OnUnitUnregistered?.Invoke(unit);
+            RefreshMusicState();
         }
     }
 

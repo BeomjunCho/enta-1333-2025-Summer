@@ -37,7 +37,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _uiManager.ShowScreen(UIScreenType.MainMenu);
-        AudioManager.Instance.PlayMusic(FMODEvents.Instance.MenuMusic);
+        AudioManager.Instance.PlayMusic(FMODEvents.Instance.MusicTheme);
+        AudioManager.Instance.SetMusicState(MusicState.MainMenu, immediate: true);
     }
 
     private void Update()
@@ -117,9 +118,6 @@ public class GameManager : MonoBehaviour
         /* 1. Fade to black */
         yield return ScreenFader.Instance.Fade(0f, 1f, 0.5f);
 
-        /* 2. Stop menu music (fade out handled inside AudioManager) */
-        AudioManager.Instance.StopMusic();
-
         /* 3. Load scene in background */
         AsyncOperation op = SceneManager.LoadSceneAsync("InGame");
         op.allowSceneActivation = false;
@@ -133,6 +131,7 @@ public class GameManager : MonoBehaviour
         yield return InitializeManagersAsync();
         
         _uiManager.ShowScreen(UIScreenType.None);
+        AudioManager.Instance.SetMusicState(MusicState.InGame);
 
         /* 5. Fade back to gameplay */
         yield return ScreenFader.Instance.Fade(1f, 0f, 0.5f);
@@ -198,10 +197,11 @@ public class GameManager : MonoBehaviour
             yield return null;
         op.allowSceneActivation = true;
         yield return null;
+        AudioManager.Instance.SetMusicState(MusicState.MainMenu);
 
         // 4. (Optional) Re-show main menu (safe even if already shown)
         _uiManager.ShowScreen(UIScreenType.MainMenu, false);
-        AudioManager.Instance.PlayMusic(FMODEvents.Instance.MenuMusic);
+        AudioManager.Instance.PlayMusic(FMODEvents.Instance.MusicTheme);
 
         // 5. Fade in
         yield return ScreenFader.Instance.Fade(1f, 0f, 0.5f);
