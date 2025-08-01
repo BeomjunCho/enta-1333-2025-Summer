@@ -108,13 +108,12 @@ public class AudioManager : Singleton<AudioManager>
 
         _currentMusicState = newState;
 
-#if FMOD_2_02_OR_NEWER
-    // Uses FMOD 2.02+ helper for label names
-    _music.setParameterByNameWithLabel(_musicStateParam, newState.ToString());
-#else
+
+        // Uses FMOD 2.02+ helper for label names
+        _music.setParameterByNameWithLabel(_musicStateParam, newState.ToString());
+
         // Fallback: relies on label-index order (0,1,2¡¦)
-        _music.setParameterByName(_musicStateParam, (float)newState);
-#endif
+        //_music.setParameterByName(_musicStateParam, (float)newState);
     }
 
     public void StopMusic(float fade = 0.5f) => StopInstance(_music, fade);

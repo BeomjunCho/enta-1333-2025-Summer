@@ -1170,7 +1170,10 @@
 			<value>0</value>
 		</property>
 		<property name="value">
-			<value>8</value>
+			<value>9</value>
+		</property>
+		<property name="curveShape">
+			<value>1</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{d6a5eb2c-6adf-41e0-a389-274047359be8}">

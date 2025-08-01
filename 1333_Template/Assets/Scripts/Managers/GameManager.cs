@@ -181,9 +181,6 @@ public class GameManager : MonoBehaviour
         yield return ScreenFader.Instance.Fade(0f, 1f, 0.5f);
         ResetAllManagers();
 
-        // 2. Stop gameplay music
-        AudioManager.Instance.StopMusic();
-
         _isPaused = false;
         Time.timeScale = 1f;
 
@@ -201,7 +198,6 @@ public class GameManager : MonoBehaviour
 
         // 4. (Optional) Re-show main menu (safe even if already shown)
         _uiManager.ShowScreen(UIScreenType.MainMenu, false);
-        AudioManager.Instance.PlayMusic(FMODEvents.Instance.MusicTheme);
 
         // 5. Fade in
         yield return ScreenFader.Instance.Fade(1f, 0f, 0.5f);
