@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{7caac99a-a3a8-4983-84a0-3a8fdc2e6072}">
+		<property name="assetPath">
+			<value>RTS_AudioAssets/RTS_AudioAssets/Amb/Amb_Water_Spec_Waterlapping_01.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>111.91666666666667</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7faf3d8d-3352-4262-9ba0-a6d6f5b8c455}</destination>
+		</relationship>
+	</object>
+</objects>

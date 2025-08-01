@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{ac9388dd-f4f9-4ecb-a6d1-cb73826ff9a8}">
+		<property name="assetPath">
+			<value>RTS_AudioAssets/RTS_AudioAssets/SFX/Building/Sfx_Building_Placement_Start_04.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.5</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7faf3d8d-3352-4262-9ba0-a6d6f5b8c455}</destination>
+		</relationship>
+	</object>
+</objects>

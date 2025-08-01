@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Fade out, load the “InGame?scene asynchronously, initialize managers
+    /// Fade out, load the ingame scene asynchronously, initialize managers
     /// over multiple frames, then fade-in.
     /// </summary>
     private IEnumerator StartGameRoutine()
@@ -132,6 +132,7 @@ public class GameManager : MonoBehaviour
         
         _uiManager.ShowScreen(UIScreenType.None);
         AudioManager.Instance.SetMusicState(MusicState.InGame);
+        AudioManager.Instance.PlayAmbience(FMODEvents.Instance.Ambience);
 
         /* 5. Fade back to gameplay */
         yield return ScreenFader.Instance.Fade(1f, 0f, 0.5f);
@@ -195,6 +196,7 @@ public class GameManager : MonoBehaviour
         op.allowSceneActivation = true;
         yield return null;
         AudioManager.Instance.SetMusicState(MusicState.MainMenu);
+        AudioManager.Instance.StopAmbience();
 
         // 4. (Optional) Re-show main menu (safe even if already shown)
         _uiManager.ShowScreen(UIScreenType.MainMenu, false);

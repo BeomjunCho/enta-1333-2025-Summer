@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="EncodableAsset" id="{f609d338-ce20-4f8d-97b9-c6ccadb62974}">
+		<property name="assetPath">
+			<value>RTS_AudioAssets/RTS_AudioAssets/Foley/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7faf3d8d-3352-4262-9ba0-a6d6f5b8c455}</destination>
+		</relationship>
+	</object>
+</objects>

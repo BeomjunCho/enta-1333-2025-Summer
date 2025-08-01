@@ -1,6 +1,7 @@
 ﻿// Banner.cs
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static SfxPlayerPool;
 
 /// <summary>
 /// Banner acts as a mobile formation point. Drag to enter placement mode:
@@ -32,11 +33,25 @@ public class Banner : MonoBehaviour, ISelectable
     /// </summary>
     public static event System.Action<Vector3> BannerMoved;
 
+    private SfxHandle _flagFlappingSfxHandle = SfxHandle.Invalid;
+
     private void Awake()
     {
         _mainCamera = Camera.main;
         _originalRotation = transform.rotation;
         _groundPlane = new Plane(Vector3.up, Vector3.zero);
+    }
+    private void Start()
+    {
+        _flagFlappingSfxHandle = AudioManager.Instance.PlaySfxAttached(
+            transform,
+            FMODEvents.Instance.FlagFlapping,
+            SfxPriority.Medium);
+    }
+
+    private void OnDestroy()
+    {
+        AudioManager.Instance.StopSfx(_flagFlappingSfxHandle);
     }
 
     public void Initialize(GridManager gridManager)

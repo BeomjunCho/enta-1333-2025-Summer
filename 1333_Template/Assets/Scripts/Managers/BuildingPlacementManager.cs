@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using FMODUnity;
 
 /// <summary>
 /// Manages the building placement process in the game: preview rendering, rotation,
@@ -198,6 +199,8 @@ public class BuildingPlacementManager : MonoBehaviour
 
         // Register building info for later use (e.g. demolition)
         realBase.SetupPlacement(_gridManager, baseIdx, footprint, _unitManager);
+
+        AudioManager.Instance.PlaySfxAttached(realGO.transform, FMODEvents.Instance.BuildingPlacement);
 
         Destroy(_previewInstance);
         _previewInstance = null;

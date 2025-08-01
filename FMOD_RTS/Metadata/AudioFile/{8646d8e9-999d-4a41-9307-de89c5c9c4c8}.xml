@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{8646d8e9-999d-4a41-9307-de89c5c9c4c8}">
+		<property name="assetPath">
+			<value>RTS_AudioAssets/RTS_AudioAssets/SFX/Unit/Attack/Sfx_Unit_Spearman_Attack_02.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.625</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7faf3d8d-3352-4262-9ba0-a6d6f5b8c455}</destination>
+		</relationship>
+	</object>
+</objects>

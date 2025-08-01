@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{a3d258a8-6faf-4fa4-9075-bd924983290c}">
+		<property name="assetPath">
+			<value>RTS_AudioAssets/RTS_AudioAssets/UI/UI_Hud_Building_ButtonClick_01.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.16591666666666666</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7faf3d8d-3352-4262-9ba0-a6d6f5b8c455}</destination>
+		</relationship>
+	</object>
+</objects>

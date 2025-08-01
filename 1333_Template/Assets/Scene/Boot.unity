@@ -406,6 +406,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <Ambience>k__BackingField.Path
+      value: event:/AMB/Play_Amb
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <UnitDead>k__BackingField.Path
+      value: event:/Voice/Play_UnitDead
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: <MusicTheme>k__BackingField.Path
       value: event:/Music/PlayMusic
       objectReference: {fileID: 0}
@@ -416,6 +424,42 @@ PrefabInstance:
     - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: <InGameMusic>k__BackingField.Path
       value: event:/Music/PlayinGameMusic
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <FlagFlapping>k__BackingField.Path
+      value: event:/Foley/Play_FlagFlapping
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <Ambience>k__BackingField.Guid.Data1
+      value: 221102754
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <Ambience>k__BackingField.Guid.Data2
+      value: 1204254489
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <Ambience>k__BackingField.Guid.Data3
+      value: 1544764853
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <Ambience>k__BackingField.Guid.Data4
+      value: 901919257
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <UnitDead>k__BackingField.Guid.Data1
+      value: 1565505206
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <UnitDead>k__BackingField.Guid.Data2
+      value: 1076985677
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <UnitDead>k__BackingField.Guid.Data3
+      value: -851845491
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <UnitDead>k__BackingField.Guid.Data4
+      value: -1798599444
       objectReference: {fileID: 0}
     - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: <MusicTheme>k__BackingField.Guid.Data1
@@ -450,6 +494,10 @@ PrefabInstance:
       value: -431358444
       objectReference: {fileID: 0}
     - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <BuildingPlacement>k__BackingField.Path
+      value: event:/SFX/Play_BuildingPlacement
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: <InGameMusic>k__BackingField.Guid.Data1
       value: 31799798
       objectReference: {fileID: 0}
@@ -464,6 +512,38 @@ PrefabInstance:
     - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: <InGameMusic>k__BackingField.Guid.Data4
       value: -1357009825
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <FlagFlapping>k__BackingField.Guid.Data1
+      value: 389866456
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <FlagFlapping>k__BackingField.Guid.Data2
+      value: 1121721237
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <FlagFlapping>k__BackingField.Guid.Data3
+      value: 1633048460
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <FlagFlapping>k__BackingField.Guid.Data4
+      value: 1773688708
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <BuildingPlacement>k__BackingField.Guid.Data1
+      value: 540754839
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <BuildingPlacement>k__BackingField.Guid.Data2
+      value: 1100430939
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <BuildingPlacement>k__BackingField.Guid.Data3
+      value: -2093558616
+      objectReference: {fileID: 0}
+    - target: {fileID: 5582952601934171925, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: <BuildingPlacement>k__BackingField.Guid.Data4
+      value: 1669534737
       objectReference: {fileID: 0}
     - target: {fileID: 6068951318819296708, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: m_Sprite
