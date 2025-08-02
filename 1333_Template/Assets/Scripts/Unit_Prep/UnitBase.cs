@@ -157,7 +157,7 @@ public abstract class UnitBase : MonoBehaviour, ISelectable, IDamageable
         _state = UnitState.Idle;
 
         // Set up movement and pathfinding.
-        _movement.Init(gridManager, pathfinder, unitType.MoveSpeed, 360f);
+        _movement.Init(gridManager, pathfinder, unitType.MoveSpeed, 360f, _unitManager);
 
         // Occupy current node on the grid.
         _movement.OccupyCurrentNode();

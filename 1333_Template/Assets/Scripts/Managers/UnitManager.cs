@@ -224,38 +224,60 @@ public class UnitManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns nearest hostile unit inside 'range' using SpatialHash query.
+    /// Returns the nearest hostile unit inside <paramref name="range"/>.
+    /// Uses a two-phase filter: distance (cheap) ¡æ line-of-sight (expensive) on a
+    /// small candidate set, eliminating dozens of per-frame raycasts seen before.
     /// </summary>
+    /// <param name="seeker">The querying unit.</param>
+    /// <param name="range">Maximum search radius.</param>
+    /// <returns>Closest visible enemy unit, or <c>null</c> if none.</returns>
     public UnitBase FindNearestEnemyUnit(UnitBase seeker, float range)
     {
-        if (_spatial == null)
-            return null;
+        if (_spatial == null) return null;
 
-        UnitBase closest = null;
-        float bestSqr = range * range;
+        Team seekerTeam = seeker.Team;
         Vector3 seekerPos = seeker.transform.position;
+        float rangeSqr = range * range;
 
-        foreach (UnitBase target in _spatial.Query(seekerPos, range))
+        // --- phase 1: find up to three closest enemies (distance only) -----------
+        UnitBase[] picks = { null, null, null };
+        float[] dists = { rangeSqr, rangeSqr, rangeSqr };
+
+        foreach (UnitBase t in _spatial.Query(seekerPos, range))
         {
-            // Skip null, self, same team, or dead units.
-            if (target == null || target == seeker || target.Team == seeker.Team || !target.IsAlive)
+            if (t == null || t == seeker || !t.IsAlive || t.Team == seekerTeam)
                 continue;
 
-            float sqr = (target.transform.position - seekerPos).sqrMagnitude;
-            if (sqr < bestSqr)
+            float d2 = (t.transform.position - seekerPos).sqrMagnitude;
+            if (d2 >= dists[2]) continue;              // Not within top-3
+
+            // Insert into sorted slot
+            if (d2 < dists[0])
             {
-                // Optional line-of-sight check for final candidates.
-                if (!Physics.Linecast(seekerPos + Vector3.up * 0.5f,
-                                      target.transform.position + Vector3.up * 0.5f,
-                                      _visionBlockMask))
-                {
-                    bestSqr = sqr;
-                    closest = target;
-                }
+                dists[2] = dists[1]; picks[2] = picks[1];
+                dists[1] = dists[0]; picks[1] = picks[0];
+                dists[0] = d2; picks[0] = t;
+            }
+            else if (d2 < dists[1])
+            {
+                dists[2] = dists[1]; picks[2] = picks[1];
+                dists[1] = d2; picks[1] = t;
+            }
+            else
+            {
+                dists[2] = d2; picks[2] = t;
             }
         }
 
-        return closest;
+        // --- phase 2: expensive LOS check (closest first) ------------------------
+        for (int i = 0; i < picks.Length; i++)
+        {
+            if (picks[i] == null) continue;
+            if (HasLineOfSight(seekerPos, picks[i].transform.position))
+                return picks[i];
+        }
+
+        return null; // No visible enemy within range
     }
 
     /// <summary>
