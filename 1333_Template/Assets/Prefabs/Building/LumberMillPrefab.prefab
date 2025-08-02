@@ -210,7 +210,7 @@ MonoBehaviour:
   _selectionRenderers:
   - {fileID: 6809940844392326952}
   _resourceType: {fileID: 11400000, guid: 82ef6659b154c0440b56b62d6a786f9c, type: 2}
-  _productionAmount: 1
+  _productionAmount: 10
   _productionInterval: 5
 --- !u!65 &8225384732603869796
 BoxCollider:
