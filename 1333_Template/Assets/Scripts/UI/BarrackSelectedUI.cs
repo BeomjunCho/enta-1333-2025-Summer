@@ -76,6 +76,7 @@ public class BarrackSelectedUI : MonoBehaviour
     /// </summary>
     public void DestroyBuilding()
     {
+        Hide();
         if (_barrack != null)
             _barrack.DestroySelf();
     }

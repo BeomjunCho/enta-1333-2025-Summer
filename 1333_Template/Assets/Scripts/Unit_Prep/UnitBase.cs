@@ -311,7 +311,7 @@ public abstract class UnitBase : MonoBehaviour, ISelectable, IDamageable
         if (_unitManager != null)
             _unitManager.UnregisterUnit(this);
 
-        AudioManager.Instance.PlaySfxAttached(this.transform, FMODEvents.Instance.UnitDead);
+        AudioManager.Instance.PlaySfx3D(this.transform.position, FMODEvents.Instance.UnitDead);
 
         // Destroy this unit after a delay (e.g. play death animation).
         StartCoroutine(DestroyAfterDelay(5f));

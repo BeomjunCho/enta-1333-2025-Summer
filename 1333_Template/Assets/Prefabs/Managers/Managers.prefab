@@ -3310,6 +3310,7 @@ GameObject:
   - component: {fileID: 5169062054294259789}
   - component: {fileID: 644959810790451526}
   - component: {fileID: 5052765567196071021}
+  - component: {fileID: 5315152649090071247}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -3389,6 +3390,33 @@ MonoBehaviour:
   _targetImage: {fileID: 618864577286607753}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &5315152649090071247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339303063602981095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &1348831477003530428
 GameObject:
   m_ObjectHideFlags: 0
@@ -3401,6 +3429,7 @@ GameObject:
   - component: {fileID: 1723259874017001768}
   - component: {fileID: 1596263585583882995}
   - component: {fileID: 6111244980341798366}
+  - component: {fileID: 381302540960895424}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -3480,6 +3509,33 @@ MonoBehaviour:
   _targetImage: {fileID: 471747361264077171}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &381302540960895424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348831477003530428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &1476853391699411745
 GameObject:
   m_ObjectHideFlags: 0
@@ -3626,6 +3682,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6996276497396329676}
   - component: {fileID: 3736425160678966184}
+  - component: {fileID: 3842836878469686633}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -3640,7 +3697,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560212242559337620}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3648,12 +3705,12 @@ RectTransform:
   - {fileID: 5320114896751531422}
   - {fileID: 6373893394905668464}
   - {fileID: 5890606671628015189}
-  m_Father: {fileID: 222747094049883995}
+  m_Father: {fileID: 5325354659187959207}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 71}
-  m_SizeDelta: {x: 200, y: 30}
+  m_AnchoredPosition: {x: 45, y: -1}
+  m_SizeDelta: {x: 600, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3736425160678966184
 MonoBehaviour:
@@ -3706,6 +3763,26 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3842836878469686633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560212242559337620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0177c5569d1ceaf4f9df3303d18ef221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _channel: 0
+  _curveType: 1
+  _minDb: -35
+  _gamma: 2
+  _syncOnEnable: 1
+  _labelText: {fileID: 3029319750790406577}
+  _valueText: {fileID: 435468914513516478}
+  _autoLabel: 1
 --- !u!1 &1565765933259249399
 GameObject:
   m_ObjectHideFlags: 0
@@ -3988,6 +4065,7 @@ GameObject:
   - component: {fileID: 738048735059599221}
   - component: {fileID: 3911921938952748490}
   - component: {fileID: 146935337437114154}
+  - component: {fileID: 938698208125262255}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -4067,6 +4145,33 @@ MonoBehaviour:
   _targetImage: {fileID: 5535972702323591737}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &938698208125262255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699071115158824462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &1789198763121171868
 GameObject:
   m_ObjectHideFlags: 0
@@ -5957,6 +6062,7 @@ GameObject:
   - component: {fileID: 6035479789476328392}
   - component: {fileID: 6308974097974530565}
   - component: {fileID: 5137907098020462362}
+  - component: {fileID: 1405069721638713505}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -6036,6 +6142,33 @@ MonoBehaviour:
   _targetImage: {fileID: 8727922414299516450}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &1405069721638713505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2620165794447894997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &2654125442150162909
 GameObject:
   m_ObjectHideFlags: 0
@@ -6897,6 +7030,7 @@ GameObject:
   - component: {fileID: 2128441706472171395}
   - component: {fileID: 3081840807037898936}
   - component: {fileID: 7919126308707130155}
+  - component: {fileID: 5191478973503776745}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -6976,6 +7110,169 @@ MonoBehaviour:
   _targetImage: {fileID: 9027837240026636840}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &5191478973503776745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3108645882861838097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
+--- !u!1 &3122580485348874193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6555651520138182579}
+  - component: {fileID: 564457502220739567}
+  - component: {fileID: 435468914513516478}
+  m_Layer: 5
+  m_Name: Text_Value
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6555651520138182579
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3122580485348874193}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5325354659187959207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 462, y: 0}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &564457502220739567
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3122580485348874193}
+  m_CullTransparentMesh: 1
+--- !u!114 &435468914513516478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3122580485348874193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: New Text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 24
+  m_fontSizeBase: 24
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &3212844457250704888
 GameObject:
   m_ObjectHideFlags: 0
@@ -6988,6 +7285,7 @@ GameObject:
   - component: {fileID: 1345279425173853730}
   - component: {fileID: 5948059230067435860}
   - component: {fileID: 5648026608801177006}
+  - component: {fileID: 8275889072296656356}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -7067,6 +7365,33 @@ MonoBehaviour:
   _targetImage: {fileID: 8002604049228198002}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &8275889072296656356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3212844457250704888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &3215646416594508567
 GameObject:
   m_ObjectHideFlags: 0
@@ -7214,6 +7539,7 @@ GameObject:
   - component: {fileID: 72180970329892612}
   - component: {fileID: 6262558386773735478}
   - component: {fileID: 2182524270314557640}
+  - component: {fileID: 726211145070841699}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -7293,6 +7619,33 @@ MonoBehaviour:
   _targetImage: {fileID: 6319449798004298191}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &726211145070841699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3220442382541641921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &3241940521339182895
 GameObject:
   m_ObjectHideFlags: 0
@@ -8544,6 +8897,7 @@ GameObject:
   - component: {fileID: 8039266821136960812}
   - component: {fileID: 6736456431111838667}
   - component: {fileID: 3103738133279019904}
+  - component: {fileID: 6724734377221829421}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -8623,6 +8977,33 @@ MonoBehaviour:
   _targetImage: {fileID: 8143821004482046518}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &6724734377221829421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3864362537007668185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &3943083537795567033
 GameObject:
   m_ObjectHideFlags: 0
@@ -10316,6 +10697,7 @@ GameObject:
   - component: {fileID: 7058716474784000907}
   - component: {fileID: 4148613237613792021}
   - component: {fileID: 3424215788499716758}
+  - component: {fileID: 1508411224028625951}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -10395,6 +10777,33 @@ MonoBehaviour:
   _targetImage: {fileID: 5509822190522731702}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &1508411224028625951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4542402064899778976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &4568952668243429854
 GameObject:
   m_ObjectHideFlags: 0
@@ -11640,7 +12049,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 35}
+  m_AnchoredPosition: {x: 0, y: 230}
   m_SizeDelta: {x: 160, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3234570552686648788
@@ -12157,6 +12566,142 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &5271844413203909366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6409190569977769262}
+  - component: {fileID: 3904660643538954784}
+  - component: {fileID: 3029319750790406577}
+  m_Layer: 5
+  m_Name: Text_Vol Channel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6409190569977769262
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5271844413203909366}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5325354659187959207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -417, y: -1}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3904660643538954784
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5271844413203909366}
+  m_CullTransparentMesh: 1
+--- !u!114 &3029319750790406577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5271844413203909366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Master
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4293722367
+  m_fontColor: {r: 1, g: 0, b: 0.93116045, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &5284449352590966269
 GameObject:
   m_ObjectHideFlags: 0
@@ -12169,6 +12714,7 @@ GameObject:
   - component: {fileID: 2734352349092432495}
   - component: {fileID: 880411439386105834}
   - component: {fileID: 3169979004688632766}
+  - component: {fileID: 8474188800670025991}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -12248,6 +12794,33 @@ MonoBehaviour:
   _targetImage: {fileID: 4594436085239128756}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &8474188800670025991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284449352590966269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &5302995019129628151
 GameObject:
   m_ObjectHideFlags: 0
@@ -15458,7 +16031,7 @@ RectTransform:
   m_Children:
   - {fileID: 1092094006295784382}
   - {fileID: 8808331031226899852}
-  - {fileID: 6996276497396329676}
+  - {fileID: 5325354659187959207}
   m_Father: {fileID: 3358985147334823907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -15714,7 +16287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901caa609bc142b408ebbf0e401c5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxChannels: 64
+  _maxChannels: 128
 --- !u!1 &7176208137785134998
 GameObject:
   m_ObjectHideFlags: 0
@@ -17787,7 +18360,7 @@ MonoBehaviour:
       Data2: 1076985677
       Data3: -851845491
       Data4: -1798599444
-    Path: event:/Voice/Play_UnitDead
+    Path: event:/Dialogue/Play_UnitDead
   <FlagFlapping>k__BackingField:
     Guid:
       Data1: 389866456
@@ -17795,6 +18368,44 @@ MonoBehaviour:
       Data3: 1633048460
       Data4: 1773688708
     Path: event:/Foley/Play_FlagFlapping
+--- !u!1 &8148712179539220138
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5325354659187959207}
+  m_Layer: 5
+  m_Name: Master Vol
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5325354659187959207
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8148712179539220138}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6996276497396329676}
+  - {fileID: 6409190569977769262}
+  - {fileID: 6555651520138182579}
+  m_Father: {fileID: 222747094049883995}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -37, y: 162}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8155222511624850219
 GameObject:
   m_ObjectHideFlags: 0
@@ -17845,6 +18456,8 @@ MonoBehaviour:
   musicVolume: 1
   ambienceVolume: 1
   sfxVolume: 1
+  foleyVolume: 1
+  dialougeVolume: 1
   _sfxPool: {fileID: 6257412633183838674}
 --- !u!1 &8212237090202969844
 GameObject:
@@ -18357,6 +18970,7 @@ GameObject:
   - component: {fileID: 5704608819030252584}
   - component: {fileID: 5205112004944080076}
   - component: {fileID: 9212287061289871113}
+  - component: {fileID: 6123088192694366252}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -18436,6 +19050,33 @@ MonoBehaviour:
   _targetImage: {fileID: 5285066495361472255}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &6123088192694366252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8444599565314423998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &8513267094018734094
 GameObject:
   m_ObjectHideFlags: 0
@@ -18684,7 +19325,7 @@ MonoBehaviour:
   _wave4: 14
   _wave5: 15
   _unitSpawnDelay: 0.1
-  _autoWaveInterval: 60
+  _autoWaveInterval: 10
   _spawnDirection: 7
 --- !u!1 &8728148349530554952
 GameObject:
@@ -19121,6 +19762,7 @@ GameObject:
   - component: {fileID: 2140683785519178926}
   - component: {fileID: 1029832580809959366}
   - component: {fileID: 1272309383973247595}
+  - component: {fileID: 5334567070814477681}
   m_Layer: 5
   m_Name: HoverArea
   m_TagString: Untagged
@@ -19200,6 +19842,33 @@ MonoBehaviour:
   _targetImage: {fileID: 1041147608154950292}
   _normalSprite: {fileID: 21300000, guid: 001a1bd449189f346be3f5af221c27cf, type: 3}
   _hoverSprite: {fileID: 21300000, guid: 44229c55bcb0640499984393f210703b, type: 3}
+--- !u!114 &5334567070814477681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8822031590554411215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &8908448571053735575
 GameObject:
   m_ObjectHideFlags: 0

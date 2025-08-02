@@ -200,7 +200,7 @@ public class BuildingPlacementManager : MonoBehaviour
         // Register building info for later use (e.g. demolition)
         realBase.SetupPlacement(_gridManager, baseIdx, footprint, _unitManager);
 
-        AudioManager.Instance.PlaySfxAttached(realGO.transform, FMODEvents.Instance.BuildingPlacement);
+        AudioManager.Instance.PlaySfx3D(realGO.transform.position, FMODEvents.Instance.BuildingPlacement);
 
         Destroy(_previewInstance);
         _previewInstance = null;

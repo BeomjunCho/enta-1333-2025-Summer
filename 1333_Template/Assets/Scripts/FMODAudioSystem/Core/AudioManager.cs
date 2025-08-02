@@ -18,19 +18,23 @@ public class AudioManager : Singleton<AudioManager>
     [Range(0, 1)] public float musicVolume = 1f;
     [Range(0, 1)] public float ambienceVolume = 1f;
     [Range(0, 1)] public float sfxVolume = 1f;
+    [Range(0, 1)] public float foleyVolume = 1f;
+    [Range(0, 1)] public float dialougeVolume = 1f;   // note: spelling kept as-is
 
     [Header("Dependencies")]
-    [SerializeField] private SfxPlayerPool _sfxPool;   // assign from Inspector
+    [SerializeField] private SfxPlayerPool _sfxPool = null;
+
     /* ------------------------------------------------------------------ */
     /*  Internal                                                          */
     /* ------------------------------------------------------------------ */
 
-    private Bus _busMaster, _busMusic, _busAmb, _busSfx;
+    private Bus _busMaster, _busMusic, _busAmb, _busSfx, _busFoley, _busDialogue;
 
     private EventInstance _music;
     private EventInstance _ambience;
+    private EventInstance _pauseSnapshot;
 
-    private float _prevMaster, _prevMusic, _prevAmb, _prevSfx;
+    private float _prevMaster, _prevMusic, _prevAmb, _prevSfx, _prevFoley, _prevDialogue;
 
     private const string _musicStateParam = "MusicState";
     private MusicState _currentMusicState = MusicState.MainMenu;
@@ -38,14 +42,15 @@ public class AudioManager : Singleton<AudioManager>
     /* ============================ Awake ============================== */
     private void Awake()
     {
-        // auto-find pool if inspector not set
         if (_sfxPool == null)
-            Debug.LogWarning("AudioManager: sfx pool is not assigned");
+            Debug.LogWarning("AudioManager: SFX pool is not assigned");
 
         _busMaster = GetBusChecked("bus:/");
         _busMusic = GetBusChecked("bus:/Music");
         _busAmb = GetBusChecked("bus:/Ambience");
         _busSfx = GetBusChecked("bus:/SFX");
+        _busFoley = GetBusChecked("bus:/Foley");
+        _busDialogue = GetBusChecked("bus:/Dialogue");
     }
 
     /* ============================ Update ============================= */
@@ -55,37 +60,37 @@ public class AudioManager : Singleton<AudioManager>
     }
 
     /* ============================ Public API ========================= */
-    public SfxHandle PlaySfx(Vector3 pos,
-                             EventReference ev,
-                             SfxPriority pr = SfxPriority.Medium)
+
+    #region -------- SFX ----------
+
+    public SfxHandle PlaySfx3D(Vector3 pos, EventReference ev)
     {
         if (_sfxPool == null) return SfxHandle.Invalid;
-        return _sfxPool.TryPlay3D(ev, pos, pr);
+        return _sfxPool.TryPlay3D(ev, pos);
     }
 
-    public SfxHandle PlaySfxAttached(Transform t,
-                                     EventReference ev,
-                                     SfxPriority pr = SfxPriority.Medium)
+    public SfxHandle PlaySfxAttached(Transform t, EventReference ev)
     {
         if (_sfxPool == null) return SfxHandle.Invalid;
-        return _sfxPool.TryPlayAttached(ev, t, pr);
+        return _sfxPool.TryPlayAttached(ev, t);
     }
 
-    public SfxHandle PlaySfx2D(EventReference ev,
-                               SfxPriority pr = SfxPriority.Medium)
+    public SfxHandle PlaySfx2D(EventReference ev)
     {
         if (_sfxPool == null) return SfxHandle.Invalid;
-        return _sfxPool.TryPlay2D(ev, pr);
+        return _sfxPool.TryPlay2D(ev);
     }
-
-    /* ---------- Stop specific handle ---------- */
 
     public void StopSfx(SfxHandle handle, bool immediate = false)
     {
         _sfxPool?.Stop(handle, immediate);
     }
 
-    /// <summary>Cross-fade to new music track.</summary>
+    #endregion
+
+    #region -------- Music / Ambience ----------
+
+    /// <summary>Cross-fade to a new music track.</summary>
     public void PlayMusic(EventReference musicRef, float fadeOut = 0.5f)
     {
         StopInstance(_music, fadeOut);
@@ -93,27 +98,14 @@ public class AudioManager : Singleton<AudioManager>
         _music.start();
     }
 
-    /// <summary>
-    /// Change the FMOD labeled parameter "MusicState".
-    /// </summary>
-    /// <param name="newState">Target state.</param>
-    /// <param name="immediate">
-    /// If true, forces update even if state is unchanged
-    /// (useful for initial sync).
-    /// </param>
+    /// <summary>Change the FMOD labeled parameter "MusicState".</summary>
     public void SetMusicState(MusicState newState, bool immediate = false)
     {
         if (!_music.isValid()) return;
         if (!immediate && newState == _currentMusicState) return;
 
         _currentMusicState = newState;
-
-
-        // Uses FMOD 2.02+ helper for label names
         _music.setParameterByNameWithLabel(_musicStateParam, newState.ToString());
-
-        // Fallback: relies on label-index order (0,1,2¡¦)
-        //_music.setParameterByName(_musicStateParam, (float)newState);
     }
 
     public void StopMusic(float fade = 0.5f) => StopInstance(_music, fade);
@@ -127,12 +119,89 @@ public class AudioManager : Singleton<AudioManager>
 
     public void StopAmbience(float fade = 0.5f) => StopInstance(_ambience, fade);
 
+    #endregion
+
+    #region -------- Snapshot (Pause) ----------
+
+    /// <summary>
+    /// Start or stop the Pause snapshot.
+    /// </summary>
+    public void SetPauseSnapshot(bool enabled, float fade = 0.25f)
+    {
+        if (enabled)
+        {
+            if (_pauseSnapshot.isValid()) return;  // already playing
+            EventReference snapRef = FMODEvents.Instance.PauseSnapshot;
+            _pauseSnapshot = RuntimeManager.CreateInstance(snapRef);
+            _pauseSnapshot.start();
+        }
+        else
+        {
+            StopInstance(_pauseSnapshot, fade);
+            _pauseSnapshot = default;
+        }
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Set volume (linear 0¡¥1) for a specific AudioChannel.
+    /// Immediately updates the corresponding FMOD bus and
+    /// caches the value so UpdateVolumesIfDirty() stays in sync.
+    /// </summary>
+    /// <param name="channel">Target mixer channel.</param>
+    /// <param name="value">Linear amplitude, clamped to 0-1.</param>
+    public void SetVolume(AudioChannel channel, float value)
+    {
+        value = Mathf.Clamp01(value);
+
+        switch (channel)
+        {
+            case AudioChannel.Master:
+                masterVolume = value;
+                _busMaster.setVolume(value);
+                _prevMaster = value;
+                break;
+
+            case AudioChannel.Music:
+                musicVolume = value;
+                _busMusic.setVolume(value);
+                _prevMusic = value;
+                break;
+
+            case AudioChannel.Ambience:
+                ambienceVolume = value;
+                _busAmb.setVolume(value);
+                _prevAmb = value;
+                break;
+
+            case AudioChannel.SFX:
+                sfxVolume = value;
+                _busSfx.setVolume(value);
+                _prevSfx = value;
+                break;
+
+            case AudioChannel.Foley:
+                foleyVolume = value;
+                _busFoley.setVolume(value);
+                _prevFoley = value;
+                break;
+
+            case AudioChannel.Dialogue:
+                dialougeVolume = value;              // spelling kept for consistency
+                _busDialogue.setVolume(value);
+                _prevDialogue = value;
+                break;
+        }
+    }
+
     /* ============================ Cleanup ============================ */
     private void OnDestroy()
     {
-        StopInstance(_music, 0);
-        StopInstance(_ambience, 0);
-        _sfxPool?.Shutdown();           // pool handles its players
+        StopInstance(_music, 0f);
+        StopInstance(_ambience, 0f);
+        StopInstance(_pauseSnapshot, 0f);
+        _sfxPool?.Shutdown();
     }
 
     /* ------------------------------------------------------------------ */
@@ -152,11 +221,17 @@ public class AudioManager : Singleton<AudioManager>
 
         if (!Mathf.Approximately(sfxVolume, _prevSfx))
         { _busSfx.setVolume(sfxVolume); _prevSfx = sfxVolume; }
+
+        if (!Mathf.Approximately(foleyVolume, _prevFoley))
+        { _busFoley.setVolume(foleyVolume); _prevFoley = foleyVolume; }
+
+        if (!Mathf.Approximately(dialougeVolume, _prevDialogue))
+        { _busDialogue.setVolume(dialougeVolume); _prevDialogue = dialougeVolume; }
     }
 
     private static Bus GetBusChecked(string path)
     {
-        var bus = RuntimeManager.GetBus(path);
+        Bus bus = RuntimeManager.GetBus(path);
         if (!bus.isValid())
             Debug.LogError($"FMOD bus not found: {path}");
         return bus;
@@ -165,7 +240,7 @@ public class AudioManager : Singleton<AudioManager>
     private static void StopInstance(EventInstance inst, float fade)
     {
         if (!inst.isValid()) return;
-        inst.stop(fade <= 0 ? STOP_MODE.IMMEDIATE : STOP_MODE.ALLOWFADEOUT);
+        inst.stop(fade <= 0f ? STOP_MODE.IMMEDIATE : STOP_MODE.ALLOWFADEOUT);
         inst.release();
     }
 }

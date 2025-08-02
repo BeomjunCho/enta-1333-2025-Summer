@@ -37,4 +37,20 @@ public class FMODEvents : Singleton<FMODEvents>
 
     [field: SerializeField]
     public EventReference FlagFlapping { get; private set; }
+
+    /* ------------------------------------------------------------------ */
+    /*  SFX : UI                                                       */
+    /* ------------------------------------------------------------------ *//*
+    [field: Header("SFX / UI")]
+    [field: SerializeField]
+    public EventReference MenuButtonHover { get; private set; }
+
+    [field: SerializeField]
+    public EventReference MenuButtonClick { get; private set; }*/
+
+    /* ------------------------------------------------------------------ */
+    /*  FMOD Snap Shot                                                    */
+    /* ------------------------------------------------------------------ */
+    [field: Header("Snapshots")]
+    public EventReference PauseSnapshot { get; private set; }
 }

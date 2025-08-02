@@ -45,8 +45,7 @@ public class Banner : MonoBehaviour, ISelectable
     {
         _flagFlappingSfxHandle = AudioManager.Instance.PlaySfxAttached(
             transform,
-            FMODEvents.Instance.FlagFlapping,
-            SfxPriority.Medium);
+            FMODEvents.Instance.FlagFlapping);
     }
 
     private void OnDestroy()
