@@ -244,9 +244,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 381302540960895424, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 726211145070841699, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
+      objectReference: {fileID: 0}
     - target: {fileID: 929776739593101909, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: m_Name
       value: Managers
+      objectReference: {fileID: 0}
+    - target: {fileID: 938698208125262255, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
       objectReference: {fileID: 0}
     - target: {fileID: 1138411039167271308, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: m_LocalPosition.x
@@ -287,6 +299,42 @@ PrefabInstance:
     - target: {fileID: 1138411039167271308, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1405069721638713505, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508411224028625951, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 5191478973503776745, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315152649090071247, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 5334567070814477681, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 6123088192694366252, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 6724734377221829421, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 8275889072296656356, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 8474188800670025991, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _clickEvent.Path
+      value: event:/SFX/UI/Play_MenuButtonClick
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -3408,14 +3408,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &1348831477003530428
 GameObject:
@@ -3527,14 +3527,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &1476853391699411745
 GameObject:
@@ -4163,14 +4163,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &1789198763121171868
 GameObject:
@@ -6160,14 +6160,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &2654125442150162909
 GameObject:
@@ -7128,14 +7128,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &3122580485348874193
 GameObject:
@@ -7383,14 +7383,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &3215646416594508567
 GameObject:
@@ -7637,14 +7637,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &3241940521339182895
 GameObject:
@@ -8995,14 +8995,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &3943083537795567033
 GameObject:
@@ -10795,14 +10795,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &4568952668243429854
 GameObject:
@@ -12812,14 +12812,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &5302995019129628151
 GameObject:
@@ -18353,7 +18353,7 @@ MonoBehaviour:
       Data2: 1100430939
       Data3: -2093558616
       Data4: 1669534737
-    Path: event:/SFX/Play_BuildingPlacement
+    Path: event:/SFX/Building/Play_BuildingPlacement
   <UnitDead>k__BackingField:
     Guid:
       Data1: 1565505206
@@ -19068,14 +19068,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &8513267094018734094
 GameObject:
@@ -19860,14 +19860,14 @@ MonoBehaviour:
       Data2: 1159619685
       Data3: -415294039
       Data4: -1465036217
-    Path: event:/SFX/Play_MenuButtonHover
+    Path: event:/SFX/UI/Play_MenuButtonHover
   _clickEvent:
     Guid:
       Data1: -1884641331
       Data2: 1331211386
       Data3: -912100173
       Data4: -1903000343
-    Path: event:/SFX/Play_MenuButtonClick
+    Path: event:/SFX/UI/Play_MenuButtonClick
   _forwardClickToParent: 1
 --- !u!1 &8908448571053735575
 GameObject:
