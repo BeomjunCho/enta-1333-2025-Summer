@@ -4,6 +4,12 @@
 		<property name="name">
 			<value>Attack</value>
 		</property>
+		<property name="maxInstances">
+			<value>10</value>
+		</property>
+		<property name="instanceStealing">
+			<value>1</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{a55e9cf2-bede-4556-8fc7-e862e2071855}</destination>
 		</relationship>

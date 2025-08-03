@@ -56,7 +56,7 @@
 			<destination>{1295ad32-b974-435c-810c-9be7bc2fc509}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{d5c49fff-a922-43ae-94c8-62a14d2026e6}</destination>
+			<destination>{20e94b1e-6858-4bba-826d-96d51a09e44b}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{b0bb68c7-d971-4f36-86f6-3eeba43ed314}" />
@@ -73,7 +73,11 @@
 			<destination>{002da780-3dbe-4451-bba2-5349a50cefde}</destination>
 		</relationship>
 	</object>
-	<object class="Timeline" id="{677b4c66-380b-4c1d-8a46-d63ab1485e61}" />
+	<object class="Timeline" id="{677b4c66-380b-4c1d-8a46-d63ab1485e61}">
+		<property name="isProxyEnabled">
+			<value>false</value>
+		</property>
+	</object>
 	<object class="ParameterProxy" id="{aa5fe1e3-b006-42ae-9c3b-2c78a2c20c9c}">
 		<relationship name="modules">
 			<destination>{4cddc5b6-c6a8-4d83-a87b-78d95972f2c3}</destination>

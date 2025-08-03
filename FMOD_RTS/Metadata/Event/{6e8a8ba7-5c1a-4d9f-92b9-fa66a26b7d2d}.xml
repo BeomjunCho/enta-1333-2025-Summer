@@ -54,7 +54,7 @@
 			<destination>{8cf00900-cf1a-41cf-8281-5d12303d2796}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{d5c49fff-a922-43ae-94c8-62a14d2026e6}</destination>
+			<destination>{edc3f667-ca46-4d63-89c5-8443f5a08086}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{1c9aa9da-0dee-48c9-874d-8f52aefed1c9}" />
@@ -105,6 +105,9 @@
 		<property name="volume">
 			<value>5</value>
 		</property>
+		<property name="pitch">
+			<value>3.60000014</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{c828af7e-41d2-4456-95f1-a4597081937b}</destination>
 		</relationship>
@@ -128,7 +131,7 @@
 			<value>6.8000000000000007</value>
 		</property>
 		<property name="pitch">
-			<value>2</value>
+			<value>5</value>
 		</property>
 		<relationship name="fadeOutCurve">
 			<destination>{b741cf46-f329-4683-abd3-6e0727d0bfa0}</destination>
