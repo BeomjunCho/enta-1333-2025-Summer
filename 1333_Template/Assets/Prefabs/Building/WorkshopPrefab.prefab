@@ -211,7 +211,7 @@ MonoBehaviour:
   - {fileID: 6480700884518158860}
   _resourceType: {fileID: 11400000, guid: d15fd4d44e1fd9d41a1c22a8d926715b, type: 2}
   _productionAmount: 10
-  _productionInterval: 5
+  _productionInterval: 10
 --- !u!65 &-8301328649786535851
 BoxCollider:
   m_ObjectHideFlags: 0

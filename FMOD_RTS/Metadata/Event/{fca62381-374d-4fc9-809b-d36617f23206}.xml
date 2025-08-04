@@ -56,7 +56,17 @@
 			<destination>{7b27deb3-cb42-455e-876a-6866f2b027fb}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{65039960-ff4b-486a-84ed-01f2bf931225}" />
+	<object class="EventAutomatableProperties" id="{65039960-ff4b-486a-84ed-01f2bf931225}">
+		<property name="maxVoices">
+			<value>1</value>
+		</property>
+		<property name="voiceStealing">
+			<value>1</value>
+		</property>
+		<property name="maximumDistance">
+			<value>100</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{dbd94035-c214-48ca-a735-5b224cfbe503}" />
 	<object class="GroupTrack" id="{4da534e5-af43-40f4-8719-9bdf3c3fc907}">
 		<relationship name="automationTracks">
@@ -78,6 +88,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{fdda1814-cf2f-498b-a90d-734ab2594963}">
+		<property name="pitch">
+			<value>-2.60000014</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{436897ba-6763-4554-b53e-4197545fd966}</destination>
 		</relationship>
@@ -104,7 +117,7 @@
 			<value>111.91666666666667</value>
 		</property>
 		<property name="volume">
-			<value>-17</value>
+			<value>-14</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{7caac99a-a3a8-4983-84a0-3a8fdc2e6072}</destination>
@@ -165,10 +178,14 @@
 	</object>
 	<object class="MixerBusPanner" id="{3462898b-8431-43e9-858a-7bd6637d3118}" />
 	<object class="MixerBusFader" id="{ba639cf7-6109-41c6-8529-11bf75a0b617}" />
-	<object class="SpatialiserEffect" id="{058456e2-86eb-4f46-ab70-85ede557d191}" />
+	<object class="SpatialiserEffect" id="{058456e2-86eb-4f46-ab70-85ede557d191}">
+		<property name="panBlend">
+			<value>0</value>
+		</property>
+	</object>
 	<object class="ThreeEQEffect" id="{35ab353e-283b-460b-b8fe-66d1957cc5ce}">
 		<property name="midGain">
-			<value>-2</value>
+			<value>-7</value>
 		</property>
 		<property name="highGain">
 			<value>-6</value>

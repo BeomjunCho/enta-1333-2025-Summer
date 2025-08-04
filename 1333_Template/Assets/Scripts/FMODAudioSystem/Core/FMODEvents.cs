@@ -20,7 +20,7 @@ public class FMODEvents : Singleton<FMODEvents>
     [field: Header("Ambience")]
     [field: SerializeField] public EventReference Ambience { get; private set; }
     [field: SerializeField] public EventReference BirdSing { get; private set; }
-    [field: SerializeField] public EventReference WaterLapping { get; private set; }
+    [field: SerializeField] public EventReference WaterLapping { get; private set; } // Need to be replaced to Stereo
 
     /* ------------------------------------------------------------------ */
     /*  Foley                                                             */

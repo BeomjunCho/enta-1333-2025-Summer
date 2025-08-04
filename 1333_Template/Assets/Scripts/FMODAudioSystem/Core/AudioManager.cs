@@ -85,6 +85,33 @@ public class AudioManager : Singleton<AudioManager>
     {
         _sfxPool?.Stop(handle, immediate);
     }
+    /// <summary>
+    /// Set parameter before fmod event instance start()
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="reference"></param>
+    /// <param name="parameterName"></param>
+    /// <param name="label"></param>
+    /// <returns></returns>
+    public SfxHandle PlaySfx3DWithLabelParameter(
+    Vector3 position,
+    EventReference reference,
+    string parameterName,
+    string label)
+    {
+        return _sfxPool.Play3DWithLabelParameter(position, reference, parameterName, label);
+    }
+
+    public void SetSfxParameter(SfxHandle handle, string name, float value, bool ignoreSeekSpeed = false)
+    {
+        _sfxPool?.SetParameter(handle, name, value, ignoreSeekSpeed);
+    }
+
+    public void SetSfxParameterByLabel(SfxHandle handle, string name, string label)
+    {
+        _sfxPool?.SetParameterLabel(handle, name, label);
+    }
+
 
     #endregion
 

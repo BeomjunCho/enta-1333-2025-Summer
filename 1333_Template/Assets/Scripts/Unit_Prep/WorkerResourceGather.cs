@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static SfxPlayerPool;
 
 /// <summary>
 /// Worker AI that only harvests a resource when it's standing next to it.
@@ -26,6 +27,9 @@ public class WorkerResourceGather : MonoBehaviour
     private IDamageable _target;
     private float _scanTimer;
     private float _cooldownTimer;
+    public enum ResourceType { Rock, Wood }
+
+    private SfxHandle _gatherSfx;
 
     private void Awake()
     {
@@ -93,7 +97,7 @@ public class WorkerResourceGather : MonoBehaviour
         // Play your work animation via the Attacking state
         _core.InternalChangeState(UnitState.Attacking);
 
-        // Sync to your animation’s hit frame
+        // Sync to your animation hit frame
         yield return new WaitForSeconds(0.4f);
 
         if (_target == null || !_target.IsAlive)
@@ -104,6 +108,7 @@ public class WorkerResourceGather : MonoBehaviour
 
         // Actually apply damage and reset the cooldown now
         _target.TakeDamage(_gatherDamage);
+        GatheringSfx();
         _cooldownTimer = _gatherCooldown;
 
         // Go back to Idle so we can start the next cycle
@@ -112,5 +117,24 @@ public class WorkerResourceGather : MonoBehaviour
         // If the resource is fully harvested, clear the target
         if (!_target.IsAlive)
             _target = null;
+    }
+
+    public void GatheringSfx()
+    {
+        if (_target is not MonoBehaviour mb) return;
+
+        GameObject go = mb.gameObject;
+        ResourceType? type = null;
+
+        if (go.TryGetComponent<EnvRock>(out _)) type = ResourceType.Rock;
+        else if (go.TryGetComponent<EnvTree>(out _)) type = ResourceType.Wood;
+        if (!type.HasValue) return;
+
+        // Play with labeled parameter in one shot (parameter applied before start)
+        _gatherSfx = AudioManager.Instance.PlaySfx3DWithLabelParameter(
+            transform.position,
+            FMODEvents.Instance.ResourceGathering,
+            "HitResourceType",
+            type.Value.ToString());
     }
 }

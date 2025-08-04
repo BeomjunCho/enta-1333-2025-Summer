@@ -29,6 +29,7 @@ public class UnitCombat : MonoBehaviour
     private UnitBase _core;           // Reference to main unit script
     private UnitMovement _movement;   // Handles pathfinding and movement
     private UnitManager _unitManager; // Global unit manager
+    private IAttackSfxProvider _provider;
 
     // ======= Combat stats (cached from UnitTypeSO) =======
     private AttackType _attackType = AttackType.Melee;
@@ -96,6 +97,7 @@ public class UnitCombat : MonoBehaviour
     {
         _core = GetComponent<UnitBase>();
         _movement = GetComponent<UnitMovement>();
+        TryGetComponent(out _provider);
     }
 
     /// <summary>
@@ -192,14 +194,17 @@ public class UnitCombat : MonoBehaviour
         switch (_attackType)
         {
             case AttackType.Melee:
+                AttackSfx();
                 _currentTarget.TakeDamage(_attackDamage);
                 break;
 
             case AttackType.Ranged:
+                AttackSfx();
                 FireArrow();
                 break;
 
             case AttackType.Magic:
+                AttackSfx();
                 SpawnMagicImpact();
                 break;
         }
@@ -216,6 +221,13 @@ public class UnitCombat : MonoBehaviour
 
         if (!_isRepositioning)
             StartCoroutine(RepositionThenAttack());
+    }
+
+    public void AttackSfx()
+    {
+        if (_provider == null) return;
+
+        AudioManager.Instance.PlaySfx3D(transform.position, _provider.AttackEvent);
     }
 
     // ======= Smart Reposition Coroutine =======

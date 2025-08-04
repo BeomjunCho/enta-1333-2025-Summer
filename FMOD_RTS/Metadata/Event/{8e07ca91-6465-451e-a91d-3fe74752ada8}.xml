@@ -58,7 +58,10 @@
 	</object>
 	<object class="EventAutomatableProperties" id="{004e3dd4-2415-464e-83d0-dada5602ae70}">
 		<property name="maxVoices">
-			<value>3</value>
+			<value>1</value>
+		</property>
+		<property name="voiceStealing">
+			<value>1</value>
 		</property>
 	</object>
 	<object class="MarkerTrack" id="{ce89a48b-9806-49ee-afda-4f57aa9c4bc7}" />
@@ -96,11 +99,17 @@
 		<property name="length">
 			<value>0.24616666666666667</value>
 		</property>
+		<property name="pitch">
+			<value>-0.800000012</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{f6709b0a-4c9d-4641-9073-f800a599eb7c}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{b560d6af-93be-4b81-9d1b-8d7d9eaccc26}">
+		<property name="volume">
+			<value>-8</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>

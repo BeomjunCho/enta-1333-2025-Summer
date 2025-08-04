@@ -50,7 +50,9 @@ public class Banner : MonoBehaviour, ISelectable
 
     private void OnDestroy()
     {
-        AudioManager.Instance.StopSfx(_flagFlappingSfxHandle);
+        if (Application.isPlaying == false) return;
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.StopSfx(_flagFlappingSfxHandle);
     }
 
     public void Initialize(GridManager gridManager)

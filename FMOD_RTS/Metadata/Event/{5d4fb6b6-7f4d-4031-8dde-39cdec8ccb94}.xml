@@ -61,7 +61,10 @@
 			<value>6</value>
 		</property>
 		<property name="voiceStealing">
-			<value>1</value>
+			<value>2</value>
+		</property>
+		<property name="maximumDistance">
+			<value>80</value>
 		</property>
 	</object>
 	<object class="MarkerTrack" id="{b0e70ecb-5782-4159-a04f-4a93aae3e2eb}" />
@@ -152,9 +155,6 @@
 		</property>
 		<property name="maximumDistance">
 			<value>80</value>
-		</property>
-		<property name="overrideRange">
-			<value>true</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{5c2f7727-b195-4a87-a8d4-be7d270c80ab}" />

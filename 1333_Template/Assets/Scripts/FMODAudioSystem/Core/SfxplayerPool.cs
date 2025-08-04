@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
+using System.Collections;
 
 /// <summary>
 /// Manages pooled <see cref="SfxPlayer"/> channels and re-uses FMOD
@@ -30,6 +31,13 @@ public class SfxPlayerPool : MonoBehaviour
     [Header("Pool Settings")]
     [SerializeField, Min(1)] private int _maxChannels = 128;
 
+    [Header("Release Settings")]
+    [Tooltip("How many EventInstances to release per frame when shutting down")]
+    [SerializeField, Min(1)] private int _batchSize = 64;
+
+    private int _releaseBatchesThisFrame = 0; // debug
+    private bool _releaseScheduled = false;
+
     /* ------------------------------------------------------------------ */
     /*  Player & Instance pools                                            */
     /* ------------------------------------------------------------------ */
@@ -55,14 +63,23 @@ public class SfxPlayerPool : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        foreach (var stack in _instancePool.Values)
-            while (stack.Count > 0)
-            {
-                var inst = stack.Pop();
-                if (inst.isValid()) inst.release();
-            }
+        // stop all players to clean up active bookkeeping
+        foreach (var p in _players)
+            p.Stop(true);
+
+        _active.Clear();
+
+        if (Application.isPlaying && !_releaseScheduled)
+        {
+            _releaseScheduled = true;
+            StartGradualRelease();
+        }
+        else if (!Application.isPlaying)
+        {
+            ReleaseAllImmediate();
+        }
     }
 
     /* ------------------------------------------------------------------ */
@@ -114,6 +131,33 @@ public class SfxPlayerPool : MonoBehaviour
         _active.Remove(p);
         EnqueueIdle(p);
     }
+
+    public void SetParameter(SfxHandle handle, string name, float value, bool ignoreSeekSpeed = false)
+    {
+        if (!handle.IsValid()) return;
+        _players[handle.Id].SetParameter(name, value, ignoreSeekSpeed);
+    }
+
+    public void SetParameterLabel(SfxHandle handle, string name, string label)
+    {
+        if (!handle.IsValid()) return;
+        _players[handle.Id].SetParameterByLabel(name, label);
+    }
+
+    /// <summary>
+    /// Wrapper that routes to a player and applies a label parameter before playback.
+    /// </summary>
+    public SfxHandle Play3DWithLabelParameter(
+        Vector3 position,
+        EventReference reference,
+        string parameterName,
+        string label)
+    {
+        var player = AllocatePlayer();           // existing allocation logic
+        player.Play3DWithLabelParameter(reference, position, parameterName, label);
+        return new SfxHandle(player.Id);
+    }
+
 
     public void Shutdown()
     {
@@ -180,7 +224,7 @@ public class SfxPlayerPool : MonoBehaviour
     }
 
     /* ------------------------------------------------------------------ */
-    /*  Instance Cache Helpers                                             */
+    /* Helpers                                                            */
     /* ------------------------------------------------------------------ */
 
     internal EventInstance GetOrCreateInstance(EventReference ev)
@@ -202,6 +246,61 @@ public class SfxPlayerPool : MonoBehaviour
         inst.stop(STOP_MODE.IMMEDIATE);
         inst.set3DAttributes(default);
         stack.Push(inst);
+    }
+
+    private void StartGradualRelease() => CoroutineRelay.Instance.Run(ReleaseRoutine());
+
+    private IEnumerator ReleaseRoutine()
+    {
+        Debug.Log("StartGradualRelease initiated.");
+        while (true)
+        {
+            bool didWork = false;
+            foreach (var stack in _instancePool.Values)
+            {
+                if (stack.Count == 0) continue;
+
+                int countThisFrame = Mathf.Min(_batchSize, stack.Count);
+                for (int i = 0; i < countThisFrame; ++i)
+                {
+                    var inst = stack.Pop();
+                    if (inst.isValid()) inst.release();
+                }
+                _releaseBatchesThisFrame += countThisFrame;
+                didWork = true;
+            }
+
+            Debug.Log($"ReleaseRoutine frame: released {_releaseBatchesThisFrame} instances so far. Remaining total: {TotalRemainingInstances()}");
+
+            _releaseBatchesThisFrame = 0;
+
+            if (!didWork) break;
+
+            yield return null;
+        }
+        _instancePool.Clear();
+        Debug.Log("Gradual release complete.");
+    }
+
+    private int TotalRemainingInstances()
+    {
+        int sum = 0;
+        foreach (var stack in _instancePool.Values)
+            sum += stack.Count;
+        return sum;
+    }
+
+    private void ReleaseAllImmediate()
+    {
+        foreach (var stack in _instancePool.Values)
+        {
+            while (stack.Count > 0)
+            {
+                var inst = stack.Pop();
+                if (inst.isValid()) inst.release();
+            }
+        }
+        _instancePool.Clear();
     }
 
     /* ------------------------------------------------------------------ */

@@ -156,6 +156,7 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         _resourceManager.Initialize();
+        _resourceManager.StartingResources();
         yield return null;
 
         _buildingPlacementManager.Initialize(

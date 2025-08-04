@@ -9,6 +9,16 @@ using UnityEngine;
 /// </summary>
 public class ResourceManager : MonoBehaviour
 {
+    [System.Serializable]
+    public struct StartingResource
+    {
+        [Tooltip("Enum identifier for the resource.")]
+        public ResourceList ResourceType;
+
+        [Tooltip("Initial amount to assign.")]
+        public int Amount;
+    }
+
     [Header("All Resource Types")]
     [Tooltip("List of ResourceTypeSO assets to initialize resource entries.")]
     [SerializeField] private List<ResourceTypeSO> _resourceTypeSOs = new();
@@ -16,6 +26,10 @@ public class ResourceManager : MonoBehaviour
     [Header("Resource Panel UI")]
     [Tooltip("Panel which shows all resources icon and number")]
     [SerializeField] private ResourcePanelUI _resourcePanelUI;
+
+    [Header("Starting Resources")]
+    [Tooltip("Initial amounts for selected resources. Applied when StartingResources() is called.")]
+    [SerializeField] private List<StartingResource> _startingResources = new();
 
     // Internal dictionary mapping each ResourceDataSO to its current count.
     private Dictionary<ResourceDataSO, int> _resources;
@@ -48,6 +62,37 @@ public class ResourceManager : MonoBehaviour
             AddResource(data, 999);
 
         Debug.Log("ResourceManager: Debug added 999 to all resources");
+    }
+
+    /// <summary>
+    /// Applies the starting resource amounts defined in the inspector.
+    /// This overwrites the current counts for those entries.
+    /// </summary>
+    public void StartingResources()
+    {
+        if (_resources == null || _enumLookup == null)
+        {
+            Debug.LogWarning("ResourceManager: Cannot apply starting resources before Initialize() has been called.");
+            return;
+        }
+
+        foreach (var entry in _startingResources)
+        {
+            if (entry.ResourceType == ResourceList.None)
+                continue;
+
+            if (_enumLookup.TryGetValue(entry.ResourceType, out var data) && data != null)
+            {
+                _resources[data] = entry.Amount;
+                FireChanged(entry.ResourceType, entry.Amount);
+            }
+        }
+
+        _resourcePanelUI.RefreshAll();
+
+#if UNITY_EDITOR
+        UpdateDebugList();
+#endif
     }
 
     /// <summary>

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Harvestable tree resource. Worker units will “attack” this to gather wood.
+/// Harvestable tree resource. Worker units will “attack?this to gather wood.
 /// Registers itself with the UnitManager on enable and unregisters on disable.
 /// </summary>
 public class EnvTree : MonoBehaviour, IDamageable
@@ -11,15 +11,18 @@ public class EnvTree : MonoBehaviour, IDamageable
     [SerializeField] private int _height = 1;
 
     [SerializeField] private ResourceDataSO _wood;
+
+    [Header("Hit Points")]
+    [SerializeField] private int _maxHp = 40;
+
+    [SerializeField] private int _resourceAmount = 10;
+    private int _hp;
     public int Width => _width;
     public int Height => _height;
 
     private GridManager _gridManager;
     private int _startX, _startY;
 
-    [Header("Hit Points")]
-    [SerializeField] private int _maxHp = 40;
-    private int _hp;
 
     private UnitManager _unitManager;
     private ResourceManager _resourceManager;
@@ -47,7 +50,7 @@ public class EnvTree : MonoBehaviour, IDamageable
     private void OnDisable()
     {
         _unitManager?.UnregisterResource(this);
-        _resourceManager.AddResource(_wood, 2);
+        _resourceManager.AddResource(_wood, _resourceAmount);
         if (_gridManager != null)
         {
             for (int dx = 0; dx < _width; dx++)
