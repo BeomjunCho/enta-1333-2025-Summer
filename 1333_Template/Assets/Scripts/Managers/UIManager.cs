@@ -187,6 +187,7 @@ public class UIManager : MonoBehaviour
         string dirText = direction.ToString().ToLower();
         _wavePopupText.text = $"Wave {waveNumber} is coming from {dirText}!";
         _wavePopupGO.SetActive(true);
+        AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.WavePopUp);
         yield return new WaitForSeconds(_popupDuration);
         _wavePopupGO.SetActive(false);
     }

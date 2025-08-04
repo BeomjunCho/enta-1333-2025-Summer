@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 3512996197091757102}
   - component: {fileID: 998533002001839289}
   - component: {fileID: 3145857082077389659}
+  - component: {fileID: 4951597307769348994}
   m_Layer: 5
   m_Name: Button_BuildingPlacement
   m_TagString: Untagged
@@ -381,3 +382,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconImage: {fileID: 8593132010073240202}
   nameText: {fileID: 3389855771931486563}
+--- !u!114 &4951597307769348994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028272153498507134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: 447775629
+      Data2: 1228065476
+      Data3: -1459308159
+      Data4: 1976236640
+    Path: event:/SFX/UI/Play_HudButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -242107377
+      Data2: 1092078828
+      Data3: 1809558972
+      Data4: 1051598770
+    Path: event:/SFX/UI/Play_HudButtonClick
+  _forwardClickToParent: 0

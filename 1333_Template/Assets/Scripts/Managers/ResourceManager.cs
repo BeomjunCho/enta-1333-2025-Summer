@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Manages all game resources defined in ResourceTypeSO collections.
@@ -31,6 +32,17 @@ public class ResourceManager : MonoBehaviour
     [Tooltip("Initial amounts for selected resources. Applied when StartingResources() is called.")]
     [SerializeField] private List<StartingResource> _startingResources = new();
 
+    [Header("Per-Second Auto Gain")]
+    [Tooltip("Which resource types should receive automatic per-second gains. Units and Horses will be ignored even if assigned here.")]
+    [SerializeField] private List<ResourceList> _perSecondGainTypes = new();
+    [Tooltip("Amount to add per second for each selected resource type.")]
+    [SerializeField] private int _perSecondAmount = 2;
+    [Header("Auto Gain Scene Filter")]
+    [Tooltip("Scene name in which per-second resource gain is active.")]
+    [SerializeField] private string _autoGainSceneName = "InGame";
+
+    private float _perSecondAccumulator;
+
     // Internal dictionary mapping each ResourceDataSO to its current count.
     private Dictionary<ResourceDataSO, int> _resources;
     // Lookup map from enum value to ResourceDataSO asset for enum-based methods.
@@ -48,6 +60,8 @@ public class ResourceManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha0))
             AddDebugResources();
+
+        ApplyPerSecondGain();
     }
 
     /// <summary>
@@ -62,6 +76,36 @@ public class ResourceManager : MonoBehaviour
             AddResource(data, 999);
 
         Debug.Log("ResourceManager: Debug added 999 to all resources");
+    }
+
+    /// <summary>
+    /// Adds configured resources every second,
+    /// active only in the specified scene and after Initialize().
+    /// Units and Horses are always excluded.
+    /// </summary>
+    private void ApplyPerSecondGain()
+    {
+        // 1) Only run in target scene and after Initialize()
+        if (SceneManager.GetActiveScene().name != _autoGainSceneName || _enumLookup == null)
+            return;
+
+        // 2) Accumulate time
+        _perSecondAccumulator += Time.deltaTime;
+        if (_perSecondAccumulator < 1f)
+            return;
+
+        int ticks = Mathf.FloorToInt(_perSecondAccumulator);
+        _perSecondAccumulator -= ticks;
+
+        // 3) Apply gain per tick
+        foreach (var type in _perSecondGainTypes)
+        {
+            if (type == ResourceList.Units || type == ResourceList.Horse)
+                continue;
+
+            for (int i = 0; i < ticks; i++)
+                TryAddResource(type, _perSecondAmount);
+        }
     }
 
     /// <summary>

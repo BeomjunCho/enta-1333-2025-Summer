@@ -196,8 +196,17 @@ public class GameManager : MonoBehaviour
             yield return null;
         op.allowSceneActivation = true;
         yield return null;
-        AudioManager.Instance.SetMusicState(MusicState.MainMenu);
-        AudioManager.Instance.StopAmbience();
+
+        if (AudioManager.Instance.IsMusicPlaying())
+        {
+            AudioManager.Instance.SetMusicState(MusicState.MainMenu);
+        }
+        else
+        {
+            AudioManager.Instance.SetMusicState(MusicState.MainMenu);
+            AudioManager.Instance.PlayMusic(FMODEvents.Instance.MusicTheme);
+        }
+            AudioManager.Instance.StopAmbience();
 
         // 4. (Optional) Re-show main menu (safe even if already shown)
         _uiManager.ShowScreen(UIScreenType.MainMenu, false);

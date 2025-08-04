@@ -86,8 +86,12 @@ public class VictoryChecker : MonoBehaviour
         // Ensure the screen is visible before fading in again.
         yield return null;
 
+        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.WinSfx);
+
         // Fade from black to transparent.
         yield return ScreenFader.Instance.Fade(1f, 0f, _fadeDuration);
+
     }
 
     /* ------------------------------------------------------------------ */

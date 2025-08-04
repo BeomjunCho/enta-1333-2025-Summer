@@ -439,6 +439,7 @@ GameObject:
   - component: {fileID: 1799975948571350771}
   - component: {fileID: 541535793031421891}
   - component: {fileID: 1016957202795764238}
+  - component: {fileID: 2689719288543169415}
   m_Layer: 5
   m_Name: Button_MainMenu
   m_TagString: Untagged
@@ -562,6 +563,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2689719288543169415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213457165622326828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/UI/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/UI/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &224086398116853624
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,6 +2435,16 @@ MonoBehaviour:
   _resourceTypeSOs:
   - {fileID: 11400000, guid: b37301b0b78b7aa4495945e045c2c88a, type: 2}
   _resourcePanelUI: {fileID: 906583784969377012}
+  _startingResources:
+  - ResourceType: 3
+    Amount: 100
+  - ResourceType: 4
+    Amount: 100
+  - ResourceType: 2
+    Amount: 100
+  _perSecondGainTypes: 0300000004000000
+  _perSecondAmount: 2
+  _autoGainSceneName: InGame
   _debugResourceList: []
 --- !u!1 &954556617249566749
 GameObject:
@@ -3795,6 +3833,7 @@ GameObject:
   - component: {fileID: 7736208315271585547}
   - component: {fileID: 4588919699528364283}
   - component: {fileID: 6790977332525498092}
+  - component: {fileID: 730735381504628933}
   m_Layer: 5
   m_Name: Button_MainMenu
   m_TagString: Untagged
@@ -3918,6 +3957,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &730735381504628933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565765933259249399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/UI/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/UI/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &1617505777427585185
 GameObject:
   m_ObjectHideFlags: 0
@@ -16253,6 +16319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 621625201811406727}
   - component: {fileID: 6257412633183838674}
+  - component: {fileID: 745413869409218368}
   m_Layer: 0
   m_Name: SfxPool
   m_TagString: Untagged
@@ -16288,6 +16355,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxChannels: 128
+  _batchSize: 64
+--- !u!114 &745413869409218368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7169053692389733265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ec77cf45a459b45a29274ce8181d9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pool: {fileID: 6257412633183838674}
+  _sampleInterval: 1
+  _showOverlay: 1
+  _overlayPos: {x: 10, y: 10}
 --- !u!1 &7176208137785134998
 GameObject:
   m_ObjectHideFlags: 0
@@ -16938,6 +17022,7 @@ GameObject:
   - component: {fileID: 9210110325486148275}
   - component: {fileID: 2874015754783252818}
   - component: {fileID: 8540828980276024597}
+  - component: {fileID: 2365173548568860788}
   m_Layer: 5
   m_Name: Button_Quit
   m_TagString: Untagged
@@ -17061,6 +17146,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2365173548568860788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7236068490038775340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/UI/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/UI/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &7377013552673848958
 GameObject:
   m_ObjectHideFlags: 0
@@ -18347,20 +18459,27 @@ MonoBehaviour:
       Data3: 1544764853
       Data4: 901919257
     Path: event:/AMB/Play_Amb
-  <BuildingPlacement>k__BackingField:
+  <BirdSing>k__BackingField:
     Guid:
-      Data1: 540754839
-      Data2: 1100430939
-      Data3: -2093558616
-      Data4: 1669534737
-    Path: event:/SFX/Building/Play_BuildingPlacement
-  <UnitDead>k__BackingField:
+      Data1: -718402910
+      Data2: 1121182804
+      Data3: 1758780852
+      Data4: -1373413063
+    Path: event:/AMB/Play_Bird
+  <WaterLapping>k__BackingField:
     Guid:
-      Data1: 1565505206
-      Data2: 1076985677
-      Data3: -851845491
-      Data4: -1798599444
-    Path: event:/Dialogue/Play_UnitDead
+      Data1: -56220799
+      Data2: 1338586957
+      Data3: 1725143936
+      Data4: 104002071
+    Path: event:/AMB/Play_WaterLapping
+  <ResourceGathering>k__BackingField:
+    Guid:
+      Data1: -982598019
+      Data2: 1097275231
+      Data3: -2052822652
+      Data4: -2043273613
+    Path: event:/Foley/Play_ResourceGathering
   <FlagFlapping>k__BackingField:
     Guid:
       Data1: 389866456
@@ -18368,6 +18487,202 @@ MonoBehaviour:
       Data3: 1633048460
       Data4: 1773688708
     Path: event:/Foley/Play_FlagFlapping
+  <UnitFootStep>k__BackingField:
+    Guid:
+      Data1: 1054467907
+      Data2: 1077900707
+      Data3: 436207496
+      Data4: -1465884746
+    Path: event:/Foley/Play_UnitFootstep
+  <BuildingPlacement>k__BackingField:
+    Guid:
+      Data1: 540754839
+      Data2: 1100430939
+      Data3: -2093558616
+      Data4: 1669534737
+    Path: event:/SFX/Building/Play_BuildingPlacement
+  <BarrackEnv>k__BackingField:
+    Guid:
+      Data1: 885654556
+      Data2: 1078884978
+      Data3: -1275269471
+      Data4: 1570198694
+    Path: event:/SFX/Building/Play_BarrackEnv
+  <BlackSmithEnv>k__BackingField:
+    Guid:
+      Data1: 392425061
+      Data2: 1166113497
+      Data3: 448197009
+      Data4: 654127808
+    Path: event:/SFX/Building/Play_BlackSmithEnv
+  <FarmEnv>k__BackingField:
+    Guid:
+      Data1: -1714535130
+      Data2: 1157084264
+      Data3: -25858657
+      Data4: -366809005
+    Path: event:/SFX/Building/Play_FarmEnv
+  <LumberMillEnv>k__BackingField:
+    Guid:
+      Data1: 1387064332
+      Data2: 1257219884
+      Data3: 833866920
+      Data4: -2071570550
+    Path: event:/SFX/Building/Play_LumberMill
+  <StableEnv>k__BackingField:
+    Guid:
+      Data1: 1161527372
+      Data2: 1100245784
+      Data3: -1759245381
+      Data4: -319448842
+    Path: event:/SFX/Building/Play_Stable
+  <WorkShopEnv>k__BackingField:
+    Guid:
+      Data1: 917205697
+      Data2: 1089666902
+      Data3: 1734180258
+      Data4: -449822535
+    Path: event:/SFX/Building/Play_Workshop
+  <ArcherAttack>k__BackingField:
+    Guid:
+      Data1: 211925917
+      Data2: 1262684597
+      Data3: -158606935
+      Data4: -562685365
+    Path: event:/SFX/Unit/Play_Attack_Archer
+  <SpearManAttack>k__BackingField:
+    Guid:
+      Data1: -1188754400
+      Data2: 1145467063
+      Data3: -750286924
+      Data4: 536636032
+    Path: event:/SFX/Unit/Play_Attack_SpearMan
+  <AllMageAttack>k__BackingField:
+    Guid:
+      Data1: 137728237
+      Data2: 1208551326
+      Data3: 4623768
+      Data4: -1293133599
+    Path: event:/SFX/Unit/Play_Attack_AllMages
+  <CommanderAttack>k__BackingField:
+    Guid:
+      Data1: -1235121854
+      Data2: 1247825860
+      Data3: -571697004
+      Data4: 2018155627
+    Path: event:/SFX/Unit/Play_Attack_Commander
+  <CrossbowManAttack>k__BackingField:
+    Guid:
+      Data1: 445175797
+      Data2: 1324747970
+      Data3: -1976168799
+      Data4: -507530403
+    Path: event:/SFX/Unit/Play_Attack_CrossbowMan
+  <RoyalKnightAttack>k__BackingField:
+    Guid:
+      Data1: 1533621352
+      Data2: 1323216562
+      Data3: 618744970
+      Data4: -1629777964
+    Path: event:/SFX/Unit/Play_Attack_RoyalKnight
+  <MenuButtonHover>k__BackingField:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/UI/Play_MenuButtonHover
+  <MenuButtonClick>k__BackingField:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/UI/Play_MenuButtonClick
+  <HudButtonHover>k__BackingField:
+    Guid:
+      Data1: 447775629
+      Data2: 1228065476
+      Data3: -1459308159
+      Data4: 1976236640
+    Path: event:/SFX/UI/Play_HudButtonHover
+  <HudButtonClick>k__BackingField:
+    Guid:
+      Data1: -242107377
+      Data2: 1092078828
+      Data3: 1809558972
+      Data4: 1051598770
+    Path: event:/SFX/UI/Play_HudButtonClick
+  <SelectedUIPanelOpen>k__BackingField:
+    Guid:
+      Data1: 1632253843
+      Data2: 1078136597
+      Data3: -1168964984
+      Data4: -78212142
+    Path: event:/SFX/UI/Play_SelectedUIPanel_Open
+  <WavePopUp>k__BackingField:
+    Guid:
+      Data1: 1854573479
+      Data2: 1302289434
+      Data3: 1727707538
+      Data4: 763194274
+    Path: event:/SFX/UI/Play_WavePopUp
+  <DefeatSfx>k__BackingField:
+    Guid:
+      Data1: 1118437417
+      Data2: 1103638801
+      Data3: 649018814
+      Data4: 1649054604
+    Path: event:/SFX/UI/Play_Defeat
+  <WinSfx>k__BackingField:
+    Guid:
+      Data1: 1871789717
+      Data2: 1336841549
+      Data3: -1361375087
+      Data4: 1685255663
+    Path: event:/SFX/UI/Play_Win
+  <FlagPickUp>k__BackingField:
+    Guid:
+      Data1: -659588672
+      Data2: 1332116308
+      Data3: -1467043672
+      Data4: -1084114780
+    Path: event:/SFX/Flag/Play_FlagPickUp
+  <FlagPutDown>k__BackingField:
+    Guid:
+      Data1: -599352917
+      Data2: 1299057183
+      Data3: 1291584425
+      Data4: -791088290
+    Path: event:/SFX/Flag/Play_FlagPutDown
+  <StoneGateOpenClose>k__BackingField:
+    Guid:
+      Data1: -133050930
+      Data2: 1102772802
+      Data3: -1102430538
+      Data4: 1614939665
+    Path: event:/SFX/Gate/Play_StoneGate
+  <WoodGateOpenClose>k__BackingField:
+    Guid:
+      Data1: -384680775
+      Data2: 1282647816
+      Data3: -225362248
+      Data4: 1016235924
+    Path: event:/SFX/Gate/Play_WoodGate
+  <UnitDead>k__BackingField:
+    Guid:
+      Data1: 1565505206
+      Data2: 1076985677
+      Data3: -851845491
+      Data4: -1798599444
+    Path: event:/Dialogue/Play_UnitDead
+  <PauseSnapshot>k__BackingField:
+    Guid:
+      Data1: -982364139
+      Data2: 1192253142
+      Data3: 126193835
+      Data4: 84257918
+    Path: snapshot:/Pause
 --- !u!1 &8148712179539220138
 GameObject:
   m_ObjectHideFlags: 0
@@ -18759,6 +19074,7 @@ GameObject:
   - component: {fileID: 1753147886485548209}
   - component: {fileID: 6628725456786028171}
   - component: {fileID: 1029951341664795925}
+  - component: {fileID: 8709398253464415461}
   m_Layer: 5
   m_Name: Button_Quit
   m_TagString: Untagged
@@ -18882,6 +19198,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8709398253464415461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8299683978172025718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c13ac42280f93484e922e46c5bf0d61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverEvent:
+    Guid:
+      Data1: -1912092015
+      Data2: 1159619685
+      Data3: -415294039
+      Data4: -1465036217
+    Path: event:/SFX/UI/Play_MenuButtonHover
+  _clickEvent:
+    Guid:
+      Data1: -1884641331
+      Data2: 1331211386
+      Data3: -912100173
+      Data4: -1903000343
+    Path: event:/SFX/UI/Play_MenuButtonClick
+  _forwardClickToParent: 1
 --- !u!1 &8420665536078379040
 GameObject:
   m_ObjectHideFlags: 0
@@ -19325,7 +19668,7 @@ MonoBehaviour:
   _wave4: 14
   _wave5: 15
   _unitSpawnDelay: 0.1
-  _autoWaveInterval: 10
+  _autoWaveInterval: 30
   _spawnDirection: 7
 --- !u!1 &8728148349530554952
 GameObject:

@@ -61,7 +61,7 @@
 			<value>3</value>
 		</property>
 		<property name="voiceStealing">
-			<value>2</value>
+			<value>3</value>
 		</property>
 		<property name="minimumDistance">
 			<value>10</value>
@@ -110,6 +110,9 @@
 		</property>
 		<property name="maxVoices">
 			<value>1</value>
+		</property>
+		<property name="volume">
+			<value>-3</value>
 		</property>
 		<relationship name="modulators">
 			<destination>{6dd676f3-ea27-4c56-af26-5456950d5f78}</destination>

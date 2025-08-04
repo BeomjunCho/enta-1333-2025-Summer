@@ -253,7 +253,7 @@
 			<value>48</value>
 		</property>
 		<property name="volume">
-			<value>-9</value>
+			<value>-7</value>
 		</property>
 		<property name="looping">
 			<value>true</value>
@@ -270,7 +270,7 @@
 			<value>69.120000000000005</value>
 		</property>
 		<property name="volume">
-			<value>-9</value>
+			<value>-8</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{a819e7b1-512c-4dd4-9138-5ed3adaa8782}</destination>

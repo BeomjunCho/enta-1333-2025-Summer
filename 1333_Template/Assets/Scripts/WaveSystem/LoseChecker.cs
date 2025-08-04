@@ -57,6 +57,8 @@ public class LoseChecker : MonoBehaviour
 
         // Wait one frame to ensure UI is visible
         yield return null;
+        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.DefeatSfx);
 
         // Fade back to transparent
         yield return ScreenFader.Instance.Fade(1f, 0f, _fadeDuration);

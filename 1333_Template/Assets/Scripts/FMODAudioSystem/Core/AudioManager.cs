@@ -146,6 +146,22 @@ public class AudioManager : Singleton<AudioManager>
 
     public void StopAmbience(float fade = 0.5f) => StopInstance(_ambience, fade);
 
+    /// <summary>
+    /// True if the current music EventInstance is valid and playing (or starting/sustaining).
+    /// </summary>
+    public bool IsMusicPlaying()
+    {
+        return IsInstancePlaying(_music);
+    }
+
+    /// <summary>
+    /// True if the current ambience EventInstance is valid and playing (or starting/sustaining).
+    /// </summary>
+    public bool IsAmbiencePlaying()
+    {
+        return IsInstancePlaying(_ambience);
+    }
+
     #endregion
 
     #region -------- Snapshot (Pause) ----------
@@ -254,6 +270,17 @@ public class AudioManager : Singleton<AudioManager>
 
         if (!Mathf.Approximately(dialougeVolume, _prevDialogue))
         { _busDialogue.setVolume(dialougeVolume); _prevDialogue = dialougeVolume; }
+    }
+
+    private static bool IsInstancePlaying(EventInstance inst)
+    {
+        if (!inst.isValid())
+            return false;
+
+        inst.getPlaybackState(out PLAYBACK_STATE state);
+        return state == PLAYBACK_STATE.PLAYING ||
+               state == PLAYBACK_STATE.STARTING ||
+               state == PLAYBACK_STATE.SUSTAINING;
     }
 
     private static Bus GetBusChecked(string path)

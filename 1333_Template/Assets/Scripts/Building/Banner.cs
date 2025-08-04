@@ -72,6 +72,7 @@ public class Banner : MonoBehaviour, ISelectable
     {
         _isDragging = true;
         IsAnyDragging = true;
+        AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.FlagPickUp);
     }
 
     private void OnMouseUp()
@@ -86,6 +87,7 @@ public class Banner : MonoBehaviour, ISelectable
         // End drag state
         _isDragging = false;
         IsAnyDragging = false;
+        AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.FlagPutDown);
 
         // Notify listeners of new banner position
         BannerMoved?.Invoke(transform.position);
