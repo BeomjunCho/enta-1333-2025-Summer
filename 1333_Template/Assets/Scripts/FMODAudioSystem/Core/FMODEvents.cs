@@ -87,6 +87,7 @@ public class FMODEvents : Singleton<FMODEvents>
     /* ------------------------------------------------------------------ */
     /*  Dialogue                                                          */
     /* ------------------------------------------------------------------ */
+    [field: Header("Dialogue")]
     [field: SerializeField] public EventReference UnitDead { get; private set; }
 
     /* ------------------------------------------------------------------ */

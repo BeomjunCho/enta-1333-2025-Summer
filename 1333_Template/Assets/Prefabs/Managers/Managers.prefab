@@ -18468,10 +18468,10 @@ MonoBehaviour:
     Path: event:/AMB/Play_Bird
   <WaterLapping>k__BackingField:
     Guid:
-      Data1: -56220799
-      Data2: 1338586957
-      Data3: 1725143936
-      Data4: 104002071
+      Data1: -785677506
+      Data2: 1084055639
+      Data3: 1872104893
+      Data4: -2086899382
     Path: event:/AMB/Play_WaterLapping
   <ResourceGathering>k__BackingField:
     Guid:

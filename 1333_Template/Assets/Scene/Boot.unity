@@ -290,7 +290,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: _autoWaveInterval
-      value: 10
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -10,6 +10,7 @@ public class BuildingGate : BuildingBase
 {
     [SerializeField] private SkinnedMeshRenderer[] _skinnedRenderers;
     [SerializeField] private Animator _animator;
+    [SerializeField] private bool _isWood;
 
     public enum GateState { Closed, Opening, Open, Closing }
     private GateState _currentState = GateState.Closed;
@@ -106,6 +107,14 @@ public class BuildingGate : BuildingBase
             return;
         _currentState = GateState.Opening;
         _animator?.SetTrigger(OpenTrigger);
+        if (_isWood)
+        {
+            AudioManager.Instance.PlaySfx3DWithLabelParameter(this.transform.position, FMODEvents.Instance.WoodGateOpenClose, "Door", "Open");
+        }
+        else
+        {
+            AudioManager.Instance.PlaySfx3DWithLabelParameter(this.transform.position, FMODEvents.Instance.StoneGateOpenClose, "Door", "Open");
+        }
         OnGateGridOpened();
     }
 
@@ -118,6 +127,14 @@ public class BuildingGate : BuildingBase
             return;
         _currentState = GateState.Closing;
         _animator?.SetTrigger(CloseTrigger);
+        if (_isWood)
+        {
+            AudioManager.Instance.PlaySfx3DWithLabelParameter(this.transform.position, FMODEvents.Instance.WoodGateOpenClose, "Door", "Close");
+        }
+        else
+        {
+            AudioManager.Instance.PlaySfx3DWithLabelParameter(this.transform.position, FMODEvents.Instance.StoneGateOpenClose, "Door", "Close");
+        }
         OnGateGridClosed();
     }
 
