@@ -17,7 +17,7 @@ public class HealthBarUI : MonoBehaviour
 
     private void LateUpdate()
     {
-        // billboard ?keep the bar facing the camera
+        // Keep the bar facing the camera
         transform.rotation = Quaternion.LookRotation(
             transform.position - _cam.transform.position, Vector3.up);
     }

@@ -39,11 +39,6 @@ public class WallSelectedUI : MonoBehaviour
     /// </summary>
     public void Hide() => gameObject.SetActive(false);
 
-    /// <summary>
-    /// On awake, the panel is hidden by default.
-    /// </summary>
-    private void Awake() => Hide();
-
     /* -------------------------------------------------------- */
     /*  Public API                                             */
     /* -------------------------------------------------------- */

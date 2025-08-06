@@ -256,7 +256,6 @@ public class ResourceManager : MonoBehaviour
         _resources[data] -= amount;
         FireChanged(data.ResourceType, _resources[data]);
         _resourcePanelUI.RefreshAll();
-        Debug.Log($"ResourceManager: Spent {amount}x {data.DisplayName}. Remaining: {_resources[data]}");
 
 #if UNITY_EDITOR
         UpdateDebugList();

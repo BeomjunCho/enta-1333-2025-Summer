@@ -4,42 +4,62 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Camera))]
 public class RTSCameraController : MonoBehaviour
 {
+    /* ------------------------------------------------------------------ */
+    /*  Panning                                                            */
+    /* ------------------------------------------------------------------ */
     [Header("Panning")]
     public bool useKeyboardPan = true;
     public bool useMouseDragPan = true;
     public float panSpeed = 20f;
     public float dragSpeed = 0.5f;
 
+    /* ------------------------------------------------------------------ */
+    /*  Zooming                                                            */
+    /* ------------------------------------------------------------------ */
     [Header("Zooming")]
     public float scrollZoomSpeed = 20f;
     public float verticalZoomSpeed = 20f;
     public float minHeight = 10f;
     public float maxHeight = 80f;
 
+    /* ------------------------------------------------------------------ */
+    /*  Rotating                                                           */
+    /* ------------------------------------------------------------------ */
     [Header("Rotating")]
     public bool useKeyboardRotate = true;
     public float initialFocusDistance = 20f;
     public float rotateSpeed = 50f;
 
-    // Imaginary pivot position for camera pointing
-    private Vector3 pivot;
+    /* ------------------------------------------------------------------ */
+    /*  Bounds                                                             */
+    /* ------------------------------------------------------------------ */
+    [Header("Bounds")]
+    [Tooltip("Lower-left XZ world corner")]
+    [SerializeField] private Vector2 _boundsMin = new(-50f, -50f);
 
-    void Start()
+    [Tooltip("Upper-right XZ world corner")]
+    [SerializeField] private Vector2 _boundsMax = new(50f, 50f);
+
+    /* ------------------------------------------------------------------ */
+    /*  Internal                                                           */
+    /* ------------------------------------------------------------------ */
+    private Vector3 _pivot;   // imaginary target point
+
+    private void Start()
     {
-        pivot = transform.position + transform.forward * initialFocusDistance;
+        _pivot = transform.position + transform.forward * initialFocusDistance;
     }
 
-    void Update()
+    private void Update()
     {
-        // Camera-relative axes
+        /* --------- Camera-relative axes ---------- */
         Vector3 right = transform.right; right.y = 0; right.Normalize();
         Vector3 forward = transform.forward; forward.y = 0; forward.Normalize();
 
-        // Track old pos so we can keep pivot synced
         Vector3 oldPos = transform.position;
         Vector3 pos = oldPos;
 
-        // Keyboard pan (now camera-relative)
+        /* --------- Keyboard pan ---------- */
         if (useKeyboardPan)
         {
             Vector2 input = Vector2.zero;
@@ -55,41 +75,41 @@ public class RTSCameraController : MonoBehaviour
             }
         }
 
-        // Mouse-drag pan: only when holding Spacebar AND right mouse button
-        if (useMouseDragPan
-            && Mouse.current.middleButton.isPressed)
+        /* --------- Mouse-drag pan (middle-button) ---------- */
+        if (useMouseDragPan && Mouse.current.middleButton.isPressed)
         {
             Vector2 delta = Mouse.current.delta.ReadValue();
             Vector3 drag = (right * -delta.x + forward * -delta.y) * dragSpeed * Time.deltaTime;
             pos += drag;
         }
 
-        // Scroll zoom
+        /* --------- Zoom ---------- */
         float scroll = Mouse.current.scroll.ReadValue().y;
         if (Mathf.Abs(scroll) > Mathf.Epsilon)
             pos += transform.forward * scroll * scrollZoomSpeed * Time.deltaTime;
 
-        // Vertical zoom
         if (Keyboard.current.fKey.isPressed) pos.y -= verticalZoomSpeed * Time.deltaTime;
         if (Keyboard.current.rKey.isPressed) pos.y += verticalZoomSpeed * Time.deltaTime;
 
-        // Clamp height & apply
         pos.y = Mathf.Clamp(pos.y, minHeight, maxHeight);
+
+        /* --------- Bounds clamp ---------- */
+        pos.x = Mathf.Clamp(pos.x, _boundsMin.x, _boundsMax.x);
+        pos.z = Mathf.Clamp(pos.z, _boundsMin.y, _boundsMax.y);
+
+        /* --------- Apply & sync pivot ---------- */
         transform.position = pos;
+        _pivot += (pos - oldPos);
 
-        // Sync pivot
-        pivot += (pos - oldPos);
-
-        // Rotate
+        /* --------- Rotate ---------- */
         if (useKeyboardRotate)
         {
             if (Keyboard.current.qKey.isPressed)
-                transform.RotateAround(pivot, Vector3.up, rotateSpeed * Time.deltaTime);
+                transform.RotateAround(_pivot, Vector3.up, rotateSpeed * Time.deltaTime);
             if (Keyboard.current.eKey.isPressed)
-                transform.RotateAround(pivot, Vector3.up, -rotateSpeed * Time.deltaTime);
+                transform.RotateAround(_pivot, Vector3.up, -rotateSpeed * Time.deltaTime);
         }
 
-        // Always look at the floating pivot
-        transform.LookAt(pivot, Vector3.up);
+        transform.LookAt(_pivot, Vector3.up);
     }
 }

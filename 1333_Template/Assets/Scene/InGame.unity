@@ -420,6 +420,8 @@ MonoBehaviour:
   useKeyboardRotate: 1
   initialFocusDistance: 10
   rotateSpeed: 100
+  _boundsMin: {x: 0, y: 0}
+  _boundsMax: {x: 256, y: 256}
 --- !u!114 &1161391207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -924,6 +926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scansPerFrame: 20
+  _scanRatio: 0.2
 --- !u!4 &1983110022
 Transform:
   m_ObjectHideFlags: 0
