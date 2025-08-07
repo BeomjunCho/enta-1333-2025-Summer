@@ -1,4 +1,6 @@
 using UnityEngine;
+using static SfxPlayerPool;
+using System.Collections;
 
 /// <summary>
 /// Harvestable tree resource. Worker units will “attack?this to gather wood.
@@ -16,6 +18,11 @@ public class EnvTree : MonoBehaviour, IDamageable
     [SerializeField] private int _maxHp = 40;
 
     [SerializeField] private int _resourceAmount = 10;
+
+    [Header("Audio")]
+    [SerializeField] private float _audibleRadius = 18f;
+    [SerializeField] private float _checkInterval = 0.8f;
+
     private int _hp;
     public int Width => _width;
     public int Height => _height;
@@ -23,13 +30,51 @@ public class EnvTree : MonoBehaviour, IDamageable
     private GridManager _gridManager;
     private int _startX, _startY;
 
-
     private UnitManager _unitManager;
     private ResourceManager _resourceManager;
 
+
+    private SfxHandle _birdSingSfxHandle = SfxHandle.Invalid;
+    private Transform _listener;
     private void Awake()
     {
         _hp = _maxHp;
+    }
+    private void Start()
+    {
+        _listener = Camera.main.transform;
+    }
+    private void OnEnable()
+    {
+        StartCoroutine(AmbientRoutine());
+    }
+
+    private IEnumerator AmbientRoutine()
+    {
+        float sqrRadius = _audibleRadius * _audibleRadius;
+
+        while (true)
+        {
+            if (_listener == null)
+            {
+                yield return null;
+                continue;
+            }
+
+            bool audible = (transform.position - _listener.position).sqrMagnitude <= sqrRadius;
+
+            if (audible && _birdSingSfxHandle.Equals(SfxHandle.Invalid))
+            {
+                _birdSingSfxHandle = AudioManager.Instance.PlaySfx3D(transform.position, FMODEvents.Instance.BirdSing);
+            }
+            else if (!audible && !_birdSingSfxHandle.Equals(SfxHandle.Invalid))
+            {
+                AudioManager.Instance.StopSfx(_birdSingSfxHandle);
+                _birdSingSfxHandle = SfxHandle.Invalid;
+            }
+
+            yield return new WaitForSeconds(_checkInterval);
+        }
     }
 
     public void SetGridInfo(GridManager gridManager, int startX, int startY)
@@ -61,6 +106,13 @@ public class EnvTree : MonoBehaviour, IDamageable
                 }
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (Application.isPlaying == false) return;
+        if (!_birdSingSfxHandle.Equals(SfxHandle.Invalid) && AudioManager.Instance != null)
+            AudioManager.Instance.StopSfx(_birdSingSfxHandle);
     }
 
     // IDamageable implementation
