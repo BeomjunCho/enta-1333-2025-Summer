@@ -238,4 +238,43 @@ public class LakeAudioManager : MonoBehaviour
             }
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        // Draw anchors and lake tiles for each lake for debugging in the Scene view.
+
+        if (_lakes == null) return;
+
+        foreach (var pair in _lakes)
+        {
+            int lakeId = pair.Key;
+            var lake = pair.Value;
+            if (lake == null) continue;
+
+            // Draw anchor as a yellow sphere
+            if (lake.anchor != null)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawSphere(lake.anchor.position, 0.5f);
+
+                // Draw lakeId as a label above the anchor
+#if UNITY_EDITOR
+                UnityEditor.Handles.color = Color.yellow;
+                UnityEditor.Handles.Label(lake.anchor.position + Vector3.up * 1.0f, $"Lake {lakeId}");
+#endif
+            }
+
+            // Draw all lake tiles as cyan spheres
+            if (lake.tiles != null)
+            {
+                Gizmos.color = Color.cyan;
+                foreach (var pos in lake.tiles)
+                {
+                    Gizmos.DrawSphere(pos + Vector3.up * 0.05f, 0.2f);
+                }
+            }
+        }
+    }
+#endif
 }
