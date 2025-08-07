@@ -58,13 +58,13 @@
 	</object>
 	<object class="EventAutomatableProperties" id="{3b77a2e4-8486-4616-88b3-c28cc5b2e505}">
 		<property name="maxVoices">
-			<value>8</value>
+			<value>3</value>
 		</property>
 		<property name="voiceStealing">
 			<value>2</value>
 		</property>
 		<property name="maximumDistance">
-			<value>100</value>
+			<value>30</value>
 		</property>
 	</object>
 	<object class="MarkerTrack" id="{3a9a13cd-8a6b-439b-9bc0-04bdc7cbf992}" />
@@ -113,6 +113,7 @@
 			<destination>{d0a65eb6-f28d-4201-9b09-e45a26dde718}</destination>
 			<destination>{f3b2e65f-827f-4cc3-bdce-d2f84ebe56bc}</destination>
 			<destination>{c5d1d15f-afc6-4fdb-ae9c-4cfba29d9214}</destination>
+			<destination>{33a60b64-8d79-4f5f-93c5-85e1ec3d76d4}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{6c57025d-eba8-41a0-be44-ddf0c02d3a1b}">
@@ -178,6 +179,7 @@
 	</object>
 	<object class="SilenceSound" id="{f3b2e65f-827f-4cc3-bdce-d2f84ebe56bc}" />
 	<object class="SilenceSound" id="{c5d1d15f-afc6-4fdb-ae9c-4cfba29d9214}" />
+	<object class="SilenceSound" id="{33a60b64-8d79-4f5f-93c5-85e1ec3d76d4}" />
 	<object class="MixerBusEffectChain" id="{1b62922e-9968-4ffa-b8c4-5c6c55a7ad5f}">
 		<relationship name="effects">
 			<destination>{6ceaf0c5-21c5-49b3-a0f1-d622976939ea}</destination>

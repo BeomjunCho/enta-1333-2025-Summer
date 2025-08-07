@@ -107,6 +107,7 @@ public class GameManager : MonoBehaviour
         _isPaused = !_isPaused;
         Time.timeScale = _isPaused ? 0f : 1f;
         _uiManager.ShowScreen(_isPaused ? UIScreenType.Pause : UIScreenType.None);
+        AudioManager.Instance.SetPauseSnapshot(_isPaused);
     }
 
     /// <summary>
@@ -179,6 +180,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private IEnumerator ReturnToMainMenuRoutine()
     {
+        AudioManager.Instance.SetPauseSnapshot(false);
+
         // 1. Fade to black and reset all managers
         yield return ScreenFader.Instance.Fade(0f, 1f, 0.5f);
         ResetAllManagers();

@@ -102,3 +102,6 @@ MonoBehaviour:
   _height: 1
   _wood: {fileID: 11400000, guid: 82ef6659b154c0440b56b62d6a786f9c, type: 2}
   _maxHp: 40
+  _resourceAmount: 10
+  _audibleRadius: 30
+  _checkInterval: 0.8

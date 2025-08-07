@@ -28,7 +28,7 @@ public class AudioManager : Singleton<AudioManager>
     /*  Internal                                                          */
     /* ------------------------------------------------------------------ */
 
-    private Bus _busMaster, _busMusic, _busAmb, _busSfx, _busFoley, _busDialogue;
+    private Bus _busMaster, _busMusic, _busAmb, _busSfx, _busFoley, _busDialogue, _busUI;
 
     private EventInstance _music;
     private EventInstance _ambience;
@@ -46,11 +46,12 @@ public class AudioManager : Singleton<AudioManager>
             Debug.LogWarning("AudioManager: SFX pool is not assigned");
 
         _busMaster = GetBusChecked("bus:/");
-        _busMusic = GetBusChecked("bus:/Music");
-        _busAmb = GetBusChecked("bus:/Ambience");
-        _busSfx = GetBusChecked("bus:/SFX");
-        _busFoley = GetBusChecked("bus:/Foley");
-        _busDialogue = GetBusChecked("bus:/Dialogue");
+        _busMusic = GetBusChecked("bus:/PauseAffected/Music");
+        _busAmb = GetBusChecked("bus:/PauseAffected/Ambience");
+        _busSfx = GetBusChecked("bus:/PauseAffected/SFX");
+        _busFoley = GetBusChecked("bus:/PauseAffected/Foley");
+        _busDialogue = GetBusChecked("bus:/PauseAffected/Dialogue");
+        _busUI = GetBusChecked("bus:/UI");
     }
 
     /* ============================ Update ============================= */
@@ -168,19 +169,26 @@ public class AudioManager : Singleton<AudioManager>
 
     /// <summary>
     /// Start or stop the Pause snapshot.
+    /// Uses ALLOWFADEOUT so that the snapshot's Release time defined in FMOD Studio
+    /// is respected when disabling.
     /// </summary>
-    public void SetPauseSnapshot(bool enabled, float fade = 0.25f)
+    /// <param name="enabled">True -> play snapshot, False -> stop with fade-out.</param>
+    public void SetPauseSnapshot(bool enabled)
     {
         if (enabled)
         {
-            if (_pauseSnapshot.isValid()) return;  // already playing
+            if (_pauseSnapshot.isValid()) return;   // already playing
             EventReference snapRef = FMODEvents.Instance.PauseSnapshot;
             _pauseSnapshot = RuntimeManager.CreateInstance(snapRef);
             _pauseSnapshot.start();
         }
         else
         {
-            StopInstance(_pauseSnapshot, fade);
+            if (!_pauseSnapshot.isValid()) return;
+
+            // Allow FMOD to process the Release envelope instead of cutting immediately
+            _pauseSnapshot.stop(STOP_MODE.ALLOWFADEOUT);
+            _pauseSnapshot.release();
             _pauseSnapshot = default;
         }
     }
@@ -291,7 +299,7 @@ public class AudioManager : Singleton<AudioManager>
         return bus;
     }
 
-    private static void StopInstance(EventInstance inst, float fade)
+    private static void StopInstance(EventInstance inst, float fade = 0)
     {
         if (!inst.isValid()) return;
         inst.stop(fade <= 0f ? STOP_MODE.IMMEDIATE : STOP_MODE.ALLOWFADEOUT);

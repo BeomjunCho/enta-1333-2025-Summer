@@ -85,7 +85,6 @@ public class SelectionManager : MonoBehaviour
                 // TrySingleSelect internally calls ClearSelection once.
                 ClearSelection();
                 TrySingleSelect(_unitSelectionBox.DragEnd);
-                Debug.Log($"single click! at {Time.time}");
             }
             else
             {

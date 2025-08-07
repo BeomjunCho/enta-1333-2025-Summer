@@ -244,6 +244,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 692046128143128389, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _lakeAudioManager
+      value: 
+      objectReference: {fileID: 1842528054}
     - target: {fileID: 929776739593101909, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: m_Name
       value: Managers
@@ -288,15 +292,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6257412633183838674, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _maxChannels
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: _autoWaveInterval
       value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1138411039167271308, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1842528053}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+--- !u!114 &903681516 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 692046128143128389, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+  m_PrefabInstance: {fileID: 903681515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3bddc2e988d7746a6163ae6953cdc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &903681517 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1138411039167271308, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+  m_PrefabInstance: {fileID: 903681515}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1735642024
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,6 +370,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1842528052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1842528053}
+  - component: {fileID: 1842528054}
+  m_Layer: 0
+  m_Name: LakeAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1842528053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842528052}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 903681517}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1842528054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842528052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af1b46d4934688458a5c28bb8bfa5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gridManager: {fileID: 903681516}
+  _waterTerrain: {fileID: 11400000, guid: 1187fa65e0ca78240b37fc938052dad0, type: 2}
+  _howFarParam: HowFar
+  _maxDistance: 70
 --- !u!1 &1842956387
 GameObject:
   m_ObjectHideFlags: 0
