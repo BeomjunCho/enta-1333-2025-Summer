@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="MixerReturn" id="{a4cd30c5-77cf-4c0d-8b72-261df126c680}">
+		<property name="name">
+			<value>FieldReverb</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{382d6453-dc9c-49ed-bd34-3aa5ff3d8a21}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{84bec37d-63bf-45bb-b1df-fd70cc4d6da9}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{d5c49fff-a922-43ae-94c8-62a14d2026e6}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{382d6453-dc9c-49ed-bd34-3aa5ff3d8a21}">
+		<relationship name="effects">
+			<destination>{a6d6b116-82f4-4449-89db-07fcc4512cdb}</destination>
+			<destination>{4dd8ea2c-8715-4401-bf2e-292595e6d3c0}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{84bec37d-63bf-45bb-b1df-fd70cc4d6da9}" />
+	<object class="MixerBusFader" id="{a6d6b116-82f4-4449-89db-07fcc4512cdb}" />
+	<object class="SFXReverbEffect" id="{4dd8ea2c-8715-4401-bf2e-292595e6d3c0}">
+		<property name="decayTime">
+			<value>100</value>
+		</property>
+		<property name="earlyDelay">
+			<value>40</value>
+		</property>
+		<property name="lateDelay">
+			<value>20</value>
+		</property>
+		<property name="HFReference">
+			<value>8000</value>
+		</property>
+		<property name="HFDecayRatio">
+			<value>62.5</value>
+		</property>
+		<property name="diffusion">
+			<value>84.5</value>
+		</property>
+		<property name="density">
+			<value>84.5</value>
+		</property>
+		<property name="lowShelfFrequency">
+			<value>200</value>
+		</property>
+		<property name="lowShelfGain">
+			<value>-3</value>
+		</property>
+		<property name="highCut">
+			<value>6500</value>
+		</property>
+		<property name="earlyLateMix">
+			<value>0</value>
+		</property>
+		<property name="wetLevel">
+			<value>0</value>
+		</property>
+		<property name="dryLevel">
+			<value>-80</value>
+		</property>
+	</object>
+</objects>

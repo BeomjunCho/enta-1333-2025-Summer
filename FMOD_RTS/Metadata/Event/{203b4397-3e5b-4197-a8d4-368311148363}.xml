@@ -58,7 +58,7 @@
 	</object>
 	<object class="EventAutomatableProperties" id="{7960db58-ef43-43a5-889b-63e80ccf066e}">
 		<property name="maxVoices">
-			<value>10</value>
+			<value>4</value>
 		</property>
 		<property name="voiceStealing">
 			<value>2</value>

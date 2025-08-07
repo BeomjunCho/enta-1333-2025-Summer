@@ -348,6 +348,50 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _wave1.waveType
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _wave2.waveType
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _wave3.waveType
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _wave4.waveType
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _wave5.waveType
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _wave1.direction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _wave2.direction
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _wave3.direction
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _wave4.direction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _wave5.direction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990413023841602217, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
+      propertyPath: _autoWaveInterval
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 9209717153287808162, guid: e423d2cd2f600494380ae4d062337d19, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

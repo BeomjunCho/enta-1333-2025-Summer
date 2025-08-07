@@ -22571,10 +22571,10 @@ MonoBehaviour:
     Path: event:/SFX/Gate/Play_StoneGate
   <WoodGateOpenClose>k__BackingField:
     Guid:
-      Data1: -384680775
-      Data2: 1282647816
-      Data3: -225362248
-      Data4: 1016235924
+      Data1: -300997855
+      Data2: 1249261727
+      Data3: 692821132
+      Data4: 692002959
     Path: event:/SFX/Gate/Play_WoodGate
   <UnitDead>k__BackingField:
     Guid:
@@ -22754,6 +22754,7 @@ MonoBehaviour:
   sfxVolume: 1
   foleyVolume: 1
   dialougeVolume: 1
+  uiVolume: 1
   _sfxPool: {fileID: 6257412633183838674}
 --- !u!1 &8212237090202969844
 GameObject:
@@ -23778,15 +23779,24 @@ MonoBehaviour:
   _armyManager: {fileID: 3676024034439776267}
   _gridManager: {fileID: 692046128143128389}
   _uiManager: {fileID: 5399113412910868499}
-  _spawnOrigin: {fileID: 3859586713343013046}
-  _wave1: 11
-  _wave2: 12
-  _wave3: 13
-  _wave4: 14
-  _wave5: 15
+  _wave1:
+    waveType: 0
+    direction: 0
+  _wave2:
+    waveType: 0
+    direction: 0
+  _wave3:
+    waveType: 0
+    direction: 0
+  _wave4:
+    waveType: 0
+    direction: 0
+  _wave5:
+    waveType: 0
+    direction: 0
   _unitSpawnDelay: 0.1
   _autoWaveInterval: 1000
-  _spawnDirection: 7
+  _edgeOffset: 1
 --- !u!1 &8624466605692787799
 GameObject:
   m_ObjectHideFlags: 0

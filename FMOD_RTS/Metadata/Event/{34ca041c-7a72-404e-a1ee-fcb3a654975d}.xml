@@ -196,6 +196,7 @@
 			<destination>{cc4842f0-a1f3-4e46-a727-bd8dafc74e25}</destination>
 			<destination>{b3133184-7ed1-408b-bca5-175489f77eff}</destination>
 			<destination>{6bef6fea-2468-4975-9a45-13b5978a7ab0}</destination>
+			<destination>{7149f89e-db59-454f-b4a9-7576398c5a27}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{4bfa9d19-0e26-46ab-acce-05eaa711b5ff}" />
@@ -216,10 +217,10 @@
 	<object class="SpatialiserEffect" id="{b3133184-7ed1-408b-bca5-175489f77eff}" />
 	<object class="ThreeEQEffect" id="{6bef6fea-2468-4975-9a45-13b5978a7ab0}">
 		<property name="midGain">
-			<value>-6</value>
+			<value>-3</value>
 		</property>
 		<property name="highGain">
-			<value>-12</value>
+			<value>-5.5</value>
 		</property>
 		<property name="lowCrossover">
 			<value>340</value>
@@ -230,6 +231,17 @@
 		<property name="crossoverSlope">
 			<value>0</value>
 		</property>
+	</object>
+	<object class="MixerSend" id="{7149f89e-db59-454f-b4a9-7576398c5a27}">
+		<property name="level">
+			<value>-6</value>
+		</property>
+		<property name="inputFormat">
+			<value>2</value>
+		</property>
+		<relationship name="mixerReturn">
+			<destination>{a4cd30c5-77cf-4c0d-8b72-261df126c680}</destination>
+		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{f59bd070-6432-4427-9c76-e15359cb0e3f}" />
 	<object class="MixerBusFader" id="{73bbc436-d534-438d-9f19-9fcf957f6c4d}" />
