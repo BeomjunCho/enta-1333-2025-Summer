@@ -19,7 +19,8 @@ public class AudioManager : Singleton<AudioManager>
     [Range(0, 1)] public float ambienceVolume = 1f;
     [Range(0, 1)] public float sfxVolume = 1f;
     [Range(0, 1)] public float foleyVolume = 1f;
-    [Range(0, 1)] public float dialougeVolume = 1f;   // note: spelling kept as-is
+    [Range(0, 1)] public float dialougeVolume = 1f;
+    [Range(0, 1)] public float uiVolume = 1f;
 
     [Header("Dependencies")]
     [SerializeField] private SfxPlayerPool _sfxPool = null;
@@ -34,7 +35,7 @@ public class AudioManager : Singleton<AudioManager>
     private EventInstance _ambience;
     private EventInstance _pauseSnapshot;
 
-    private float _prevMaster, _prevMusic, _prevAmb, _prevSfx, _prevFoley, _prevDialogue;
+    private float _prevMaster, _prevMusic, _prevAmb, _prevSfx, _prevFoley, _prevDialogue, _prevUI;
 
     private const string _musicStateParam = "MusicState";
     private MusicState _currentMusicState = MusicState.MainMenu;
@@ -239,9 +240,15 @@ public class AudioManager : Singleton<AudioManager>
                 break;
 
             case AudioChannel.Dialogue:
-                dialougeVolume = value;              // spelling kept for consistency
+                dialougeVolume = value;              
                 _busDialogue.setVolume(value);
                 _prevDialogue = value;
+                break;
+
+            case AudioChannel.UI:
+                uiVolume = value;
+                _busUI.setVolume(value);
+                _prevUI = value;
                 break;
         }
     }
@@ -278,6 +285,9 @@ public class AudioManager : Singleton<AudioManager>
 
         if (!Mathf.Approximately(dialougeVolume, _prevDialogue))
         { _busDialogue.setVolume(dialougeVolume); _prevDialogue = dialougeVolume; }
+
+        if (!Mathf.Approximately(uiVolume, _prevUI))
+        { _busUI.setVolume(uiVolume); _prevUI = uiVolume; }
     }
 
     private static bool IsInstancePlaying(EventInstance inst)

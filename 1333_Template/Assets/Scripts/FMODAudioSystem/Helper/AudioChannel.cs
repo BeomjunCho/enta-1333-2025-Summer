@@ -8,5 +8,6 @@ public enum AudioChannel
     Ambience,
     SFX,
     Foley,      
-    Dialogue    
+    Dialogue,
+    UI
 }

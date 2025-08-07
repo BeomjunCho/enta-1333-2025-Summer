@@ -111,7 +111,8 @@ public class AudioVolumeSlider : MonoBehaviour
             AudioChannel.Ambience => am.ambienceVolume,
             AudioChannel.SFX => am.sfxVolume,
             AudioChannel.Foley => am.foleyVolume,
-            AudioChannel.Dialogue => am.dialougeVolume,   // spelling kept
+            AudioChannel.Dialogue => am.dialougeVolume,   
+            AudioChannel.UI => am.uiVolume,
             _ => 1f
         };
     }
