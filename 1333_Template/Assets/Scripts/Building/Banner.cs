@@ -1,6 +1,7 @@
 ﻿// Banner.cs
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static SfxPlayerPool;
 
 /// <summary>
 /// Banner acts as a mobile formation point. Drag to enter placement mode:
@@ -32,16 +33,32 @@ public class Banner : MonoBehaviour, ISelectable
     /// </summary>
     public static event System.Action<Vector3> BannerMoved;
 
+    private SfxHandle _flagFlappingSfxHandle = SfxHandle.Invalid;
+
     private void Awake()
     {
         _mainCamera = Camera.main;
         _originalRotation = transform.rotation;
         _groundPlane = new Plane(Vector3.up, Vector3.zero);
     }
+    private void Start()
+    {
+        _flagFlappingSfxHandle = AudioManager.Instance.PlaySfxAttached(
+            transform,
+            FMODEvents.Instance.FlagFlapping);
+    }
+
+    private void OnDestroy()
+    {
+        if (Application.isPlaying == false) return;
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.StopSfx(_flagFlappingSfxHandle);
+    }
 
     public void Initialize(GridManager gridManager)
     {
         _gridManager = gridManager;
+        if(_mainCamera == null) _mainCamera = Camera.main;
 
         // First-time occupy after DI
         if (_occupiedNode == null && _gridManager != null)
@@ -55,6 +72,7 @@ public class Banner : MonoBehaviour, ISelectable
     {
         _isDragging = true;
         IsAnyDragging = true;
+        AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.FlagPickUp);
     }
 
     private void OnMouseUp()
@@ -69,6 +87,7 @@ public class Banner : MonoBehaviour, ISelectable
         // End drag state
         _isDragging = false;
         IsAnyDragging = false;
+        AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.FlagPutDown);
 
         // Notify listeners of new banner position
         BannerMoved?.Invoke(transform.position);

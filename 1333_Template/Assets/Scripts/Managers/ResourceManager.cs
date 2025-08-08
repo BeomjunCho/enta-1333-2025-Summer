@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Manages all game resources defined in ResourceTypeSO collections.
@@ -9,6 +10,16 @@ using UnityEngine;
 /// </summary>
 public class ResourceManager : MonoBehaviour
 {
+    [System.Serializable]
+    public struct StartingResource
+    {
+        [Tooltip("Enum identifier for the resource.")]
+        public ResourceList ResourceType;
+
+        [Tooltip("Initial amount to assign.")]
+        public int Amount;
+    }
+
     [Header("All Resource Types")]
     [Tooltip("List of ResourceTypeSO assets to initialize resource entries.")]
     [SerializeField] private List<ResourceTypeSO> _resourceTypeSOs = new();
@@ -16,6 +27,21 @@ public class ResourceManager : MonoBehaviour
     [Header("Resource Panel UI")]
     [Tooltip("Panel which shows all resources icon and number")]
     [SerializeField] private ResourcePanelUI _resourcePanelUI;
+
+    [Header("Starting Resources")]
+    [Tooltip("Initial amounts for selected resources. Applied when StartingResources() is called.")]
+    [SerializeField] private List<StartingResource> _startingResources = new();
+
+    [Header("Per-Second Auto Gain")]
+    [Tooltip("Which resource types should receive automatic per-second gains. Units and Horses will be ignored even if assigned here.")]
+    [SerializeField] private List<ResourceList> _perSecondGainTypes = new();
+    [Tooltip("Amount to add per second for each selected resource type.")]
+    [SerializeField] private int _perSecondAmount = 2;
+    [Header("Auto Gain Scene Filter")]
+    [Tooltip("Scene name in which per-second resource gain is active.")]
+    [SerializeField] private string _autoGainSceneName = "InGame";
+
+    private float _perSecondAccumulator;
 
     // Internal dictionary mapping each ResourceDataSO to its current count.
     private Dictionary<ResourceDataSO, int> _resources;
@@ -34,6 +60,8 @@ public class ResourceManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha0))
             AddDebugResources();
+
+        ApplyPerSecondGain();
     }
 
     /// <summary>
@@ -48,6 +76,67 @@ public class ResourceManager : MonoBehaviour
             AddResource(data, 999);
 
         Debug.Log("ResourceManager: Debug added 999 to all resources");
+    }
+
+    /// <summary>
+    /// Adds configured resources every second,
+    /// active only in the specified scene and after Initialize().
+    /// Units and Horses are always excluded.
+    /// </summary>
+    private void ApplyPerSecondGain()
+    {
+        // 1) Only run in target scene and after Initialize()
+        if (SceneManager.GetActiveScene().name != _autoGainSceneName || _enumLookup == null)
+            return;
+
+        // 2) Accumulate time
+        _perSecondAccumulator += Time.deltaTime;
+        if (_perSecondAccumulator < 1f)
+            return;
+
+        int ticks = Mathf.FloorToInt(_perSecondAccumulator);
+        _perSecondAccumulator -= ticks;
+
+        // 3) Apply gain per tick
+        foreach (var type in _perSecondGainTypes)
+        {
+            if (type == ResourceList.Units || type == ResourceList.Horse)
+                continue;
+
+            for (int i = 0; i < ticks; i++)
+                TryAddResource(type, _perSecondAmount);
+        }
+    }
+
+    /// <summary>
+    /// Applies the starting resource amounts defined in the inspector.
+    /// This overwrites the current counts for those entries.
+    /// </summary>
+    public void StartingResources()
+    {
+        if (_resources == null || _enumLookup == null)
+        {
+            Debug.LogWarning("ResourceManager: Cannot apply starting resources before Initialize() has been called.");
+            return;
+        }
+
+        foreach (var entry in _startingResources)
+        {
+            if (entry.ResourceType == ResourceList.None)
+                continue;
+
+            if (_enumLookup.TryGetValue(entry.ResourceType, out var data) && data != null)
+            {
+                _resources[data] = entry.Amount;
+                FireChanged(entry.ResourceType, entry.Amount);
+            }
+        }
+
+        _resourcePanelUI.RefreshAll();
+
+#if UNITY_EDITOR
+        UpdateDebugList();
+#endif
     }
 
     /// <summary>
@@ -167,7 +256,6 @@ public class ResourceManager : MonoBehaviour
         _resources[data] -= amount;
         FireChanged(data.ResourceType, _resources[data]);
         _resourcePanelUI.RefreshAll();
-        Debug.Log($"ResourceManager: Spent {amount}x {data.DisplayName}. Remaining: {_resources[data]}");
 
 #if UNITY_EDITOR
         UpdateDebugList();

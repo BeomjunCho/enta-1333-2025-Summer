@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using FMODUnity;
 
 /// <summary>
 /// Manages the building placement process in the game: preview rendering, rotation,
@@ -19,6 +20,8 @@ public class BuildingPlacementManager : MonoBehaviour
     [SerializeField] private Material _ghostValidMaterial;
     [Tooltip("Semi-transparent red material for invalid placement")]
     [SerializeField] private Material _ghostInvalidMaterial;
+
+    [SerializeField] private BuildingPlacementUIHelper _uiHelper;
 
     // ======= Internal State =======
     // Reference to the main camera
@@ -85,7 +88,14 @@ public class BuildingPlacementManager : MonoBehaviour
     {
         // No active preview: nothing to update
         if (_previewInstance == null)
+        {
+            _uiHelper.Hide();
             return;
+        }
+        // Show building ui helper and follow mouse
+        _uiHelper.Show();
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        _uiHelper.UpdatePosition(mousePos);
 
         // Rotate preview on middle mouse button
         if (Mouse.current.middleButton.wasPressedThisFrame)
@@ -189,6 +199,8 @@ public class BuildingPlacementManager : MonoBehaviour
 
         // Register building info for later use (e.g. demolition)
         realBase.SetupPlacement(_gridManager, baseIdx, footprint, _unitManager);
+
+        AudioManager.Instance.PlaySfx3D(realGO.transform.position, FMODEvents.Instance.BuildingPlacement);
 
         Destroy(_previewInstance);
         _previewInstance = null;

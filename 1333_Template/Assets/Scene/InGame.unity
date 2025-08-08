@@ -280,6 +280,8 @@ GameObject:
   - component: {fileID: 1161391205}
   - component: {fileID: 1161391206}
   - component: {fileID: 1161391207}
+  - component: {fileID: 1161391209}
+  - component: {fileID: 1161391210}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -420,6 +422,8 @@ MonoBehaviour:
   useKeyboardRotate: 1
   initialFocusDistance: 10
   rotateSpeed: 100
+  _boundsMin: {x: 0, y: 0}
+  _boundsMax: {x: 256, y: 256}
 --- !u!114 &1161391207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,6 +438,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 1161391201}
+--- !u!135 &1161391209
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161391201}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 70
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1161391210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161391201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 785d714fe3e63734093212e37654430d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lakeAudioManager: {fileID: 0}
+  _waterLayer:
+    serializedVersion: 2
+    m_Bits: 16
 --- !u!1 &1433302145
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,6 +965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scansPerFrame: 20
+  _scanRatio: 0.2
 --- !u!4 &1983110022
 Transform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
 ﻿// BuildingResource.cs
+using System.Collections;
 using UnityEngine;
+using static SfxPlayerPool;
 
 /// <summary>
 /// Represents a building that produces a chosen resource over time.
@@ -32,8 +34,42 @@ public class BuildingResource : BuildingBase
             _selectionRenderers = GetComponentsInChildren<Renderer>();
     }
 
-    private void Update()
+    private SfxHandle _resourceBuildingEnv = SfxHandle.Invalid;
+    private void Start()
     {
+        switch (_resourceType.ResourceType)
+        {
+            case (ResourceList.Wood):
+                _resourceBuildingEnv = AudioManager.Instance.PlaySfx3D(this.transform.position, FMODEvents.Instance.LumberMillEnv);
+                break;
+            case (ResourceList.Horse):
+                _resourceBuildingEnv = AudioManager.Instance.PlaySfx3D(this.transform.position, FMODEvents.Instance.StableEnv);
+                break;
+            case (ResourceList.Rock):
+                _resourceBuildingEnv = AudioManager.Instance.PlaySfx3D(this.transform.position, FMODEvents.Instance.WorkShopEnv);
+                break;
+            case (ResourceList.Iron):
+                _resourceBuildingEnv = AudioManager.Instance.PlaySfx3D(this.transform.position, FMODEvents.Instance.BlackSmithEnv);
+                break;
+            case (ResourceList.Bread):
+                _resourceBuildingEnv = AudioManager.Instance.PlaySfx3D(this.transform.position, FMODEvents.Instance.FarmEnv);
+                break;
+            default:
+                _resourceBuildingEnv = AudioManager.Instance.PlaySfx3D(this.transform.position, FMODEvents.Instance.BlackSmithEnv);
+                break;
+        }
+           
+    }
+    private void OnDestroy()
+    {
+        if (Application.isPlaying == false) return;
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.StopSfx(_resourceBuildingEnv);
+    }
+
+    protected override void Update()
+    {
+        base.Update();
         if (_resourceManager == null || _resourceType == null)
             return;
 

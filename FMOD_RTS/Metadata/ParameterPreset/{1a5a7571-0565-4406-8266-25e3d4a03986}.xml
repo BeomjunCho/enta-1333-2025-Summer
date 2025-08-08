@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="ParameterPreset" id="{1a5a7571-0565-4406-8266-25e3d4a03986}">
+		<property name="name">
+			<value>HitResourceType</value>
+		</property>
+		<relationship name="folder">
+			<destination>{bfb87eb3-18db-4076-8381-ba6b3063bb15}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{5f8f3343-c426-4521-b6e3-984fced1f71c}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{5f8f3343-c426-4521-b6e3-984fced1f71c}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>Rock</value>
+			<value>Wood</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

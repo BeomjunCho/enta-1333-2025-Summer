@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="SandboxScene" id="{13495992-74a5-4288-abde-1acba9444960}">
+		<property name="name">
+			<value>WaterTest</value>
+		</property>
+		<relationship name="folder">
+			<destination>{cd10f564-6a43-4fc9-9d97-861da862c700}</destination>
+		</relationship>
+		<relationship name="markerTracks">
+			<destination>{8a41713b-be03-4e82-b349-5d7b6bb1ab57}</destination>
+		</relationship>
+		<relationship name="timeline">
+			<destination>{01e4e07d-f3eb-46d8-b60d-6d0ecde47ac1}</destination>
+		</relationship>
+		<relationship name="listeners">
+			<destination>{ff5a15aa-8beb-4298-8f0c-900247641161}</destination>
+		</relationship>
+		<relationship name="emitters">
+			<destination>{11a095cf-2bb8-4d9f-b73f-e960d8727d26}</destination>
+		</relationship>
+	</object>
+	<object class="MarkerTrack" id="{8a41713b-be03-4e82-b349-5d7b6bb1ab57}" />
+	<object class="Timeline" id="{01e4e07d-f3eb-46d8-b60d-6d0ecde47ac1}" />
+	<object class="SandboxListener" id="{ff5a15aa-8beb-4298-8f0c-900247641161}">
+		<property name="positionX">
+			<value>-8.07500172</value>
+		</property>
+		<property name="positionZ">
+			<value>4.22500086</value>
+		</property>
+		<property name="rotationY">
+			<value>90.7944031</value>
+		</property>
+	</object>
+	<object class="SandboxEmitter" id="{11a095cf-2bb8-4d9f-b73f-e960d8727d26}">
+		<property name="positionX">
+			<value>-5.82500029</value>
+		</property>
+		<property name="positionZ">
+			<value>4.32499981</value>
+		</property>
+		<property name="rotationY">
+			<value>0.987810254</value>
+		</property>
+		<relationship name="sandboxParameters">
+			<destination>{274bdc93-ab62-42bf-a3fc-fc624321e63e}</destination>
+		</relationship>
+		<relationship name="event">
+			<destination>{d12b833e-6057-409d-bd0d-966f4a719c83}</destination>
+		</relationship>
+	</object>
+	<object class="SandboxParameter" id="{274bdc93-ab62-42bf-a3fc-fc624321e63e}">
+		<property name="parameterValue">
+			<value>0</value>
+		</property>
+		<relationship name="parameter">
+			<destination>{088f7c0e-e5ff-4c48-a0bd-e7e3634ea0a6}</destination>
+		</relationship>
+	</object>
+</objects>

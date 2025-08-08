@@ -5,30 +5,51 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Spawns configured enemy waves (ArmyType) via ArmyManager and commands
-/// them to march toward the grid center (player castle).
-/// Supports manual triggers (number keys / API) and automated waves at a
-/// fixed interval starting with wave #1 when requested by GameManager.
-/// Exposes wave state and countdown events for HUD.
+/// Directions from which waves can approach.
+/// </summary>
+public enum SpawnDirection
+{
+    North,
+    South,
+    East,
+    West,
+    Northeast,
+    Northwest,
+    Southeast,
+    Southwest
+}
+
+/// <summary>
+/// Inspector-friendly wave definition that bundles ArmyType and SpawnDirection.
+/// </summary>
+[Serializable]
+public struct WaveSetting
+{
+    public ArmyType waveType;
+    public SpawnDirection direction;
+}
+
+/// <summary>
+/// Spawns configured enemy waves and orders units toward the grid center.
+/// Supports manual triggers and automated looping on a fixed interval.
 /// </summary>
 public class EnemyWaveSpawner : MonoBehaviour
 {
     /* ------------------------------------------------------------------ */
-    /*  Inspector                                                          */
+    /*  Inspector                                                         */
     /* ------------------------------------------------------------------ */
-    [Header("References")]
-    [SerializeField] private ArmyManager _armyManager = null;    // handles prefab + init
-    [SerializeField] private GridManager _gridManager = null;    // path / node queries
-    [SerializeField] private UIManager _uiManager;
-    [Tooltip("World-space point used as the first search node for free spawn tiles.")]
-    [SerializeField] private Transform _spawnOrigin = null;
 
-    [Header("Wave Types")]
-    [SerializeField] private ArmyType _wave1 = ArmyType.Wave1;
-    [SerializeField] private ArmyType _wave2 = ArmyType.Wave2;
-    [SerializeField] private ArmyType _wave3 = ArmyType.Wave3;
-    [SerializeField] private ArmyType _wave4 = ArmyType.Wave4;
-    [SerializeField] private ArmyType _wave5 = ArmyType.Wave5;
+    [Header("References")]
+    [SerializeField] private ArmyManager _armyManager = null;
+    [SerializeField] private GridManager _gridManager = null;
+    [SerializeField] private UIManager _uiManager = null;
+
+    [Header("Wave Settings (max 5)")]
+    [SerializeField] private WaveSetting _wave1;
+    [SerializeField] private WaveSetting _wave2;
+    [SerializeField] private WaveSetting _wave3;
+    [SerializeField] private WaveSetting _wave4;
+    [SerializeField] private WaveSetting _wave5;
 
     [Header("Spawn Settings")]
     [Tooltip("Seconds between individual unit spawns within a wave.")]
@@ -38,57 +59,51 @@ public class EnemyWaveSpawner : MonoBehaviour
     [Tooltip("Seconds between waves when auto-running. First wave spawns immediately.")]
     [SerializeField] private float _autoWaveInterval = 10f;
 
-    /* ================================================================== */
-    /*  Wave State + Events                                               */
-    /* ================================================================== */
+    [Header("Edge Offset")]
+    [Tooltip("How many grid cells outside the edge to place the initial spawn point (visual padding).")]
+    [SerializeField] private int _edgeOffset = 1;
 
-    /// <summary>True while currently on the final configured wave.</summary>
+    /* ------------------------------------------------------------------ */
+    /*  Wave State & Events                                               */
+    /* ------------------------------------------------------------------ */
+
     public bool IsOnFinalWave => _currentWaveIdx == _waves.Count - 1;
-
-    /// <summary>Current wave number (1-based). Returns 0 if none spawned yet.</summary>
     public int CurrentWave => _currentWaveIdx + 1;
-
-    /// <summary>How many waves remain after the current one.</summary>
     public int RemainingWaves => Mathf.Max(0, _waves.Count - CurrentWave);
-
-    /// <summary>Seconds remaining until the next wave (auto mode only).</summary>
     public float TimeToNextWave { get; private set; }
 
-    /// <summary>Raised whenever a new wave starts (manual or auto).</summary>
     public event Action OnWaveChanged;
-
-    /// <summary>Raised every frame during countdown to next auto wave.</summary>
     public event Action<float> OnCountdownUpdated;
 
     /* ------------------------------------------------------------------ */
-    /*  Runtime                                                            */
+    /*  Runtime                                                           */
     /* ------------------------------------------------------------------ */
-    private readonly List<ArmyType> _waves = new();
+
+    private readonly List<WaveSetting> _waves = new();
     private int _currentWaveIdx = -1;
     private Coroutine _autoRoutine;
     private Coroutine _countdownRoutine;
     private bool _autoRunning;
 
-    /* ================================================================== */
-    /*  Unity lifecycle                                                   */
-    /* ================================================================== */
+    /* ============================== Unity ============================= */
+
     private void Awake()
     {
-        if (_armyManager == null || _gridManager == null || _spawnOrigin == null)
+        if (_armyManager == null || _gridManager == null)
         {
             Debug.LogError("[EnemyWaveSpawner] Missing references – disabled.");
             enabled = false;
             return;
         }
 
-        // Build internal wave list (ignore 'None' entries)
+        // Build internal wave list (ignore entries with waveType == None)
         _waves.AddRange(new[] { _wave1, _wave2, _wave3, _wave4, _wave5 });
-        _waves.RemoveAll(t => t == default);
+        _waves.RemoveAll(w => w.waveType == default);
     }
 
     private void Update()
     {
-        // Manual debug triggers
+        // Manual debug triggers (1-5)
         if (Input.GetKeyDown(KeyCode.Alpha1)) StartWaveByIndex(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) StartWaveByIndex(1);
         if (Input.GetKeyDown(KeyCode.Alpha3)) StartWaveByIndex(2);
@@ -101,25 +116,22 @@ public class EnemyWaveSpawner : MonoBehaviour
         StopAutoWaves();
     }
 
-    /* ================================================================== */
-    /*  Public API                                                        */
-    /* ================================================================== */
+    /* ============================ Public API ========================= */
 
     /// <summary>
-    /// Starts auto wave loop: spawns wave #1 immediately, then every interval
-    /// until all configured waves have spawned or StopAutoWaves() called.
-    /// Safe to call multiple times; restarts the loop.
+    /// Starts auto wave loop; spawns wave #1 after initial delay,
+    /// then repeats until all waves are spawned or stopped.
     /// </summary>
     public void StartAutoWaves()
     {
         if (!enabled) return;
-        StopAutoWaves();          // ensure single routine
-        _currentWaveIdx = -1;     // reset so wave1 spawns
+        StopAutoWaves();
+        _currentWaveIdx = -1;
         _autoRunning = true;
         _autoRoutine = StartCoroutine(AutoWaveLoop());
     }
 
-    /// <summary>Stops the auto wave loop (no further waves).</summary>
+    /// <summary>Stops the auto wave loop.</summary>
     public void StopAutoWaves()
     {
         _autoRunning = false;
@@ -138,7 +150,7 @@ public class EnemyWaveSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Starts the next configured wave (returns false if no waves remain).
+    /// Starts the next configured wave. Returns false when none remain.
     /// </summary>
     public bool StartNextWave()
     {
@@ -152,8 +164,7 @@ public class EnemyWaveSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Optionally trigger a specific wave index (0-based).
-    /// Returns false if the index is invalid or already spawned.
+    /// Starts a specific wave index (0-based). Returns false if invalid or spawned.
     /// </summary>
     public bool StartWaveByIndex(int index)
     {
@@ -167,27 +178,21 @@ public class EnemyWaveSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Resets wave spawner state so that waves can start fresh.
-    /// Stops auto loop and any in-progress spawn/coundown coroutines, and resets the wave index.
+    /// Fully resets spawner state for a fresh run.
     /// </summary>
     public void ResetWaves()
     {
-        StopAutoWaves();      // also stops countdown
-        StopAllCoroutines();  // stop any manual spawn routines
-        _currentWaveIdx = -1; // next wave is #1
+        StopAutoWaves();
+        StopAllCoroutines();
+        _currentWaveIdx = -1;
         TimeToNextWave = 0f;
     }
 
-    /* ================================================================== */
-    /*  Internal Coroutines                                               */
-    /* ================================================================== */
+    /* ===================== Internal Coroutines ======================= */
 
-    /// <summary>
-    /// Auto loop: spawns first wave immediately then counts down for remaining waves.
-    /// </summary>
     private IEnumerator AutoWaveLoop()
     {
-        // Initial countdown before the first wave
+        // Countdown before first wave
         if (_countdownRoutine != null)
             StopCoroutine(_countdownRoutine);
         _countdownRoutine = StartCoroutine(CountdownRoutine(_autoWaveInterval));
@@ -200,10 +205,10 @@ public class EnemyWaveSpawner : MonoBehaviour
         }
         if (!_autoRunning) yield break;
 
-        // Now spawn the first wave after delay
+        // Spawn first wave
         StartNextWave();
 
-        // Loop for remaining waves
+        // Remaining waves
         while (_autoRunning && _currentWaveIdx < _waves.Count - 1)
         {
             if (_countdownRoutine != null)
@@ -224,9 +229,6 @@ public class EnemyWaveSpawner : MonoBehaviour
         _autoRunning = false;
     }
 
-    /// <summary>
-    /// Countdown routine updates TimeToNextWave and fires event each frame.
-    /// </summary>
     private IEnumerator CountdownRoutine(float duration)
     {
         TimeToNextWave = duration;
@@ -242,24 +244,27 @@ public class EnemyWaveSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawns one wave and commands every unit to march toward the grid center.
+    /// Spawns one wave and orders units to march toward the center.
     /// </summary>
-    private IEnumerator SpawnWaveRoutine(ArmyType waveType)
+    private IEnumerator SpawnWaveRoutine(WaveSetting setting)
     {
-        _uiManager?.ShowWavePopup(_currentWaveIdx + 1);
+        int waveNum = _currentWaveIdx + 1;
+        _uiManager?.ShowWavePopup(waveNum, setting.direction);
+
+        // Calculate random spawn position based on direction
+        Vector3 spawnPos = GetRandomSpawnPosition(setting.direction);
 
         var spawned = new List<UnitBase>();
 
-        // Spawn through ArmyManager and collect references
         yield return StartCoroutine(
             _armyManager.SpawnArmyAndCollect(
-                waveType,
+                setting.waveType,
                 Team.Enemy,
-                _spawnOrigin.position,
+                spawnPos,
                 _unitSpawnDelay,
                 spawned));
 
-        // Compute center (player castle) and assign destinations
+        // Compute center node and assign destinations
         Vector2Int centerIdx = new(
             _gridManager.GridSettings.GridSizeX / 2,
             _gridManager.GridSettings.GridSizeY / 2);
@@ -278,17 +283,81 @@ public class EnemyWaveSpawner : MonoBehaviour
             u.MoveTo(dest);
         }
 
-        Debug.Log($"[EnemyWaveSpawner] Wave #{_currentWaveIdx + 1} ({waveType}) – {spawned.Count} units marching to center.");
+        Debug.Log($"[EnemyWaveSpawner] Wave #{waveNum} – {spawned.Count} units spawned from {setting.direction}.");
+    }
+
+    /* ============================= Helpers =========================== */
+
+    /// <summary>
+    /// Returns a random world position on the edge of the grid according to the direction.
+    /// </summary>
+    private Vector3 GetRandomSpawnPosition(SpawnDirection dir)
+    {
+        int width = _gridManager.GridSettings.GridSizeX;
+        int height = _gridManager.GridSettings.GridSizeY;
+
+        // Choose grid indices on the edge
+        int x = 0, y = 0;
+
+        switch (dir)
+        {
+            case SpawnDirection.North:
+                x = UnityEngine.Random.Range(0, width);
+                y = height - 1 + _edgeOffset;
+                break;
+            case SpawnDirection.South:
+                x = UnityEngine.Random.Range(0, width);
+                y = -_edgeOffset;
+                break;
+            case SpawnDirection.East:
+                x = width - 1 + _edgeOffset;
+                y = UnityEngine.Random.Range(0, height);
+                break;
+            case SpawnDirection.West:
+                x = -_edgeOffset;
+                y = UnityEngine.Random.Range(0, height);
+                break;
+            case SpawnDirection.Northeast:
+                x = width - 1 + _edgeOffset;
+                y = height - 1 + _edgeOffset;
+                break;
+            case SpawnDirection.Northwest:
+                x = -_edgeOffset;
+                y = height - 1 + _edgeOffset;
+                break;
+            case SpawnDirection.Southeast:
+                x = width - 1 + _edgeOffset;
+                y = -_edgeOffset;
+                break;
+            case SpawnDirection.Southwest:
+                x = -_edgeOffset;
+                y = -_edgeOffset;
+                break;
+        }
+
+        // Clamp indices that fall inside grid so GetNodeWorldPosition works
+        int cx = Mathf.Clamp(x, 0, width - 1);
+        int cy = Mathf.Clamp(y, 0, height - 1);
+
+        Vector3 world = _gridManager.GetNodeWorldPosition(cx, cy);
+
+        // Apply offset along the outward normal so units spawn just outside the map
+        Vector3 offset = Vector3.zero;
+        if (x < 0) offset += Vector3.left * _gridManager.GridSettings.NodeSize;
+        if (x >= width) offset += Vector3.right * _gridManager.GridSettings.NodeSize;
+        if (y < 0) offset += Vector3.back * _gridManager.GridSettings.NodeSize;
+        if (y >= height) offset += Vector3.forward * _gridManager.GridSettings.NodeSize;
+
+        return world + offset;
     }
 
     /// <summary>
-    /// Invokes wave changed event and resets countdown HUD (immediate).
+    /// Triggers wave-changed event and resets countdown display.
     /// </summary>
     private void TriggerWaveStarted()
     {
         OnWaveChanged?.Invoke();
 
-        // If auto mode and not final wave, broadcast initial countdown value
         if (_autoRunning && !IsOnFinalWave)
         {
             TimeToNextWave = _autoWaveInterval;

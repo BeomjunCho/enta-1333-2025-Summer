@@ -39,29 +39,43 @@ public class SelectedUIManager : MonoBehaviour
     /// </summary>
     public void Show(ISelectable sel)
     {
-        HideAll();   // close every panel first
+        if (_unitUI.gameObject.activeSelf ||
+        _barrackUI.gameObject.activeSelf ||
+        _resourceUI.gameObject.activeSelf ||
+        _gateUI.gameObject.activeSelf ||
+        _wallUI.gameObject.activeSelf)
+        {
+            HideAll();
+            Debug.Log($"HideAll at {Time.time}");
+        }
 
         switch (sel)
         {
             case UnitBase unit:
                 _unitUI.ShowUnitInfo(unit);
+                AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.SelectedUIPanelOpen);
                 break;
 
             case BuildingBarrack barrack:
                 _barrackUI.Initialize(barrack, _resourceManager, _armyManager);
                 _barrackUI.Show();
+                Debug.Log($"BarrackUI.Show at {Time.time}");
+                AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.SelectedUIPanelOpen);
                 break;
 
             case BuildingResource res:
                 _resourceUI.Bind(res, res.buildingData);
+                AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.SelectedUIPanelOpen);
                 break;
 
             case BuildingGate gate:
                 _gateUI.Bind(gate, gate.buildingData);
+                AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.SelectedUIPanelOpen);
                 break;
 
             case BuildingWall wall:
                 _wallUI.Bind(wall, wall.buildingData, _unitManager);
+                AudioManager.Instance.PlaySfx2D(FMODEvents.Instance.SelectedUIPanelOpen);
                 break;
         }
     }

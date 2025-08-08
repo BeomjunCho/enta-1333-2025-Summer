@@ -40,6 +40,9 @@ public class GridManager : MonoBehaviour
     [Tooltip("Optional parent to keep the hierarchy tidy.")]
     [SerializeField] private Transform _visualRoot = null; // Parent for organizing tile visuals in hierarchy
 
+    [Header("Lake Audio Manager")]
+    [SerializeField] private LakeAudioManager _lakeAudioManager;
+
     // =========================== Debug/Config Flags ============================
 
     public bool UseGridMap = true; // If true, uses map texture for grid creation
@@ -120,6 +123,7 @@ public class GridManager : MonoBehaviour
         isInitialized = true;
 
         _spawner.InitializeEnvironment();
+        _lakeAudioManager.Initialize();
     }
 
     /// <summary>
@@ -447,6 +451,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void ResetGrid()
     {
+        _lakeAudioManager.ResetManager();
         // 1) Destroy all environment objects while grid is still valid
         if (_spawner != null)
             _spawner.ResetEnvironment();
@@ -474,6 +479,61 @@ public class GridManager : MonoBehaviour
         // 5) Allow InitializeGrid() to rebuild everything
         isInitialized = false;
     }
+
+    /// Public API for LakeAudioManager ///
+
+    /// <summary>
+    /// Total number of columns in the grid (X dimension).
+    /// </summary>
+    public int width => _gridSettings.GridSizeX;
+
+    /// <summary>
+    /// Total number of rows in the grid (Y or Z dimension depending on plane).
+    /// </summary>
+    public int height => _gridSettings.GridSizeY;
+
+    /// <summary>
+    /// Gets the <see cref="TerrainType"/> at a grid coordinate.
+    /// </summary>
+    /// <param name="x">Grid X index.</param>
+    /// <param name="y">Grid Y index.</param>
+    /// <returns>The terrain type, or <c>null</c> if out of range.</returns>
+    public TerrainType GetNodeTerrain(int x, int y)
+    {
+        GridNode n = GetNode(x, y);
+        return n != null ? n.terrainType : null;
+    }
+
+    /// <summary>
+    /// Converts a world-space position to grid indices.
+    /// </summary>
+    /// <param name="pos">World position (XZ or XY plane).</param>
+    /// <param name="x">Resulting grid X index.</param>
+    /// <param name="y">Resulting grid Y index.</param>
+    /// <returns><c>true</c> if the position maps inside the grid bounds.</returns>
+    public bool GetNodeFromWorldPosition(Vector3 pos, out int x, out int y)
+    {
+        float size = _gridSettings.NodeSize;
+        x = Mathf.RoundToInt(pos.x / size);
+        y = Mathf.RoundToInt(_gridSettings.UseXZPlane ? pos.z / size : pos.y / size);
+
+        bool inRange = x >= 0 && x < _gridSettings.GridSizeX &&
+                       y >= 0 && y < _gridSettings.GridSizeY;
+
+        x = Mathf.Clamp(x, 0, _gridSettings.GridSizeX - 1);
+        y = Mathf.Clamp(y, 0, _gridSettings.GridSizeY - 1);
+
+        return inRange;
+    }
+
+    /// <summary>
+    /// Returns the world-space position of a node¡¯s lower-left corner.
+    /// </summary>
+    /// <param name="x">Grid X index.</param>
+    /// <param name="y">Grid Y index.</param>
+    /// <returns>World position of that grid cell.</returns>
+    public Vector3 GetNodeWorldPosition(int x, int y) =>
+        IdxToWorld(x, y, false);
 
     // =========================== Gizmos (Debug Visualization) ==================
     /// <summary>

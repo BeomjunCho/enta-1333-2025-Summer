@@ -2,27 +2,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Centralized component that manages combat scanning for all units,
-/// spreading out expensive target-acquisition checks across multiple frames.
-/// Ensures only a limited number of units scan per frame for better performance.
+/// Central service that distributes expensive <see cref="UnitCombat.ScanOnce"/> calls
+/// across multiple frames.  The amount of work adapts to the total unit count so
+/// detection remains responsive under heavy load or low frame-rates.
 /// </summary>
 public class CombatScanner : MonoBehaviour
 {
-    // Number of unit scans to process each frame
+    /* ------------------------------------------------------------------ */
+    /*  Inspector                                                         */
+    /* ------------------------------------------------------------------ */
+    [Header("Scan Budget")]
+    [Tooltip("Absolute upper-bound of scans processed in a single frame.")]
     [SerializeField] private int scansPerFrame = 20;
 
-    // List of all registered UnitCombat components in the scene
-    private readonly List<UnitCombat> _units = new();
-    // Index of the next unit to scan (cycles through the list)
-    private int _current;
+    [Tooltip("Percentage of total units to scan each frame (0.01-1).")]
+    [Range(0.01f, 1f)]
+    [SerializeField] private float _scanRatio = 0.20f;
 
-    // Singleton instance for easy global access
+    /* ------------------------------------------------------------------ */
+    /*  Internal                                                          */
+    /* ------------------------------------------------------------------ */
+    private readonly List<UnitCombat> _units = new(); // Registered units
+    private int _current;                              // Ring-buffer cursor
+
+    /// <summary>Global access (one instance only).</summary>
     public static CombatScanner Instance { get; private set; }
 
-    /// <summary>
-    /// Standard singleton pattern; keeps only one scanner in the scene.
-    /// Destroys duplicates and persists this object across scenes.
-    /// </summary>
+    /* ------------------------------------------------------------------ */
+    /*  Unity Callbacks                                                   */
+    /* ------------------------------------------------------------------ */
     private void Awake()
     {
         if (Instance != null)
@@ -34,38 +42,48 @@ public class CombatScanner : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    /// <summary>
-    /// Called once per frame. Processes up to scansPerFrame units,
-    /// spreading scanning load evenly over time.
-    /// </summary>
     private void Update()
     {
         if (_units.Count == 0) return;
 
-        int processed = 0;
-        while (processed < scansPerFrame)
+        // 1) Determine dynamic budget
+        int budget = Mathf.Clamp(Mathf.CeilToInt(_units.Count * _scanRatio), 1, scansPerFrame);
+
+        int scanned = 0;
+        int loopGuard = _units.Count; // Prevent infinite loop if list shrinks while iterating
+
+        // 2) Round-robin through the registry
+        while (scanned < budget && loopGuard > 0 && _units.Count > 0)
         {
             _current %= _units.Count;
-            var uc = _units[_current];
+            UnitCombat uc = _units[_current];
             _current++;
-            processed++;
+            loopGuard--;
 
-            // Skip if component missing or disabled
-            if (uc == null || !uc.enabled) continue;
+            // Remove null / disabled entries without counting toward budget
+            if (uc == null || !uc.enabled)
+            {
+                _units.RemoveAt((_current - 1 + _units.Count) % _units.Count);
+                continue;
+            }
+
             uc.ScanOnce();
+            scanned++;
         }
     }
 
-    /// <summary>
-    /// Registers a UnitCombat instance to be scanned every cycle.
-    /// </summary>
+    /* ------------------------------------------------------------------ */
+    /*  Registration API                                                  */
+    /* ------------------------------------------------------------------ */
+    /// <summary>Adds a unit to the scan registry.</summary>
+    /// <param name="uc">The <see cref="UnitCombat"/> to register.</param>
     public void Register(UnitCombat uc)
     {
-        if (uc != null && !_units.Contains(uc)) _units.Add(uc);
+        if (uc != null && !_units.Contains(uc))
+            _units.Add(uc);
     }
 
-    /// <summary>
-    /// Unregisters a UnitCombat instance (e.g., on death or disable).
-    /// </summary>
+    /// <summary>Removes a unit from the scan registry.</summary>
+    /// <param name="uc">The <see cref="UnitCombat"/> to unregister.</param>
     public void Unregister(UnitCombat uc) => _units.Remove(uc);
 }

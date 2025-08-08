@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Resources;
 using TMPro;
 using UnityEngine;
@@ -27,14 +28,12 @@ public class BarrackSelectedUI : MonoBehaviour
     /* ------------------------------------------------------------------ */
     private BuildingBarrack _barrack;
     private readonly List<Button> _spawnButtons = new();
+    private Coroutine _hideRoutine;
 
     /* ------------------------------------------------------------------ */
     /*  Public API                                                        */
     /* ------------------------------------------------------------------ */
-    /// <summary>Show this panel.</summary>
     public void Show() => gameObject.SetActive(true);
-
-    /// <summary>Hide this panel.</summary>
     public void Hide() => gameObject.SetActive(false);
 
     /// <summary>
@@ -76,14 +75,10 @@ public class BarrackSelectedUI : MonoBehaviour
     /// </summary>
     public void DestroyBuilding()
     {
+        Hide();
         if (_barrack != null)
             _barrack.DestroySelf();
     }
-
-    /* ------------------------------------------------------------------ */
-    /*  Unity Lifecycle                                                   */
-    /* ------------------------------------------------------------------ */
-    private void Awake() => Hide();
 
     /* ------------------------------------------------------------------ */
     /*  Internal Helpers                                                  */

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="MixerGroup" id="{3d756c90-380e-4862-a3d0-8053ee93e74e}">
+		<property name="name">
+			<value>Footstep</value>
+		</property>
+		<property name="maxInstances">
+			<value>8</value>
+		</property>
+		<property name="instanceStealing">
+			<value>1</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{8b2aae60-983b-45ce-86e6-9c4ba4dae087}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{efd099c8-e356-48e9-a543-fad7e98f1531}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{20e94b1e-6858-4bba-826d-96d51a09e44b}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{8b2aae60-983b-45ce-86e6-9c4ba4dae087}">
+		<relationship name="effects">
+			<destination>{afb9a211-6d27-4724-b8c4-83a8a83f6ae2}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{efd099c8-e356-48e9-a543-fad7e98f1531}" />
+	<object class="MixerBusFader" id="{afb9a211-6d27-4724-b8c4-83a8a83f6ae2}" />
+</objects>

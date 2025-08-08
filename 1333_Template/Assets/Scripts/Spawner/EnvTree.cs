@@ -1,7 +1,9 @@
 using UnityEngine;
+using static SfxPlayerPool;
+using System.Collections;
 
 /// <summary>
-/// Harvestable tree resource. Worker units will “attack” this to gather wood.
+/// Harvestable tree resource. Worker units will “attack?this to gather wood.
 /// Registers itself with the UnitManager on enable and unregisters on disable.
 /// </summary>
 public class EnvTree : MonoBehaviour, IDamageable
@@ -11,22 +13,68 @@ public class EnvTree : MonoBehaviour, IDamageable
     [SerializeField] private int _height = 1;
 
     [SerializeField] private ResourceDataSO _wood;
+
+    [Header("Hit Points")]
+    [SerializeField] private int _maxHp = 40;
+
+    [SerializeField] private int _resourceAmount = 10;
+
+    [Header("Audio")]
+    [SerializeField] private float _audibleRadius = 18f;
+    [SerializeField] private float _checkInterval = 0.8f;
+
+    private int _hp;
     public int Width => _width;
     public int Height => _height;
 
     private GridManager _gridManager;
     private int _startX, _startY;
 
-    [Header("Hit Points")]
-    [SerializeField] private int _maxHp = 40;
-    private int _hp;
-
     private UnitManager _unitManager;
     private ResourceManager _resourceManager;
 
+
+    private SfxHandle _birdSingSfxHandle = SfxHandle.Invalid;
+    private Transform _listener;
     private void Awake()
     {
         _hp = _maxHp;
+    }
+    private void Start()
+    {
+        _listener = Camera.main.transform;
+    }
+    private void OnEnable()
+    {
+        StartCoroutine(AmbientRoutine());
+    }
+
+    private IEnumerator AmbientRoutine()
+    {
+        float sqrRadius = _audibleRadius * _audibleRadius;
+
+        while (true)
+        {
+            if (_listener == null)
+            {
+                yield return null;
+                continue;
+            }
+
+            bool audible = (transform.position - _listener.position).sqrMagnitude <= sqrRadius;
+
+            if (audible && _birdSingSfxHandle.Equals(SfxHandle.Invalid))
+            {
+                _birdSingSfxHandle = AudioManager.Instance.PlaySfx3D(transform.position, FMODEvents.Instance.BirdSing);
+            }
+            else if (!audible && !_birdSingSfxHandle.Equals(SfxHandle.Invalid))
+            {
+                AudioManager.Instance.StopSfx(_birdSingSfxHandle);
+                _birdSingSfxHandle = SfxHandle.Invalid;
+            }
+
+            yield return new WaitForSeconds(_checkInterval);
+        }
     }
 
     public void SetGridInfo(GridManager gridManager, int startX, int startY)
@@ -47,7 +95,7 @@ public class EnvTree : MonoBehaviour, IDamageable
     private void OnDisable()
     {
         _unitManager?.UnregisterResource(this);
-        _resourceManager.AddResource(_wood, 2);
+        _resourceManager.AddResource(_wood, _resourceAmount);
         if (_gridManager != null)
         {
             for (int dx = 0; dx < _width; dx++)
@@ -58,6 +106,13 @@ public class EnvTree : MonoBehaviour, IDamageable
                 }
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (Application.isPlaying == false) return;
+        if (!_birdSingSfxHandle.Equals(SfxHandle.Invalid) && AudioManager.Instance != null)
+            AudioManager.Instance.StopSfx(_birdSingSfxHandle);
     }
 
     // IDamageable implementation

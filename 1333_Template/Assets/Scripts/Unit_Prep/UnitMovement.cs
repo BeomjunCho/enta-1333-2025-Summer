@@ -17,6 +17,10 @@ public class UnitMovement : MonoBehaviour
     // Reference to the pathfinder for computing paths
     private AStarPathfinder _pathfinder;
 
+    // -------- Spatial hash support --------
+    private SpatialHash _spatial;
+    private Vector3 _lastPos;
+
     // ======= Movement settings =======
     // Movement speed in world units per second
     private float _moveSpeed = 5f;
@@ -52,12 +56,15 @@ public class UnitMovement : MonoBehaviour
     /// Inject required references and set movement/rotation speed.
     /// </summary>
     public void Init(GridManager grid, AStarPathfinder pathfinder,
-                     float moveSpeed, float rotationSpeed)
+                     float moveSpeed, float rotationSpeed, UnitManager unitManager)
     {
         _grid = grid;
         _pathfinder = pathfinder;
         _moveSpeed = moveSpeed;
         _rotationSpeed = rotationSpeed;
+
+        _spatial = unitManager.Spatial;
+        _lastPos = transform.position;
     }
 
     /// <summary>
@@ -170,19 +177,26 @@ public class UnitMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles rotation, movement, and path progression.
-    /// Moves unit along the path node by node until destination is reached.
+    /// Handles rotation, translation and waypoint progression while the unit is in the <c>Moving</c> state.
+    /// Synchronizes the unit’s SpatialHash entry once per frame via <see cref="UnitBase.RefreshSpatialHashEntry"/>.
     /// </summary>
     private void HandleMovement()
     {
-        if (_path == null || _nextIdx >= _path.Count) return;
+        if (_path == null || _nextIdx >= _path.Count)
+            return;
 
+        /* -------------------------------------------------------------- */
+        /*  1. Calculate next waypoint (world position)                    */
+        /* -------------------------------------------------------------- */
         Vector2Int c = _path[_nextIdx];
         GridNode node = _grid.GetNode(c.x, c.y);
-        Vector3 dest = node.worldPosition + Vector3.up * 0.1f; // Small vertical offset for visuals
+        Vector3 dest = node.worldPosition + Vector3.up * 0.1f; // small Y offset
 
-        // Smoothly rotate unit toward the next destination node
-        Vector3 dir = dest - transform.position; dir.y = 0f;
+        /* -------------------------------------------------------------- */
+        /*  2. Smooth rotation toward waypoint                             */
+        /* -------------------------------------------------------------- */
+        Vector3 dir = dest - transform.position;
+        dir.y = 0f;                               // ignore vertical component
         if (dir.sqrMagnitude > 0.001f)
         {
             Quaternion look = Quaternion.LookRotation(dir, Vector3.up);
@@ -190,17 +204,26 @@ public class UnitMovement : MonoBehaviour
                 transform.rotation, look, _rotationSpeed * Time.deltaTime);
         }
 
-        // Move unit toward the next node
+        /* -------------------------------------------------------------- */
+        /*  3. Step toward waypoint                                        */
+        /* -------------------------------------------------------------- */
         transform.position = Vector3.MoveTowards(
             transform.position, dest, _moveSpeed * Time.deltaTime);
 
-        // If unit reached the next waypoint, progress to the following one
-        if (Vector3.Distance(transform.position, dest) < 0.05f)
-            _nextIdx++;
+        /* -------------------------------------------------------------- */
+        /*  4. Spatial Hash update                                         */
+        /* -------------------------------------------------------------- */
+        // Update SpatialHash only when crossing into a new bucket.
+        _unit.RefreshSpatialHashEntry();
 
-        // If destination reached, finish movement and update grid
+        /* -------------------------------------------------------------- */
+        /*  5. Waypoint / path progress                                    */
+        /* -------------------------------------------------------------- */
+        if (Vector3.Distance(transform.position, dest) < 0.05f)
+            _nextIdx++;                         // waypoint reached
+
         if (_nextIdx >= _path.Count)
-            FinishMovement();
+            FinishMovement();                   // path completed
     }
 
     /// <summary>
@@ -222,6 +245,43 @@ public class UnitMovement : MonoBehaviour
         }
 
         _path = null;
+        _unit.InternalChangeState(UnitState.Idle);
+    }
+
+
+    /// <summary>
+    /// Cancels any in-progress movement, frees reservations,
+    /// reclaims the tile the unit currently occupies, and returns to Idle.
+    /// Call this the moment combat starts while the unit is on the move.
+    /// </summary>
+    public void CancelMovement()
+    {
+        if (_grid == null) return;                         
+
+        /* 1. Release reserved destination (if any) */
+        if (_reservedDest != null)
+        {
+            _grid.UnreserveNode(_reservedDest);            
+            _reservedDest = null;
+        }
+
+        /* 2. Clear current path data */
+        _path?.Clear();                                   
+        _path = null;
+        _nextIdx = 0;
+
+        /* 3. Occupy the grid node under the unit’s feet */
+        GridNode node = _grid.GetNodeFromWorldPosition(transform.position);
+        if (node != null)
+        {
+            float size = _grid.GridSettings.NodeSize;
+            int tx = Mathf.RoundToInt(node.worldPosition.x / size);
+            int ty = Mathf.RoundToInt(node.worldPosition.z / size);
+            _grid.SetWalkable(tx, ty, false);             
+            _currentNode = node;
+        }
+
+        /* 4. Switch state back to Idle */
         _unit.InternalChangeState(UnitState.Idle);
     }
 

@@ -2,6 +2,7 @@
 using UnityEngine.InputSystem;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Handles selection of units and buildings (ISelectable).
@@ -59,57 +60,61 @@ public class SelectionManager : MonoBehaviour
     /// </summary>
     private void HandleMouse()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
         if (Banner.IsAnyDragging)
             return;
+
+        /* ---------- Drag begin ---------- */
         if (Input.GetMouseButtonDown(0))
             _unitSelectionBox.BeginDrag(Mouse.current.position.ReadValue());
 
+        /* ---------- Drag update ---------- */
         if (_unitSelectionBox.IsDragging)
             _unitSelectionBox.UpdateDrag(Mouse.current.position.ReadValue());
 
+        /* ---------- Drag end / click ---------- */
         if (Input.GetMouseButtonUp(0) && _unitSelectionBox.IsDragging)
         {
             _unitSelectionBox.EndDrag(Mouse.current.position.ReadValue());
-            ClearSelection();
-            if (_unitSelectionBox.DragDistance < _minDragSize)
+
+            bool isClick = _unitSelectionBox.DragDistance < _minDragSize;
+
+            if (isClick)
             {
+                // TrySingleSelect internally calls ClearSelection once.
+                ClearSelection();
                 TrySingleSelect(_unitSelectionBox.DragEnd);
             }
-
             else
             {
+                // Drag-select path: clear first, then add multiple selections.
+                ClearSelection();
 
-                // handle drag select for units only
-                Rect selRect = _unitSelectionBox.GetScreenRect(_unitSelectionBox.DragStart, _unitSelectionBox.DragEnd);
+                Rect selRect = _unitSelectionBox.GetScreenRect(
+                    _unitSelectionBox.DragStart,
+                    _unitSelectionBox.DragEnd);
+
                 foreach (var unit in _unitManager.AllUnits)
                 {
-                    if (unit == null)                     
+                    if (unit == null || unit.UnitTeam != Team.Player)
                         continue;
-                    // skip any non-player team units
-                    if (unit.UnitTeam != Team.Player)
-                        continue;
+
                     Vector3 sp = _mainCamera.WorldToScreenPoint(unit.transform.position);
                     Vector2 guiPoint = new(sp.x, Screen.height - sp.y);
                     if (selRect.Contains(guiPoint))
-                    {
                         AddToSelection(unit);
-                    }
                 }
 
-                // only show panel if exactly one unit was dragged over
+                // Show panel only when exactly one unit is selected.
                 if (_selected.Count == 1)
                     _uiManager.Show(_selected[0]);
             }
         }
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            // unit move commands
-            if (_selected.Count > 0)
-            {
-                CommandUnits();
-            }
-        }
+        /* ---------- Right-click commands ---------- */
+        if (Input.GetMouseButtonDown(1) && _selected.Count > 0)
+            CommandUnits();
     }
 
     /// <summary>
@@ -117,17 +122,15 @@ public class SelectionManager : MonoBehaviour
     /// </summary>
     private void TrySingleSelect(Vector2 screenPos)
     {
-        ClearSelection();
         Ray ray = _mainCamera.ScreenPointToRay(screenPos);
+        if (!Physics.Raycast(ray, out var hit, 200f))
+            return;
 
-        if (Physics.Raycast(ray, out var hit, 100f))
-        {
-            var sel = hit.collider.GetComponentInParent<ISelectable>();
-            if (sel != null)
-                AddToSelection(sel);
-            // single‐click: exactly one item => show its panel
-            _uiManager.Show(sel);
-        }
+        var sel = hit.collider.GetComponentInParent<ISelectable>();
+        if (sel != null)
+            AddToSelection(sel);
+
+        _uiManager.Show(sel);
     }
 
     /// <summary>

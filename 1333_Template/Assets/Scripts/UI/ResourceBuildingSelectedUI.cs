@@ -39,9 +39,6 @@ public class ResourceBuildingSelectedUI : MonoBehaviour
 
     public void Show() => gameObject.SetActive(true);
     public void Hide() => gameObject.SetActive(false);
-
-    private void Awake() => Hide();
-
     /// <summary>
     /// Binds the resource building and fills every UI field.
     /// </summary>

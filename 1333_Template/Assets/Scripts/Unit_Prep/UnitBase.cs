@@ -101,12 +101,18 @@ public abstract class UnitBase : MonoBehaviour, ISelectable, IDamageable
     }
 
     /// <summary>
-    /// Debug input for killing the unit with H key (dev/testing only).
+    /// Show/Hide Health bar by pressing G/H key.
     /// </summary>
     protected virtual void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H) && _state != UnitState.Dead)
-            Die();
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            ShowHealthBar();
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            HideHealthBar();
+        }
     }
 
     // ---------- Spatial Hash Hooks ----------
@@ -151,7 +157,7 @@ public abstract class UnitBase : MonoBehaviour, ISelectable, IDamageable
         _state = UnitState.Idle;
 
         // Set up movement and pathfinding.
-        _movement.Init(gridManager, pathfinder, unitType.MoveSpeed, 360f);
+        _movement.Init(gridManager, pathfinder, unitType.MoveSpeed, 360f, _unitManager);
 
         // Occupy current node on the grid.
         _movement.OccupyCurrentNode();
@@ -215,6 +221,28 @@ public abstract class UnitBase : MonoBehaviour, ISelectable, IDamageable
         _hpBar?.SetRatio(_currentHp / (float)_unitType.MaxHp);
         if (_currentHp <= 0f) Die();
     }
+
+    /// <summary>
+    /// Show the visibility of the health bar UI.
+    /// </summary>
+    public void ShowHealthBar()
+    {
+        if (_hpBar == null)
+            return;
+
+        _hpBar.gameObject.SetActive(true);
+    }
+    /// <summary>
+    /// Hide the visibility of the health bar UI.
+    /// </summary>
+    public void HideHealthBar()
+    {
+        if (_hpBar == null)
+            return;
+
+        _hpBar.gameObject.SetActive(false);
+    }
+
 
     /// <summary>
     /// Called when the unit becomes selected by the player.
@@ -282,6 +310,8 @@ public abstract class UnitBase : MonoBehaviour, ISelectable, IDamageable
         // Remove from unit manager registry.
         if (_unitManager != null)
             _unitManager.UnregisterUnit(this);
+
+        AudioManager.Instance.PlaySfx3D(this.transform.position, FMODEvents.Instance.UnitDead);
 
         // Destroy this unit after a delay (e.g. play death animation).
         StartCoroutine(DestroyAfterDelay(5f));

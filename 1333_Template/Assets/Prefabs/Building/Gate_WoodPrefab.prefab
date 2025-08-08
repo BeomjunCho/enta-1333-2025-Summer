@@ -263,6 +263,7 @@ MonoBehaviour:
   - {fileID: 2914146287359942979}
   - {fileID: 2914146287359942981}
   _animator: {fileID: 2914146287364153223}
+  _isWood: 1
 --- !u!65 &-2237755233088955413
 BoxCollider:
   m_ObjectHideFlags: 0

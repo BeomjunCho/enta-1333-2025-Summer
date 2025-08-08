@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SfxPlayerPool;
 
 /// <summary>
 /// Barrack building that spawns various ArmyTypes and re-forms units around the banner.
@@ -25,6 +26,7 @@ public class BuildingBarrack : BuildingBase
     private ArmyManager _armyManager;
     private ResourceManager _resourceManager;
     private readonly List<UnitBase> _spawnedUnits = new();
+    private SfxHandle _barrakEnv = SfxHandle.Invalid;
 
     /// <summary>Read-only access for UI script.</summary>
     public IReadOnlyList<ArmyType> SpawnableTypes => _spawnableTypes;
@@ -36,6 +38,19 @@ public class BuildingBarrack : BuildingBase
         _resourceManager = resourceManager;
         _gridManager = gridManager;
         Banner.BannerMoved += OnBannerMoved;
+    }
+    
+    private void Start()
+    {
+        _barrakEnv = AudioManager.Instance.PlaySfx3D(this.transform.position, FMODEvents.Instance.BarrackEnv);
+    }
+    private void OnDestroy()
+    {
+        Banner.BannerMoved -= OnBannerMoved;
+
+        if (Application.isPlaying == false) return;
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.StopSfx(_barrakEnv);
     }
 
     /// <summary>Entry point called by UI to spawn the chosen ArmyType.</summary>
@@ -103,8 +118,6 @@ public class BuildingBarrack : BuildingBase
 
 
     private void OnBannerMoved(Vector3 _) => IssueFormationOrders();
-
-    private void OnDestroy() => Banner.BannerMoved -= OnBannerMoved;
 
     // -------------------- ISelectable --------------------
     public override void OnSelected()
