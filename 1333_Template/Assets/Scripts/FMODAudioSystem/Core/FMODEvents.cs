@@ -59,7 +59,6 @@ public class FMODEvents : Singleton<FMODEvents>
     /* ------------------------------------------------------------------ */
     [field: Header("SFX / UI")]
     [field: SerializeField] public EventReference MenuButtonHover { get; private set; }
-
     [field: SerializeField] public EventReference MenuButtonClick { get; private set; }
     [field: SerializeField] public EventReference HudButtonHover { get; private set; }
     [field: SerializeField] public EventReference HudButtonClick { get; private set; }
@@ -95,5 +94,4 @@ public class FMODEvents : Singleton<FMODEvents>
     /* ------------------------------------------------------------------ */
     [field: Header("Snapshots")]
     [field: SerializeField] public EventReference PauseSnapshot { get; private set; }
-
 }

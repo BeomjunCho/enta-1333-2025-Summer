@@ -13,9 +13,10 @@ using System.Collections;
 public class SfxPlayerPool : MonoBehaviour
 {
     /* ------------------------------------------------------------------ */
-    /*  Handle                                                             */
+    /*  Handle                                                            */
     /* ------------------------------------------------------------------ */
 
+    // Struct representing a handle for a single SFX channel
     public readonly struct SfxHandle
     {
         public static readonly SfxHandle Invalid = new(-1);
@@ -25,7 +26,7 @@ public class SfxPlayerPool : MonoBehaviour
     }
 
     /* ------------------------------------------------------------------ */
-    /*  Inspector                                                          */
+    /*  Inspector                                                         */
     /* ------------------------------------------------------------------ */
 
     [Header("Pool Settings")]
@@ -39,22 +40,26 @@ public class SfxPlayerPool : MonoBehaviour
     private bool _releaseScheduled = false;
 
     /* ------------------------------------------------------------------ */
-    /*  Player & Instance pools                                            */
+    /*  Player & Instance pools                                           */
     /* ------------------------------------------------------------------ */
 
+    // Pool of SfxPlayer channels
     private readonly List<SfxPlayer> _players = new();
     private readonly Queue<SfxPlayer> _idle = new();
     private readonly HashSet<SfxPlayer> _idleSet = new();
     private readonly List<SfxPlayer> _active = new();
+
+    // Pool for FMOD EventInstance objects by event reference
     private readonly Dictionary<EventReference, Stack<EventInstance>> _instancePool =
         new(EventReferenceComparer.Instance);
 
     /* ------------------------------------------------------------------ */
-    /*  Lifecycle                                                          */
+    /*  Lifecycle                                                        */
     /* ------------------------------------------------------------------ */
 
     private void Awake()
     {
+        // Pre-instantiate all SfxPlayers and fill idle pool
         for (int i = 0; i < _maxChannels; ++i)
         {
             var p = new SfxPlayer(this) { Id = i };
@@ -65,12 +70,13 @@ public class SfxPlayerPool : MonoBehaviour
 
     private void OnDisable()
     {
-        // stop all players to clean up active bookkeeping
+        // Stop all players and clear active bookkeeping
         foreach (var p in _players)
             p.Stop(true);
 
         _active.Clear();
 
+        // Release all instances gracefully when shutting down
         if (Application.isPlaying && !_releaseScheduled)
         {
             _releaseScheduled = true;
@@ -83,11 +89,12 @@ public class SfxPlayerPool : MonoBehaviour
     }
 
     /* ------------------------------------------------------------------ */
-    /*  Update                                                             */
+    /*  Update                                                           */
     /* ------------------------------------------------------------------ */
 
     private void Update()
     {
+        // Update all active players, recycle if finished
         for (int i = _active.Count - 1; i >= 0; --i)
         {
             var p = _active[i];
@@ -100,27 +107,29 @@ public class SfxPlayerPool : MonoBehaviour
     }
 
     /* ------------------------------------------------------------------ */
-    /*  Public Playback API                                                */
+    /*  Public Playback API                                              */
     /* ------------------------------------------------------------------ */
 
-    public SfxHandle TryPlay3D(EventReference ev,
-                               Vector3 pos)
+    // Try to play a 3D sound at a position
+    public SfxHandle TryPlay3D(EventReference ev, Vector3 pos)
     {
         return InternalPlay(ev, pos, null, spatial: true);
     }
 
-    public SfxHandle TryPlayAttached(EventReference ev,
-                                     Transform follow)
+    // Try to play a 3D sound attached to a transform
+    public SfxHandle TryPlayAttached(EventReference ev, Transform follow)
     {
         if (follow == null) return SfxHandle.Invalid;
         return InternalPlay(ev, follow.position, follow, spatial: true);
     }
 
+    // Try to play a 2D sound
     public SfxHandle TryPlay2D(EventReference ev)
     {
         return InternalPlay(ev, Vector3.zero, null, spatial: false);
     }
 
+    // Stop a sound using its handle
     public void Stop(SfxHandle handle, bool immediate = false)
     {
         if (!handle.IsValid()) return;
@@ -132,12 +141,14 @@ public class SfxPlayerPool : MonoBehaviour
         EnqueueIdle(p);
     }
 
+    // Set a float parameter for a playing SFX
     public void SetParameter(SfxHandle handle, string name, float value, bool ignoreSeekSpeed = false)
     {
         if (!handle.IsValid()) return;
         _players[handle.Id].SetParameter(name, value, ignoreSeekSpeed);
     }
 
+    // Set a label parameter for a playing SFX
     public void SetParameterLabel(SfxHandle handle, string name, string label)
     {
         if (!handle.IsValid()) return;
@@ -153,12 +164,12 @@ public class SfxPlayerPool : MonoBehaviour
         string parameterName,
         string label)
     {
-        var player = AllocatePlayer();           // existing allocation logic
+        var player = AllocatePlayer();
         player.Play3DWithLabelParameter(reference, position, parameterName, label);
         return new SfxHandle(player.Id);
     }
 
-
+    // Stop all players and clear pools (used on shutdown)
     public void Shutdown()
     {
         foreach (var p in _players)
@@ -172,13 +183,11 @@ public class SfxPlayerPool : MonoBehaviour
     }
 
     /* ------------------------------------------------------------------ */
-    /*  Internal Logic                                                     */
+    /*  Internal Logic                                                    */
     /* ------------------------------------------------------------------ */
 
-    private SfxHandle InternalPlay(EventReference ev,
-                                   Vector3 pos,
-                                   Transform follow,
-                                   bool spatial)
+    // Internal play helper, allocates a player, starts playback, manages active/idle pools
+    private SfxHandle InternalPlay(EventReference ev, Vector3 pos, Transform follow, bool spatial)
     {
         var player = AllocatePlayer();
         if (player == null) return SfxHandle.Invalid;
@@ -194,7 +203,7 @@ public class SfxPlayerPool : MonoBehaviour
             return new SfxHandle(player.Id);
         }
 
-        EnqueueIdle(player);   // playback failed ¡æ recycle immediately
+        EnqueueIdle(player);   // playback failed, recycle immediately
         return SfxHandle.Invalid;
     }
 
@@ -217,6 +226,7 @@ public class SfxPlayerPool : MonoBehaviour
         return p;
     }
 
+    // Add player to the idle pool
     private void EnqueueIdle(SfxPlayer player)
     {
         if (_idleSet.Add(player))
@@ -227,6 +237,7 @@ public class SfxPlayerPool : MonoBehaviour
     /* Helpers                                                            */
     /* ------------------------------------------------------------------ */
 
+    // Get an existing FMOD instance from pool or create a new one
     internal EventInstance GetOrCreateInstance(EventReference ev)
     {
         if (_instancePool.TryGetValue(ev, out var stack) && stack.Count > 0)
@@ -235,6 +246,7 @@ public class SfxPlayerPool : MonoBehaviour
         return RuntimeManager.CreateInstance(ev);
     }
 
+    // Recycle an instance for reuse later
     internal void RecycleInstance(EventReference ev, EventInstance inst)
     {
         if (!_instancePool.TryGetValue(ev, out var stack))
@@ -248,8 +260,10 @@ public class SfxPlayerPool : MonoBehaviour
         stack.Push(inst);
     }
 
+    // Start gradual release of all instances (in play mode)
     private void StartGradualRelease() => CoroutineRelay.Instance.Run(ReleaseRoutine());
 
+    // Coroutine: releases instances in batches to avoid frame spikes
     private IEnumerator ReleaseRoutine()
     {
         Debug.Log("StartGradualRelease initiated.");
@@ -282,6 +296,7 @@ public class SfxPlayerPool : MonoBehaviour
         Debug.Log("Gradual release complete.");
     }
 
+    // Helper: get total number of pooled instances remaining
     private int TotalRemainingInstances()
     {
         int sum = 0;
@@ -290,6 +305,7 @@ public class SfxPlayerPool : MonoBehaviour
         return sum;
     }
 
+    // Immediately release all pooled instances (in edit mode)
     private void ReleaseAllImmediate()
     {
         foreach (var stack in _instancePool.Values)
@@ -304,9 +320,10 @@ public class SfxPlayerPool : MonoBehaviour
     }
 
     /* ------------------------------------------------------------------ */
-    /*  Equality comparer for EventReference keys                          */
+    /*  Equality comparer for EventReference keys                         */
     /* ------------------------------------------------------------------ */
 
+    // Equality comparer for EventReference to use as dictionary key
     private sealed class EventReferenceComparer : IEqualityComparer<EventReference>
     {
         public static readonly EventReferenceComparer Instance = new();

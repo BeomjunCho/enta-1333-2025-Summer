@@ -103,7 +103,7 @@
 			<value>3.4000000000000004</value>
 		</property>
 		<property name="volume">
-			<value>7</value>
+			<value>5</value>
 		</property>
 		<property name="pitch">
 			<value>3.60000014</value>
@@ -129,6 +129,9 @@
 	<object class="SingleSound" id="{1ceb70bb-2465-4ba9-88df-38bc6ba7df2f}">
 		<property name="length">
 			<value>6.8000000000000007</value>
+		</property>
+		<property name="volume">
+			<value>-1</value>
 		</property>
 		<property name="pitch">
 			<value>5</value>

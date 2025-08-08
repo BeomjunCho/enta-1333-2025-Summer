@@ -65,28 +65,33 @@ public class AudioManager : Singleton<AudioManager>
 
     #region -------- SFX ----------
 
+    // Play 3D SFX at a world position
     public SfxHandle PlaySfx3D(Vector3 pos, EventReference ev)
     {
         if (_sfxPool == null) return SfxHandle.Invalid;
         return _sfxPool.TryPlay3D(ev, pos);
     }
 
+    // Play SFX attached to a transform
     public SfxHandle PlaySfxAttached(Transform t, EventReference ev)
     {
         if (_sfxPool == null) return SfxHandle.Invalid;
         return _sfxPool.TryPlayAttached(ev, t);
     }
 
+    // Play 2D SFX
     public SfxHandle PlaySfx2D(EventReference ev)
     {
         if (_sfxPool == null) return SfxHandle.Invalid;
         return _sfxPool.TryPlay2D(ev);
     }
 
+    // Stop a playing SFX handle
     public void StopSfx(SfxHandle handle, bool immediate = false)
     {
         _sfxPool?.Stop(handle, immediate);
     }
+
     /// <summary>
     /// Set parameter before fmod event instance start()
     /// </summary>
@@ -104,16 +109,17 @@ public class AudioManager : Singleton<AudioManager>
         return _sfxPool.Play3DWithLabelParameter(position, reference, parameterName, label);
     }
 
+    // Set float parameter for SFX
     public void SetSfxParameter(SfxHandle handle, string name, float value, bool ignoreSeekSpeed = false)
     {
         _sfxPool?.SetParameter(handle, name, value, ignoreSeekSpeed);
     }
 
+    // Set label parameter for SFX
     public void SetSfxParameterByLabel(SfxHandle handle, string name, string label)
     {
         _sfxPool?.SetParameterLabel(handle, name, label);
     }
-
 
     #endregion
 
@@ -137,8 +143,10 @@ public class AudioManager : Singleton<AudioManager>
         _music.setParameterByNameWithLabel(_musicStateParam, newState.ToString());
     }
 
+    // Stop music instance
     public void StopMusic(float fade = 0.5f) => StopInstance(_music, fade);
 
+    // Play ambience instance
     public void PlayAmbience(EventReference ambRef, float fadeOut = 0.5f)
     {
         StopInstance(_ambience, fadeOut);
@@ -146,6 +154,7 @@ public class AudioManager : Singleton<AudioManager>
         _ambience.start();
     }
 
+    // Stop ambience instance
     public void StopAmbience(float fade = 0.5f) => StopInstance(_ambience, fade);
 
     /// <summary>
@@ -197,7 +206,7 @@ public class AudioManager : Singleton<AudioManager>
     #endregion
 
     /// <summary>
-    /// Set volume (linear 0бе1) for a specific AudioChannel.
+    /// Set volume (linear 0-1) for a specific AudioChannel.
     /// Immediately updates the corresponding FMOD bus and
     /// caches the value so UpdateVolumesIfDirty() stays in sync.
     /// </summary>
@@ -240,7 +249,7 @@ public class AudioManager : Singleton<AudioManager>
                 break;
 
             case AudioChannel.Dialogue:
-                dialougeVolume = value;              
+                dialougeVolume = value;
                 _busDialogue.setVolume(value);
                 _prevDialogue = value;
                 break;
@@ -266,6 +275,7 @@ public class AudioManager : Singleton<AudioManager>
     /*  Helpers                                                           */
     /* ------------------------------------------------------------------ */
 
+    // Update all volumes if there is any change
     private void UpdateVolumesIfDirty()
     {
         if (!Mathf.Approximately(masterVolume, _prevMaster))
@@ -290,6 +300,7 @@ public class AudioManager : Singleton<AudioManager>
         { _busUI.setVolume(uiVolume); _prevUI = uiVolume; }
     }
 
+    // Returns true if EventInstance is playing/starting/sustaining
     private static bool IsInstancePlaying(EventInstance inst)
     {
         if (!inst.isValid())
@@ -301,6 +312,7 @@ public class AudioManager : Singleton<AudioManager>
                state == PLAYBACK_STATE.SUSTAINING;
     }
 
+    // Returns a valid FMOD Bus from path, logs error if not found
     private static Bus GetBusChecked(string path)
     {
         Bus bus = RuntimeManager.GetBus(path);
@@ -309,6 +321,7 @@ public class AudioManager : Singleton<AudioManager>
         return bus;
     }
 
+    // Stops and releases an EventInstance with fade or immediate
     private static void StopInstance(EventInstance inst, float fade = 0)
     {
         if (!inst.isValid()) return;

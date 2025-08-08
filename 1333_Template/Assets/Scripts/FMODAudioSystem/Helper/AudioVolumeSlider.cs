@@ -52,12 +52,14 @@ public class AudioVolumeSlider : MonoBehaviour
 
     private void Awake()
     {
+        // Setup slider and event listener
         _slider = GetComponent<Slider>();
         _slider.minValue = 0f;
         _slider.maxValue = 1f;
         _slider.wholeNumbers = false;
         _slider.onValueChanged.AddListener(OnSliderChanged);
 
+        // Auto set label
         if (_autoLabel && _labelText != null)
             _labelText.text = _channel.ToString();
     }
@@ -67,6 +69,7 @@ public class AudioVolumeSlider : MonoBehaviour
     private void OnDestroy() => _slider.onValueChanged.RemoveListener(OnSliderChanged);
 
 #if UNITY_EDITOR
+    // Update label in inspector when value changes
     private void OnValidate()
     {
         if (_autoLabel && _labelText != null)
@@ -76,6 +79,7 @@ public class AudioVolumeSlider : MonoBehaviour
 
     /* ============================ Event ============================== */
 
+    // Called when the slider value changes
     private void OnSliderChanged(float sliderVal)
     {
         float linear = SliderToLinear(sliderVal);
@@ -89,6 +93,7 @@ public class AudioVolumeSlider : MonoBehaviour
     /*  Helpers                                                           */
     /* ------------------------------------------------------------------ */
 
+    // Sync slider position with AudioManager volume
     private void SyncFromManager()
     {
         float linear = GetVolumeLinear();
@@ -99,6 +104,7 @@ public class AudioVolumeSlider : MonoBehaviour
             _valueText.text = Mathf.RoundToInt(sliderVal * 100f) + " %";
     }
 
+    // Get current linear volume from AudioManager
     private float GetVolumeLinear()
     {
         if (AudioManager.Instance == null) return 1f;
@@ -111,12 +117,13 @@ public class AudioVolumeSlider : MonoBehaviour
             AudioChannel.Ambience => am.ambienceVolume,
             AudioChannel.SFX => am.sfxVolume,
             AudioChannel.Foley => am.foleyVolume,
-            AudioChannel.Dialogue => am.dialougeVolume,   
+            AudioChannel.Dialogue => am.dialougeVolume,
             AudioChannel.UI => am.uiVolume,
             _ => 1f
         };
     }
 
+    // Convert slider value (0-1) to linear volume
     private float SliderToLinear(float sliderVal)
     {
         return _curveType == VolumeCurve.Decibel
@@ -124,6 +131,7 @@ public class AudioVolumeSlider : MonoBehaviour
             : AudioUtils.SliderToLinearGamma(sliderVal, _gamma);
     }
 
+    // Convert linear volume to slider value (0-1)
     private float LinearToSlider(float linearVal)
     {
         return _curveType == VolumeCurve.Decibel

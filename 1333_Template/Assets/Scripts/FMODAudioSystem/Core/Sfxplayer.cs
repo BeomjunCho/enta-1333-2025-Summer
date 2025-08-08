@@ -65,6 +65,7 @@ public sealed class SfxPlayer
         TryStartInstance();
     }
 
+    // Try to start the FMOD event instance, recycle if it fails
     private void TryStartInstance()
     {
         var res = _instance.start();
@@ -88,12 +89,14 @@ public sealed class SfxPlayer
     /*  Parameter helpers                                                  */
     /* ------------------------------------------------------------------ */
 
+    // Set float parameter by name
     internal void SetParameter(string name, float value, bool ignoreSeekSpeed = false)
     {
         if (!_instance.isValid()) return;
         _instance.setParameterByName(name, value, ignoreSeekSpeed);
     }
 
+    // Set parameter by label (enum/label style)
     internal void SetParameterByLabel(string name, string label)
     {
         if (!_instance.isValid()) return;
